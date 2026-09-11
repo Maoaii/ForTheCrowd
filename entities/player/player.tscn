@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://cotpk62rdr7x0"]
+
+[node name="Player" type="VehicleBody3D" unique_id=681737150]
