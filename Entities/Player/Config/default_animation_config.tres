@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="PlayerAnimationConfig" format=3 uid="uid://c7m504n3k2q1"]
 
-[ext_resource type="Script" uid="uid://dq6itrcnilvsb" path="res://entities/player/config/PlayerAnimationConfig.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://dq6itrcnilvsb" path="res://Entities/Player/Config/PlayerAnimationConfig.cs" id="1_script"]
 
 [resource]
 script = ExtResource("1_script")

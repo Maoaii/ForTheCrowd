@@ -60,6 +60,8 @@ public partial class TrickPopupManager : CanvasLayer
     private List<TrickSequence> _fadingSequences = new();
     private List<TrickData> _activeTricks = new();
     
+    private float _hiddenScoreTotal = 0f;
+    
     private Node2D _activeContainer;
     
     // We'll use a dynamic font or default theme font.
@@ -117,10 +119,10 @@ public partial class TrickPopupManager : CanvasLayer
 
     public void ResetTricks()
     {
-        if (_activeTricks.Count == 0)
+        if (_activeTricks.Count == 0 && _hiddenScoreTotal == 0f)
             return;
 
-        float totalScore = _activeTricks.Sum(t => t.Score);
+        float totalScore = _activeTricks.Sum(t => t.Score) + _hiddenScoreTotal;
         var totalEntry = new TrickData
         {
             Name = "TOTAL",
@@ -155,6 +157,7 @@ public partial class TrickPopupManager : CanvasLayer
         _fadingSequences.Add(sequence);
         
         _activeTricks = new List<TrickData>();
+        _hiddenScoreTotal = 0f;
         _activeContainer = new Node2D();
         _container.AddChild(_activeContainer);
         
@@ -245,7 +248,19 @@ public partial class TrickPopupManager : CanvasLayer
             lines.Add(currentLine);
 
         if (lines.Count > MaxLines)
-            lines.RemoveRange(0, lines.Count - MaxLines);
+        {
+            int linesToRemove = lines.Count - MaxLines;
+            for (int i = 0; i < linesToRemove; i++)
+            {
+                foreach (var trick in lines[i])
+                {
+                    _hiddenScoreTotal += trick.Score;
+                    trick.UINode?.QueueFree();
+                    _activeTricks.Remove(trick);
+                }
+            }
+            lines.RemoveRange(0, linesToRemove);
+        }
 
         return lines;
     }

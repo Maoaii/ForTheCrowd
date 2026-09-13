@@ -1,24 +1,24 @@
 [gd_scene format=3 uid="uid://cotpk62rdr7x0"]
 
-[ext_resource type="Script" uid="uid://shy62ulnqk45" path="res://entities/player/Player.cs" id="1_symyc"]
-[ext_resource type="PackedScene" uid="uid://c6u7k6rdr7x0" path="res://entities/player/CameraRig.tscn" id="2_rig"]
-[ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://systems/blackboard/BlackboardComponent.cs" id="3_blackboard"]
-[ext_resource type="Script" uid="uid://upcwv1lan6pk" path="res://entities/player/components/PlayerInputComponent.cs" id="4_input"]
-[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://entities/player/components/PlayerPhysicsComponent.cs" id="5_physics"]
-[ext_resource type="Script" uid="uid://be4lcbuabo0j1" path="res://entities/player/components/PlayerAnimatorComponent.cs" id="6_animator"]
-[ext_resource type="Script" uid="uid://k7hp4ufs8p3s" path="res://entities/player/components/PlayerVFXComponent.cs" id="7_vfx"]
-[ext_resource type="Script" uid="uid://dg6cl2rbd23yw" path="res://entities/player/components/TireMarks.cs" id="8_tiremarks"]
-[ext_resource type="Script" uid="uid://dcodybfoa2fdw" path="res://systems/state_machine/StateMachine.cs" id="9_statemachine"]
-[ext_resource type="Script" uid="uid://cp61tjntayhkk" path="res://entities/player/states/IdleState.cs" id="10_idle"]
-[ext_resource type="Script" uid="uid://dky0gqx806rsi" path="res://entities/player/states/MovingState.cs" id="11_moving"]
-[ext_resource type="Script" uid="uid://bbat5nqxcrnlk" path="res://entities/player/states/AirState.cs" id="12_air"]
-[ext_resource type="Script" uid="uid://bdabso6ket7xs" path="res://entities/player/states/tricks/OllieState.cs" id="13_ollie"]
-[ext_resource type="Script" uid="uid://bt34mvhjuuyo2" path="res://entities/player/states/tricks/KickflipState.cs" id="14_kickflip"]
-[ext_resource type="Script" uid="uid://rnhwm540cak2" path="res://entities/player/states/tricks/ShoveItState.cs" id="15_shoveit"]
-[ext_resource type="Script" uid="uid://djd7c3tcyn1vv" path="res://entities/player/states/tricks/BackManualState.cs" id="16_backmanual"]
-[ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://entities/player/config/DefaultMovementConfig.tres" id="17_movement_config"]
-[ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://entities/player/config/DefaultAnimationConfig.tres" id="18_animation_config"]
-[ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://entities/player/components/ZombieDetector.cs" id="19_we0b7"]
+[ext_resource type="Script" uid="uid://shy62ulnqk45" path="res://Entities/Player/Player.cs" id="1_symyc"]
+[ext_resource type="PackedScene" uid="uid://c6u7k6rdr7x0" path="res://Entities/Player/camera_rig.tscn" id="2_rig"]
+[ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://Systems/Blackboard/BlackboardComponent.cs" id="3_blackboard"]
+[ext_resource type="Script" uid="uid://upcwv1lan6pk" path="res://Entities/Player/Components/PlayerInputComponent.cs" id="4_input"]
+[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Player/Components/PlayerPhysicsComponent.cs" id="5_physics"]
+[ext_resource type="Script" uid="uid://be4lcbuabo0j1" path="res://Entities/Player/Components/PlayerAnimatorComponent.cs" id="6_animator"]
+[ext_resource type="Script" uid="uid://k7hp4ufs8p3s" path="res://Entities/Player/Components/PlayerVFXComponent.cs" id="7_vfx"]
+[ext_resource type="Script" uid="uid://dg6cl2rbd23yw" path="res://Entities/Player/Components/TireMarks.cs" id="8_tiremarks"]
+[ext_resource type="Script" uid="uid://dcodybfoa2fdw" path="res://Systems/StateMachine/StateMachine.cs" id="9_statemachine"]
+[ext_resource type="Script" uid="uid://cp61tjntayhkk" path="res://Entities/Player/States/IdleState.cs" id="10_idle"]
+[ext_resource type="Script" uid="uid://dky0gqx806rsi" path="res://Entities/Player/States/MovingState.cs" id="11_moving"]
+[ext_resource type="Script" uid="uid://bbat5nqxcrnlk" path="res://Entities/Player/States/AirState.cs" id="12_air"]
+[ext_resource type="Script" uid="uid://bdabso6ket7xs" path="res://Entities/Player/States/Tricks/OllieState.cs" id="13_ollie"]
+[ext_resource type="Script" uid="uid://bt34mvhjuuyo2" path="res://Entities/Player/States/Tricks/KickflipState.cs" id="14_kickflip"]
+[ext_resource type="Script" uid="uid://rnhwm540cak2" path="res://Entities/Player/States/Tricks/ShoveItState.cs" id="15_shoveit"]
+[ext_resource type="Script" uid="uid://djd7c3tcyn1vv" path="res://Entities/Player/States/Tricks/BackManualState.cs" id="16_backmanual"]
+[ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://Entities/Player/Config/default_movement_config.tres" id="17_movement_config"]
+[ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://Entities/Player/Config/default_animation_config.tres" id="18_animation_config"]
+[ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_symyc"]
 size = Vector3(2, 2, 2)
@@ -75,16 +75,9 @@ InitialStatePath = NodePath("IdleState")
 
 [node name="IdleState" type="Node" parent="Components/PlayerStateMachine" unique_id=1066422790]
 script = ExtResource("10_idle")
-LandingFovKick = null
-LandingFovKickTimeUpS = null
-LandingFovKickTimeDownS = null
-StateId = null
 
 [node name="MovingState" type="Node" parent="Components/PlayerStateMachine" unique_id=408746131]
 script = ExtResource("11_moving")
-LandingFovKick = null
-LandingFovKickTimeUpS = null
-LandingFovKickTimeDownS = null
 StateId = 1
 
 [node name="AirState" type="Node" parent="Components/PlayerStateMachine" unique_id=16902210]
@@ -93,34 +86,22 @@ StateId = 2
 
 [node name="OllieState" type="Node" parent="Components/PlayerStateMachine" unique_id=889456271]
 script = ExtResource("13_ollie")
-Score = null
-FovKick = null
-FovKickTimeUpS = null
-FovKickTimeDownS = null
+Score = 5.0
 StateId = 3
 
 [node name="KickflipState" type="Node" parent="Components/PlayerStateMachine" unique_id=574052145]
 script = ExtResource("14_kickflip")
-Score = null
-FovKick = null
-FovKickTimeUpS = null
-FovKickTimeDownS = null
+Score = 15.0
 StateId = 4
 
 [node name="ShoveItState" type="Node" parent="Components/PlayerStateMachine" unique_id=2085200523]
 script = ExtResource("15_shoveit")
-Score = null
-FovKick = null
-FovKickTimeUpS = null
-FovKickTimeDownS = null
+Score = 15.0
 StateId = 5
 
 [node name="BackManualState" type="Node" parent="Components/PlayerStateMachine" unique_id=1987039259]
 script = ExtResource("16_backmanual")
-Score = null
-FovKick = null
-FovKickTimeUpS = null
-FovKickTimeDownS = null
+Score = 10.0
 StateId = 6
 
 [node name="BlackboardComponent" type="Node" parent="Components" unique_id=2094349858 node_paths=PackedStringArray("Owner", "Animator")]
@@ -153,10 +134,6 @@ LandDustRL = NodePath("../VFX/LandingDustRL")
 LandDustRR = NodePath("../VFX/LandingDustRR")
 DriftDustRL = NodePath("../VFX/DriftDustRL")
 DriftDustRR = NodePath("../VFX/DriftDustRR")
-MinDriftParticles = null
-MaxDriftParticles = null
-MinLandingParticles = null
-MaxLandingParticles = null
 
 [node name="VFX" type="Node3D" parent="Components" unique_id=1045225062]
 

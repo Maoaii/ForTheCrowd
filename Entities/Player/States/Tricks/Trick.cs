@@ -10,7 +10,7 @@ public abstract partial class TrickState : PlayerState
     [Export] public float Score;
 
     [ExportGroup("FOV Kick")]
-    [Export] public float FovKick = (Mathf.Pi / 4.0f) * 1.03f;
+    [Export] public float FovKick = 1.05f;
     [Export] public float FovKickTimeUpS = 0.15f;
     [Export] public float FovKickTimeDownS = 0.35f;
 

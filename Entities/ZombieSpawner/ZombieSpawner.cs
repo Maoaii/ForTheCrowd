@@ -15,7 +15,7 @@ public partial class ZombieSpawner : Node3D
 
     public override void _Ready()
     {
-        _zombieScene = GD.Load<PackedScene>("res://entities/zombie/Zombie.tscn");
+        _zombieScene = GD.Load<PackedScene>("res://Entities/Zombie/zombie.tscn");
     }
 
     public override void _Process(double delta)

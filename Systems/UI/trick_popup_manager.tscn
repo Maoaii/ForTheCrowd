@@ -1,0 +1,13 @@
+[gd_scene format=3 uid="uid://cfhyxuw61871r"]
+
+[ext_resource type="Script" uid="uid://dcjellyiiq0c1" path="res://Systems/UI/TrickPopupManager.cs" id="1_trick"]
+
+[node name="TrickPopupManager" type="CanvasLayer" unique_id=1367110958]
+script = ExtResource("1_trick")
+MaxLineWidth = 250.0
+SeparatorWidth = 7.0
+TextBottomMargin = 15.0
+TrickScaleXMax = 1.2
+TrickScaleYMax = 1.2
+TotalScalePeak = 1.4
+TotalScaleFinal = 1.2

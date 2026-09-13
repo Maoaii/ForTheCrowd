@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="MovementConfig" format=3 uid="uid://b6k4y3m2l1p0"]
 
-[ext_resource type="Script" uid="uid://vhwvkgdttlwx" path="res://entities/player/config/MovementConfig.cs" id="1_script"]
+[ext_resource type="Script" uid="uid://vhwvkgdttlwx" path="res://Entities/Player/Config/MovementConfig.cs" id="1_script"]
 
 [resource]
 script = ExtResource("1_script")

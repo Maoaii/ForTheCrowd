@@ -7,7 +7,7 @@ namespace CarGame.Entities.Player;
 public partial class IdleState : PlayerState
 {
     [ExportGroup("Landing Camera Kick")]
-    [Export] public float LandingFovKick = (Mathf.Pi / 4.0f) * 1.03f;
+    [Export] public float LandingFovKick = 1.05f;
     [Export] public float LandingFovKickTimeUpS = 0.05f;
     [Export] public float LandingFovKickTimeDownS = 0.3f;
 

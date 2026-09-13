@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://c7l2pr5dl6ych"]
 
-[ext_resource type="PackedScene" uid="uid://cotpk62rdr7x0" path="res://entities/player/player.tscn" id="1_player"]
-[ext_resource type="PackedScene" uid="uid://cfhyxuw61871r" path="res://systems/ui/TrickPopupManager.tscn" id="3_ui"]
-[ext_resource type="Script" uid="uid://dcxy74cax762x" path="res://entities/zombie_spawner/ZombieSpawner.cs" id="4_spawner"]
-[ext_resource type="Script" uid="uid://cm7gmgxvliihg" path="res://entities/zombie/swarm/SwarmManager.cs" id="5_swarm"]
+[ext_resource type="PackedScene" uid="uid://cotpk62rdr7x0" path="res://Entities/Player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://cfhyxuw61871r" path="res://Systems/UI/trick_popup_manager.tscn" id="3_ui"]
+[ext_resource type="Script" uid="uid://dcxy74cax762x" path="res://Entities/ZombieSpawner/ZombieSpawner.cs" id="4_spawner"]
+[ext_resource type="Script" uid="uid://cm7gmgxvliihg" path="res://Entities/Zombie/Swarm/SwarmManager.cs" id="5_swarm"]
 
 [sub_resource type="Environment" id="Environment_c7v1"]
 background_mode = 1
@@ -18,33 +18,12 @@ albedo_color = Color(0.156863, 0.156863, 0.156863, 1)
 environment = SubResource("Environment_c7v1")
 
 [node name="TrickPopupManager" parent="." unique_id=1406413591 instance=ExtResource("3_ui")]
-MaxLines = null
-MaxLineWidth = null
-LineHeight = null
-SeparatorWidth = null
-TextBottomMargin = null
-FontSize = null
-FontColor = null
-TrickRotationRangeDeg = null
-TrickScaleXMin = null
-TrickScaleXMax = null
-TrickScaleYMin = null
-TrickScaleYMax = null
-TrickScaleUpDurationS = null
-TrickScaleDownDurationS = null
-TrickRotationDurationS = null
-TotalScalePeak = null
-TotalScaleFinal = null
-TotalPopUpDurationS = null
-TotalPopDownDurationS = null
-TrickFadeOutTimeS = null
-TrickFadeDriftY = null
 
 [node name="SceneRoot" type="Node3D" parent="." unique_id=1866639040]
 
 [node name="SwarmManager" type="Node" parent="SceneRoot" unique_id=853274926]
 script = ExtResource("5_swarm")
-SeparationDistance = null
+SeparationDistance = 1.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="SceneRoot" unique_id=1093064805]
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
