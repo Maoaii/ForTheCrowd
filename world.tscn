@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://c7l2pr5dl6ych"]
+
+[ext_resource type="PackedScene" uid="uid://cotpk62rdr7x0" path="res://entities/player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://systems/ui/TrickPopupManager.tscn" id="3_ui"]
+[ext_resource type="Script" uid="uid://dcxy74cax762x" path="res://entities/zombie_spawner/ZombieSpawner.cs" id="4_spawner"]
+
+[sub_resource type="Environment" id="Environment_c7v1"]
+background_mode = 1
+background_color = Color(0.586307, 0.7239269, 0.96453327, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
+albedo_color = Color(0.156863, 0.156863, 0.156863, 1)
+
+[node name="World" type="Node3D" unique_id=1640204695]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=586573587]
+environment = SubResource("Environment_c7v1")
+
+[node name="TrickPopupManager" parent="." unique_id=1406413591 instance=ExtResource("3_ui")]
+
+[node name="SceneRoot" type="Node3D" parent="." unique_id=1866639040]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SceneRoot" unique_id=1093064805]
+transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
+shadow_enabled = true
+
+[node name="Floor" type="CSGBox3D" parent="SceneRoot" unique_id=1293201486]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+use_collision = true
+size = Vector3(100, 1, 100)
+material = SubResource("StandardMaterial3D_floor")
+
+[node name="Player" parent="SceneRoot" unique_id=1771557400 instance=ExtResource("1_player")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="ZombieSpawner1" type="Node3D" parent="SceneRoot" unique_id=1328426010 node_paths=PackedStringArray("Target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 30)
+script = ExtResource("4_spawner")
+Target = NodePath("../Player")
+
+[node name="ZombieSpawner2" type="Node3D" parent="SceneRoot" unique_id=888174229 node_paths=PackedStringArray("Target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -30)
+script = ExtResource("4_spawner")
+Target = NodePath("../Player")
+
+[node name="ZombieSpawner3" type="Node3D" parent="SceneRoot" unique_id=1716447240 node_paths=PackedStringArray("Target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 30)
+script = ExtResource("4_spawner")
+Target = NodePath("../Player")
+
+[node name="ZombieSpawner4" type="Node3D" parent="SceneRoot" unique_id=729826076 node_paths=PackedStringArray("Target")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -30)
+script = ExtResource("4_spawner")
+Target = NodePath("../Player")

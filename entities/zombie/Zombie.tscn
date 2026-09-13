@@ -1,0 +1,53 @@
+[gd_scene format=3 uid="uid://dd0ombie"]
+
+[ext_resource type="Script" uid="uid://br3pmwa6x1iwn" path="res://entities/zombie/Zombie.cs" id="1_zmb"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_zmb"]
+radius = 1.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_zmb"]
+size = Vector3(1, 2, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_zmb"]
+albedo_color = Color(0, 0.8, 0.2, 1)
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_blood"]
+direction = Vector3(0, 1, 0)
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+scale_min = 0.1
+scale_max = 0.3
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blood"]
+albedo_color = Color(0.8, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_blood"]
+material = SubResource("StandardMaterial3D_blood")
+
+[node name="Zombie" type="Area3D" unique_id=453756859]
+collision_mask = 3
+script = ExtResource("1_zmb")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=485121078]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_zmb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=681532023]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("BoxMesh_zmb")
+surface_material_override/0 = SubResource("StandardMaterial3D_zmb")
+
+[node name="Decal" type="Decal" parent="." unique_id=1735678424]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+size = Vector3(2.4, 2, 2.4)
+modulate = Color(0, 0, 0, 0.2)
+cull_mask = 1048573
+
+[node name="BloodParticles" type="GPUParticles3D" parent="." unique_id=502201512]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_blood")
+draw_pass_1 = SubResource("SphereMesh_blood")
