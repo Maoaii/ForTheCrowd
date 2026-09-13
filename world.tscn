@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://c7l2pr5dl6ych"]
 
 [ext_resource type="PackedScene" uid="uid://cotpk62rdr7x0" path="res://entities/player/player.tscn" id="1_player"]
-[ext_resource type="PackedScene" path="res://systems/ui/TrickPopupManager.tscn" id="3_ui"]
+[ext_resource type="PackedScene" uid="uid://cfhyxuw61871r" path="res://systems/ui/TrickPopupManager.tscn" id="3_ui"]
 [ext_resource type="Script" uid="uid://dcxy74cax762x" path="res://entities/zombie_spawner/ZombieSpawner.cs" id="4_spawner"]
 [ext_resource type="Script" uid="uid://cm7gmgxvliihg" path="res://entities/zombie/swarm/SwarmManager.cs" id="5_swarm"]
 
@@ -62,27 +62,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="ZombieSpawner1" type="Node3D" parent="SceneRoot" unique_id=1328426010 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 30)
 script = ExtResource("4_spawner")
-SpawnRate = 1.0
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner2" type="Node3D" parent="SceneRoot" unique_id=888174229 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -30)
 script = ExtResource("4_spawner")
-SpawnRate = 1.0
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner3" type="Node3D" parent="SceneRoot" unique_id=1716447240 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 30)
 script = ExtResource("4_spawner")
-SpawnRate = 1.0
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner4" type="Node3D" parent="SceneRoot" unique_id=729826076 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -30)
 script = ExtResource("4_spawner")
-SpawnRate = 1.0
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")

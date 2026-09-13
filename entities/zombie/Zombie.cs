@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using CarGame.Entities.Enemies.Swarm;
+using CarGame.Utils.Debug;
 
 namespace CarGame.Entities.Enemies;
 
@@ -91,5 +92,11 @@ public partial class Zombie : Area3D, ISwarmable
 
         _velocity = _velocity.Lerp(final, VelocityLerpSpeed * dt);
         GlobalPosition += _velocity * dt;
+
+        // Draw debug vectors
+        Vector3 zPos = GlobalPosition + Vector3.Up * 1.5f; // Draw above zombie head
+        VectorRenderer.DrawVector(zPos, seeking * SeekingWeight, Colors.Red, 1.0f); // Seeking
+        VectorRenderer.DrawVector(zPos, separation * SeparationWeight, Colors.Yellow, 1.0f); // Separation
+        VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f); // Final Velocity
     }
 }

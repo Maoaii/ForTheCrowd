@@ -1,6 +1,7 @@
 using System;
 using Godot;
 using CarGame.Systems.Blackboards;
+using CarGame.Utils.Debug;
 
 namespace CarGame.Entities.Components;
 
@@ -68,6 +69,12 @@ public partial class PlayerPhysicsComponent : Node
         Godot.Vector3 updatedVel = Blackboard.Kinematics.Velocity;
         updatedVel.Y = Body.Velocity.Y;
         Blackboard.Kinematics.Velocity = updatedVel;
+
+        // Draw debug vectors
+        Vector3 carPos = Body.GlobalPosition + Vector3.Up * 0.5f; // Lift slightly off ground
+        VectorRenderer.DrawVector(carPos, targetDirection, Colors.Red, 3.0f); // Forward Facing
+        VectorRenderer.DrawVector(carPos, Blackboard.Kinematics.MovementDirection, Colors.Green, 3.0f); // Movement Intent
+        VectorRenderer.DrawVector(carPos, Body.Velocity, Colors.Blue, 0.2f); // Actual Velocity
     }
 
     private void ApplyGroundPhysics(BlackboardComponent blackboard, float dt)
