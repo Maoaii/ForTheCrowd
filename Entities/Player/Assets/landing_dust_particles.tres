@@ -1,0 +1,25 @@
+[gd_resource type="ParticleProcessMaterial" format=3 uid="uid://5i3olf4x6yqd"]
+
+[sub_resource type="Gradient" id="Gradient_dust_alpha"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dust_alpha"]
+gradient = SubResource("Gradient_dust_alpha")
+
+[sub_resource type="Curve" id="Curve_dust_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.7), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dust_scale"]
+curve = SubResource("Curve_dust_scale")
+
+[resource]
+direction = Vector3(0, 1, 0)
+spread = 30.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+gravity = Vector3(0, -2, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_dust_scale")
+color = Color(0.662745, 0.615686, 0.545098, 0.6)
+color_ramp = SubResource("GradientTexture1D_dust_alpha")

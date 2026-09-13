@@ -17,37 +17,18 @@
 [ext_resource type="Script" uid="uid://rnhwm540cak2" path="res://Entities/Player/States/Tricks/ShoveItState.cs" id="15_shoveit"]
 [ext_resource type="Script" uid="uid://djd7c3tcyn1vv" path="res://Entities/Player/States/Tricks/BackManualState.cs" id="16_backmanual"]
 [ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://Entities/Player/Config/default_movement_config.tres" id="17_movement_config"]
+[ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="17_ppdlg"]
 [ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://Entities/Player/Config/default_animation_config.tres" id="18_animation_config"]
 [ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_symyc"]
 size = Vector3(2, 2, 2)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ppdlg"]
+albedo_color = Color(1, 0.49803922, 0.3137255, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_symyc"]
-
-[sub_resource type="Gradient" id="Gradient_dust_alpha"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_dust_alpha"]
-gradient = SubResource("Gradient_dust_alpha")
-
-[sub_resource type="Curve" id="Curve_dust_scale"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.7), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_dust_scale"]
-curve = SubResource("Curve_dust_scale")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dust"]
-direction = Vector3(0, 1, 0)
-spread = 30.0
-initial_velocity_min = 2.0
-initial_velocity_max = 5.0
-gravity = Vector3(0, -2, 0)
-scale_min = 0.5
-scale_curve = SubResource("CurveTexture_dust_scale")
-color = Color(0.662745, 0.615686, 0.545098, 0.6)
-color_ramp = SubResource("GradientTexture1D_dust_alpha")
+material = SubResource("StandardMaterial3D_ppdlg")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dust"]
 transparency = 1
@@ -82,8 +63,8 @@ skeleton = NodePath("../..")
 
 [node name="PlayerStateMachine" type="Node" parent="Components" unique_id=12001113 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("9_statemachine")
-InitialStatePath = NodePath("IdleState")
 Blackboard = NodePath("../BlackboardComponent")
+InitialStatePath = NodePath("IdleState")
 
 [node name="IdleState" type="Node" parent="Components/PlayerStateMachine" unique_id=1066422790]
 script = ExtResource("10_idle")
@@ -118,10 +99,10 @@ StateId = 6
 
 [node name="BlackboardComponent" type="Node" parent="Components" unique_id=2094349858 node_paths=PackedStringArray("Owner", "Animator")]
 script = ExtResource("3_blackboard")
-MovementConfig = ExtResource("17_movement_config")
-AnimationConfig = ExtResource("18_animation_config")
 Owner = NodePath("../..")
 Animator = NodePath("../PlayerAnimatorComponent")
+MovementConfig = ExtResource("17_movement_config")
+AnimationConfig = ExtResource("18_animation_config")
 
 [node name="PlayerInputComponent" type="Node" parent="Components" unique_id=2080471671 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("4_input")
@@ -155,7 +136,7 @@ emitting = false
 amount = 16
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_dust")
+process_material = ExtResource("17_ppdlg")
 draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="LandingDustFR" type="GPUParticles3D" parent="Components/VFX" unique_id=1052010975]
@@ -164,7 +145,7 @@ emitting = false
 amount = 16
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_dust")
+process_material = ExtResource("17_ppdlg")
 draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=621981973]
@@ -173,7 +154,7 @@ emitting = false
 amount = 16
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_dust")
+process_material = ExtResource("17_ppdlg")
 draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=2101392995]
@@ -182,39 +163,39 @@ emitting = false
 amount = 16
 one_shot = true
 explosiveness = 1.0
-process_material = SubResource("ParticleProcessMaterial_dust")
+process_material = ExtResource("17_ppdlg")
 draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2037112779]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8608966)
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_dust")
+process_material = ExtResource("17_ppdlg")
 draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=823369358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84009135)
 emitting = false
 amount = 32
-process_material = SubResource("ParticleProcessMaterial_dust")
+process_material = ExtResource("17_ppdlg")
 draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="TireMarks" type="Node3D" parent="Components" unique_id=1421653948]
 
 [node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1218171051 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("8_tiremarks")
-LocalOffset = Vector3(0.8, -0.4, 0.85)
 Blackboard = NodePath("../../BlackboardComponent")
+LocalOffset = Vector3(0.8, -0.4, 0.85)
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("8_tiremarks")
-LocalOffset = Vector3(-0.8, -0.4, 0.85)
 Blackboard = NodePath("../../BlackboardComponent")
+LocalOffset = Vector3(-0.8, -0.4, 0.85)
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
-Sensitivity = 0.01
 Target = NodePath("../..")
 Blackboard = NodePath("../BlackboardComponent")
+Sensitivity = 0.01
 
 [node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("19_we0b7")
