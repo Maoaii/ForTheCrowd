@@ -38,14 +38,11 @@ color = Color(0.662745, 0.615686, 0.545098, 0.6)
 transparency = 1
 vertex_color_use_as_albedo = true
 albedo_color = Color(1, 1, 1, 0.7)
-billboard_mode = 3
-particles_anim_h_frames = 1
-particles_anim_v_frames = 1
-particles_anim_loop = false
 
-[sub_resource type="QuadMesh" id="QuadMesh_dust"]
+[sub_resource type="SphereMesh" id="SphereMesh_dust"]
 material = SubResource("StandardMaterial3D_dust")
-size = Vector2(0.5, 0.5)
+radius = 0.25
+height = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_we0b7"]
 size = Vector3(2.0090332, 2.1328735, 1.9874268)
@@ -144,7 +141,7 @@ amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
-draw_pass_1 = SubResource("QuadMesh_dust")
+draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="LandingDustFR" type="GPUParticles3D" parent="Components/VFX" unique_id=1052010975]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, -0.8032799)
@@ -153,7 +150,7 @@ amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
-draw_pass_1 = SubResource("QuadMesh_dust")
+draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=621981973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8447373)
@@ -162,7 +159,7 @@ amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
-draw_pass_1 = SubResource("QuadMesh_dust")
+draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=2101392995]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84136426)
@@ -171,21 +168,21 @@ amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
-draw_pass_1 = SubResource("QuadMesh_dust")
+draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2037112779]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8608966)
 emitting = false
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_dust")
-draw_pass_1 = SubResource("QuadMesh_dust")
+draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=823369358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84009135)
 emitting = false
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_dust")
-draw_pass_1 = SubResource("QuadMesh_dust")
+draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="TireMarks" type="Node3D" parent="Components" unique_id=1421653948]
 
