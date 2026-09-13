@@ -25,6 +25,19 @@ size = Vector3(2, 2, 2)
 
 [sub_resource type="BoxMesh" id="BoxMesh_symyc"]
 
+[sub_resource type="Gradient" id="Gradient_dust_alpha"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_dust_alpha"]
+gradient = SubResource("Gradient_dust_alpha")
+
+[sub_resource type="Curve" id="Curve_dust_scale"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.7), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dust_scale"]
+curve = SubResource("Curve_dust_scale")
+
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dust"]
 direction = Vector3(0, 1, 0)
 spread = 30.0
@@ -32,7 +45,9 @@ initial_velocity_min = 2.0
 initial_velocity_max = 5.0
 gravity = Vector3(0, -2, 0)
 scale_min = 0.5
+scale_curve = SubResource("CurveTexture_dust_scale")
 color = Color(0.662745, 0.615686, 0.545098, 0.6)
+color_ramp = SubResource("GradientTexture1D_dust_alpha")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dust"]
 transparency = 1
@@ -67,8 +82,8 @@ skeleton = NodePath("../..")
 
 [node name="PlayerStateMachine" type="Node" parent="Components" unique_id=12001113 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("9_statemachine")
-Blackboard = NodePath("../BlackboardComponent")
 InitialStatePath = NodePath("IdleState")
+Blackboard = NodePath("../BlackboardComponent")
 
 [node name="IdleState" type="Node" parent="Components/PlayerStateMachine" unique_id=1066422790]
 script = ExtResource("10_idle")
@@ -103,10 +118,10 @@ StateId = 6
 
 [node name="BlackboardComponent" type="Node" parent="Components" unique_id=2094349858 node_paths=PackedStringArray("Owner", "Animator")]
 script = ExtResource("3_blackboard")
-Owner = NodePath("../..")
-Animator = NodePath("../PlayerAnimatorComponent")
 MovementConfig = ExtResource("17_movement_config")
 AnimationConfig = ExtResource("18_animation_config")
+Owner = NodePath("../..")
+Animator = NodePath("../PlayerAnimatorComponent")
 
 [node name="PlayerInputComponent" type="Node" parent="Components" unique_id=2080471671 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("4_input")
@@ -188,18 +203,18 @@ draw_pass_1 = SubResource("SphereMesh_dust")
 
 [node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1218171051 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("8_tiremarks")
-Blackboard = NodePath("../../BlackboardComponent")
 LocalOffset = Vector3(0.8, -0.4, 0.85)
+Blackboard = NodePath("../../BlackboardComponent")
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("8_tiremarks")
-Blackboard = NodePath("../../BlackboardComponent")
 LocalOffset = Vector3(-0.8, -0.4, 0.85)
+Blackboard = NodePath("../../BlackboardComponent")
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
+Sensitivity = 0.01
 Target = NodePath("../..")
 Blackboard = NodePath("../BlackboardComponent")
-Sensitivity = 0.01
 
 [node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("19_we0b7")
