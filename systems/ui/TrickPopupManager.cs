@@ -17,22 +17,34 @@ public class TrickData
 
 public partial class TrickPopupManager : CanvasLayer
 {
-    private const int MAX_LINES = 4;
-    private const float MAX_LINE_WIDTH = 300f;
-    private const string TRICK_SEPARATOR = " ";
-    private const float TRICK_TEXT_BOTTOM_MARGIN = 10f;
-    private const float TRICK_ROTATION_RANGE_DEG = 10f;
-    private const float TRICK_SCALE_X_MIN = 0.5f, TRICK_SCALE_X_MAX = 0.7f;
-    private const float TRICK_SCALE_Y_MIN = 0.5f, TRICK_SCALE_Y_MAX = 0.7f;
-    private const float TRICK_FADE_OUT_TIME_S = 1.0f;
-    private const float TRICK_SCALE_UP_DURATION_S = 0.12f;
-    private const float TRICK_SCALE_DOWN_DURATION_S = 0.1f;
-    private const float TRICK_ROTATION_DURATION_S = 0.15f;
-    private const float TOTAL_SCALE_PEAK = 1.8f;
-    private const float TOTAL_SCALE_FINAL = 1.0f;
-    private const float TOTAL_POP_UP_DURATION_S = 0.15f;
-    private const float TOTAL_POP_DOWN_DURATION_S = 0.15f;
-    private const float TRICK_FADE_DRIFT_Y = -40f;
+    [ExportGroup("Layout")]
+    [Export] public int MaxLines = 4;
+    [Export] public float MaxLineWidth = 800f;
+    [Export] public float LineHeight = 10f;
+    [Export] public float SeparatorWidth = 10f;
+    [Export] public float TextBottomMargin = 30f;
+    [Export] public int FontSize = 8;
+    [Export] public Color FontColor = new Color(1.0f, 0.498f, 0.313f);
+
+    [ExportGroup("Tricks Animations")]
+    [Export] public float TrickRotationRangeDeg = 10f;
+    [Export] public float TrickScaleXMin = 1.0f;
+    [Export] public float TrickScaleXMax = 1.3f;
+    [Export] public float TrickScaleYMin = 1.0f;
+    [Export] public float TrickScaleYMax = 1.3f;
+    [Export] public float TrickScaleUpDurationS = 0.12f;
+    [Export] public float TrickScaleDownDurationS = 0.1f;
+    [Export] public float TrickRotationDurationS = 0.15f;
+    
+    [ExportGroup("Total Animations")]
+    [Export] public float TotalScalePeak = 1.8f;
+    [Export] public float TotalScaleFinal = 1.3f;
+    [Export] public float TotalPopUpDurationS = 0.15f;
+    [Export] public float TotalPopDownDurationS = 0.15f;
+    
+    [ExportGroup("Fade Animations")]
+    [Export] public float TrickFadeOutTimeS = 1.0f;
+    [Export] public float TrickFadeDriftY = -40f;
 
     private static TrickPopupManager _instance;
     public static TrickPopupManager Instance => _instance;
@@ -71,16 +83,16 @@ public partial class TrickPopupManager : CanvasLayer
 
         Label label = new Label();
         label.Text = trickData.ToString();
-        label.AddThemeColorOverride("font_color", new Color(1.0f, 0.498f, 0.313f)); // Coral
-        label.AddThemeFontSizeOverride("font_size", 8);
+        label.AddThemeColorOverride("font_color", FontColor); 
+        label.AddThemeFontSizeOverride("font_size", FontSize);
         _activeContainer.AddChild(label);
         trickData.UINode = label;
 
         float randomRotation = Mathf.DegToRad(
-            (float)(GD.Randf() * 2.0 - 1.0) * TRICK_ROTATION_RANGE_DEG
+            (float)(GD.Randf() * 2.0 - 1.0) * TrickRotationRangeDeg
         );
-        float peakScaleX = Mathf.Lerp(TRICK_SCALE_X_MIN, TRICK_SCALE_X_MAX, GD.Randf());
-        float peakScaleY = Mathf.Lerp(TRICK_SCALE_Y_MIN, TRICK_SCALE_Y_MAX, GD.Randf());
+        float peakScaleX = Mathf.Lerp(TrickScaleXMin, TrickScaleXMax, GD.Randf());
+        float peakScaleY = Mathf.Lerp(TrickScaleYMin, TrickScaleYMax, GD.Randf());
 
         label.PivotOffset = label.GetMinimumSize() / 2.0f; // Center pivot
         label.Scale = Vector2.Zero;
@@ -88,15 +100,15 @@ public partial class TrickPopupManager : CanvasLayer
 
         Tween tween = CreateTween();
         tween.SetParallel(true);
-        tween.TweenProperty(label, "scale", new Vector2(peakScaleX, peakScaleY), TRICK_SCALE_UP_DURATION_S)
+        tween.TweenProperty(label, "scale", new Vector2(peakScaleX, peakScaleY), TrickScaleUpDurationS)
              .SetTrans(Tween.TransitionType.Cubic)
              .SetEase(Tween.EaseType.Out);
         
-        tween.TweenProperty(label, "rotation", 0f, TRICK_ROTATION_DURATION_S)
+        tween.TweenProperty(label, "rotation", 0f, TrickRotationDurationS)
              .SetTrans(Tween.TransitionType.Cubic)
              .SetEase(Tween.EaseType.Out);
              
-        tween.Chain().TweenProperty(label, "scale", Vector2.One, TRICK_SCALE_DOWN_DURATION_S)
+        tween.Chain().TweenProperty(label, "scale", Vector2.One, TrickScaleDownDurationS)
              .SetTrans(Tween.TransitionType.Cubic)
              .SetEase(Tween.EaseType.InOut);
              
@@ -119,8 +131,8 @@ public partial class TrickPopupManager : CanvasLayer
 
         Label totalLabel = new Label();
         totalLabel.Text = totalEntry.ToString();
-        totalLabel.AddThemeColorOverride("font_color", new Color(1.0f, 0.498f, 0.313f));
-        totalLabel.AddThemeFontSizeOverride("font_size", 8);
+        totalLabel.AddThemeColorOverride("font_color", FontColor);
+        totalLabel.AddThemeFontSizeOverride("font_size", FontSize);
         _activeContainer.AddChild(totalLabel);
         totalEntry.UINode = totalLabel;
         
@@ -128,11 +140,11 @@ public partial class TrickPopupManager : CanvasLayer
         totalLabel.Scale = Vector2.Zero;
 
         Tween tween = CreateTween();
-        tween.TweenProperty(totalLabel, "scale", new Vector2(TOTAL_SCALE_PEAK, TOTAL_SCALE_PEAK), TOTAL_POP_UP_DURATION_S)
+        tween.TweenProperty(totalLabel, "scale", new Vector2(TotalScalePeak, TotalScalePeak), TotalPopUpDurationS)
              .SetTrans(Tween.TransitionType.Cubic)
              .SetEase(Tween.EaseType.Out);
              
-        tween.TweenProperty(totalLabel, "scale", new Vector2(TOTAL_SCALE_FINAL, TOTAL_SCALE_FINAL), TOTAL_POP_DOWN_DURATION_S)
+        tween.TweenProperty(totalLabel, "scale", new Vector2(TotalScaleFinal, TotalScaleFinal), TotalPopDownDurationS)
              .SetTrans(Tween.TransitionType.Cubic)
              .SetEase(Tween.EaseType.InOut);
              
@@ -148,11 +160,11 @@ public partial class TrickPopupManager : CanvasLayer
         
         Tween fadeTween = CreateTween();
         fadeTween.SetParallel(true);
-        fadeTween.TweenProperty(sequence.ContainerNode, "position:y", sequence.ContainerNode.Position.Y + TRICK_FADE_DRIFT_Y, TRICK_FADE_OUT_TIME_S)
+        fadeTween.TweenProperty(sequence.ContainerNode, "position:y", sequence.ContainerNode.Position.Y + TrickFadeDriftY, TrickFadeOutTimeS)
                  .SetTrans(Tween.TransitionType.Cubic)
                  .SetEase(Tween.EaseType.Out);
                  
-        fadeTween.TweenProperty(sequence.ContainerNode, "modulate:a", 0f, TRICK_FADE_OUT_TIME_S)
+        fadeTween.TweenProperty(sequence.ContainerNode, "modulate:a", 0f, TrickFadeOutTimeS)
                  .SetTrans(Tween.TransitionType.Cubic)
                  .SetEase(Tween.EaseType.In);
                  
@@ -167,25 +179,24 @@ public partial class TrickPopupManager : CanvasLayer
         if (tricks.Count == 0) return;
 
         List<List<TrickData>> lines = BuildWrappedLines(tricks);
-        float lineHeight = 10f; // Approx height
 
-        float blockHeight = lineHeight * MAX_LINES;
+        float blockHeight = LineHeight * MaxLines;
         
         // Start from bottom center
         Vector2 viewportSize = GetViewport().GetVisibleRect().Size;
-        float startY = viewportSize.Y - blockHeight - TRICK_TEXT_BOTTOM_MARGIN;
+        float startY = viewportSize.Y - blockHeight - TextBottomMargin;
 
         for (int i = 0; i < lines.Count; i++)
         {
             List<TrickData> line = lines[i];
-            float y = startY + i * lineHeight;
+            float y = startY + i * LineHeight;
 
             float totalWidth = 0;
             foreach(var t in line)
             {
                 totalWidth += t.UINode.GetMinimumSize().X;
             }
-            totalWidth += (line.Count - 1) * 10f; // Separator space
+            totalWidth += (line.Count - 1) * SeparatorWidth; // Separator space
 
             float x = viewportSize.X / 2f - totalWidth / 2f;
 
@@ -194,7 +205,7 @@ public partial class TrickPopupManager : CanvasLayer
                 Vector2 size = trick.UINode.GetMinimumSize();
                 trick.UINode.Position = new Vector2(x, y);
                 trick.UINode.PivotOffset = size / 2.0f;
-                x += size.X + 10f;
+                x += size.X + SeparatorWidth;
             }
         }
     }
@@ -215,10 +226,9 @@ public partial class TrickPopupManager : CanvasLayer
             }
 
             float width = trick.UINode.GetMinimumSize().X;
-            float separatorWidth = 10f;
-            float addedWidth = currentLine.Count == 0 ? width : currentWidth + separatorWidth + width;
+            float addedWidth = currentLine.Count == 0 ? width : currentWidth + SeparatorWidth + width;
 
-            if (addedWidth <= MAX_LINE_WIDTH || currentLine.Count == 0)
+            if (addedWidth <= MaxLineWidth || currentLine.Count == 0)
             {
                 currentLine.Add(trick);
                 currentWidth = addedWidth;
@@ -234,8 +244,8 @@ public partial class TrickPopupManager : CanvasLayer
         if (currentLine.Count > 0)
             lines.Add(currentLine);
 
-        if (lines.Count > MAX_LINES)
-            lines.RemoveRange(0, lines.Count - MAX_LINES);
+        if (lines.Count > MaxLines)
+            lines.RemoveRange(0, lines.Count - MaxLines);
 
         return lines;
     }

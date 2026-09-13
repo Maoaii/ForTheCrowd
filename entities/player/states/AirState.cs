@@ -3,10 +3,8 @@ using Godot;
 
 namespace CarGame.Entities.Player;
 
-public class AirState : State
+public partial class AirState : PlayerState
 {
-    public AirState() : base(PlayerStates.AIR_STATE) { }
-
     public override void Enter(double delta = 0)
     {
         base.Enter(delta);
@@ -30,21 +28,21 @@ public class AirState : State
             if (CanJumpBuffer(currentTime))
             {
                 _blackboard.Input.WantsJump = true;
-                _stateMachine.TransitionState(PlayerStates.AIR_STATE, delta);
+                _stateMachine.TransitionState(PlayerStates.Air, delta);
             }
             else if (_blackboard.Tricks.WantsBackManual)
-                _stateMachine.TransitionState(PlayerStates.BACK_MANUAL_STATE, delta);
+                _stateMachine.TransitionState(PlayerStates.BackManual, delta);
             else if (_blackboard.Kinematics.Speed != 0.0f)
-                _stateMachine.TransitionState(PlayerStates.MOVING_STATE, delta);
+                _stateMachine.TransitionState(PlayerStates.Moving, delta);
             else
-                _stateMachine.TransitionState(PlayerStates.IDLE_STATE, delta);
+                _stateMachine.TransitionState(PlayerStates.Idle, delta);
         }
 
         if (_blackboard.Tricks.WantsShoveIt)
-            _stateMachine.TransitionState(PlayerStates.SHOVE_IT_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.ShoveIt, delta);
         
         if (_blackboard.Tricks.WantsKickflip)
-            _stateMachine.TransitionState(PlayerStates.KICKFLIP_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.Kickflip, delta);
     }
 
     public override void Exit(double delta = 0)

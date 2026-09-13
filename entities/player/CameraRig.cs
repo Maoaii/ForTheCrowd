@@ -10,11 +10,25 @@ public partial class CameraRig : Node3D
     
     private SpringArm3D _springArm;
     private Camera3D _camera;
-    private Blackboard _blackboard;
+    [Export] public BlackboardComponent Blackboard;
     
     public float OrbitalRotation { get; set; }
     public float HeightRotation { get; set; }
-    public float DistanceFromTarget { get; set; } = 35.0f; // Constants.CAMERA_DISTANCE;
+    [ExportGroup("Distance & Feel")]
+    [Export] public float DistanceFromTarget { get; set; } = 35.0f;
+    [Export] public float LagFactor { get; set; } = -12.0f;
+    
+    [ExportGroup("Input Settings")]
+    [Export] public float Sensitivity { get; set; } = 0.006f;
+    [Export] public int InvertX { get; set; } = -1;
+    [Export] public int InvertY { get; set; } = -1;
+    
+    [ExportGroup("Limits")]
+    [Export] public float MinYaw { get; set; } = Mathf.Pi / 6.0f;
+    [Export] public float MaxYaw { get; set; } = (Mathf.Pi / 2.0f) - 0.1f;
+    
+    [ExportGroup("FOV")]
+    [Export] public float BaseFov { get; set; } = Mathf.Pi / 4.0f;
     
     private float _targetOrbitalRotation;
     private float _targetHeightRotation;
@@ -29,15 +43,9 @@ public partial class CameraRig : Node3D
         _camera = GetNode<Camera3D>("SpringArm3D/Camera3D");
         _springArm.SpringLength = DistanceFromTarget;
         
-        // Initial FOV
-        _camera.Fov = Mathf.RadToDeg(Mathf.Pi / 4.0f); // Constants.CAMERA_FOV
+        _camera.Fov = Mathf.RadToDeg(BaseFov);
         
         Input.MouseMode = Input.MouseModeEnum.Captured;
-    }
-    
-    public void SetBlackboard(Blackboard blackboard)
-    {
-        _blackboard = blackboard;
     }
     
     public override void _UnhandledInput(InputEvent @event)
@@ -58,15 +66,11 @@ public partial class CameraRig : Node3D
         
         if (_isMouseLocked && @event is InputEventMouseMotion mouseMotion)
         {
-            float sensitivity = 0.006f; // Double the original sensitivity
-            int invertY = -1; // Constants.MOUSE_INVERTED equivalent based on existing logic
-            int invertX = -1;
-
-            _targetOrbitalRotation += mouseMotion.Relative.X * sensitivity * invertX;
+            _targetOrbitalRotation += mouseMotion.Relative.X * Sensitivity * InvertX;
             _targetHeightRotation = Mathf.Clamp(
-                _targetHeightRotation - mouseMotion.Relative.Y * sensitivity * invertY, 
-                Mathf.Pi / 6.0f, // Constants.CAMERA_YAW_MIN
-                Mathf.Pi / 2.0f - 0.1f // Constants.CAMERA_YAW_MAX
+                _targetHeightRotation - mouseMotion.Relative.Y * Sensitivity * InvertY, 
+                MinYaw, 
+                MaxYaw
             );
         }
     }
@@ -77,14 +81,13 @@ public partial class CameraRig : Node3D
         
         GlobalPosition = Target.GlobalPosition;
         
-        if (_blackboard != null)
+        if (Blackboard != null)
         {
             TryApplyFOVKick();
         }
         
         float dt = (float)delta;
-        float lagFactor = -12.0f; // Constants.CAMERA_LAG_FACTOR
-        float lerpAmount = 1.0f - Mathf.Exp(lagFactor * dt);
+        float lerpAmount = 1.0f - Mathf.Exp(LagFactor * dt);
         
         OrbitalRotation = Mathf.LerpAngle(OrbitalRotation, _targetOrbitalRotation, lerpAmount);
         HeightRotation = Mathf.Lerp(HeightRotation, _targetHeightRotation, lerpAmount);
@@ -98,21 +101,21 @@ public partial class CameraRig : Node3D
     
     private void TryApplyFOVKick()
     {
-        if (!_blackboard.Camera.WantsFOVKick) return;
+        if (!Blackboard.Camera.WantsFOVKick) return;
         
         Tween tween = CreateTween();
         
-        float defaultFov = Mathf.RadToDeg(Mathf.Pi / 4.0f);
-        float kickFov = Mathf.RadToDeg(_blackboard.Camera.FOVKick);
+        float defaultFov = Mathf.RadToDeg(BaseFov);
+        float kickFov = Mathf.RadToDeg(Blackboard.Camera.FOVKick);
         
-        tween.TweenProperty(_camera, "fov", kickFov, _blackboard.Camera.FOVKickUpTime)
+        tween.TweenProperty(_camera, "fov", kickFov, Blackboard.Camera.FOVKickUpTime)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.Out);
             
-        tween.TweenProperty(_camera, "fov", defaultFov, _blackboard.Camera.FOVKickDownTime)
+        tween.TweenProperty(_camera, "fov", defaultFov, Blackboard.Camera.FOVKickDownTime)
             .SetTrans(Tween.TransitionType.Cubic)
             .SetEase(Tween.EaseType.InOut);
             
-        _blackboard.Camera.WantsFOVKick = false;
+        Blackboard.Camera.WantsFOVKick = false;
     }
 }

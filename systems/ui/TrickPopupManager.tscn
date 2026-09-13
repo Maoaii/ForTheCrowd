@@ -1,6 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://ui_trick_popup"]
+[gd_scene format=3 uid="uid://cfhyxuw61871r"]
 
-[ext_resource type="Script" uid="uid://uid_ui_trick" path="res://systems/ui/TrickPopupManager.cs" id="1_trick"]
+[ext_resource type="Script" uid="uid://dcjellyiiq0c1" path="res://systems/ui/TrickPopupManager.cs" id="1_trick"]
 
-[node name="TrickPopupManager" type="CanvasLayer"]
+[node name="TrickPopupManager" type="CanvasLayer" unique_id=1367110958]
 script = ExtResource("1_trick")

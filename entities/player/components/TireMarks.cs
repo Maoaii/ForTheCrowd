@@ -16,8 +16,8 @@ public struct WheelGroundContact
 
 public class TrailSegment
 {
-    private const float GroundOffset = 0.01f;
-    private const float TextureWorldLength = 3.0f;
+    public float GroundOffset = 0.01f;
+    public float TextureWorldLength = 3.0f;
 
     private List<WheelGroundContact> _points = new List<WheelGroundContact>();
     private ImmediateMesh _mesh;
@@ -27,10 +27,15 @@ public class TrailSegment
 
     public bool IsFullyExpired { get; private set; }
 
-    public TrailSegment(Node3D parent, float width, float maxLifetime, Material material)
+    private float _textureWorldLength;
+    private float _groundOffset;
+
+    public TrailSegment(Node3D parent, float width, float maxLifetime, Material material, float groundOffset, float textureWorldLength)
     {
         _width = width;
         _maxLifetime = maxLifetime;
+        _groundOffset = groundOffset;
+        _textureWorldLength = textureWorldLength;
         
         _mesh = new ImmediateMesh();
         _meshInstance = new MeshInstance3D();
@@ -110,11 +115,11 @@ public class TrailSegment
             if (side != Vector3.Zero)
                 side = side.Normalized();
 
-            Vector3 basePosition = _points[i].Position + _points[i].Normal * GroundOffset;
+            Vector3 basePosition = _points[i].Position + _points[i].Normal * _groundOffset;
             leftPositions[i] = basePosition - side * (_width * 0.5f);
             rightPositions[i] = basePosition + side * (_width * 0.5f);
 
-            float u = cumulativeDistance / TextureWorldLength;
+            float u = cumulativeDistance / _textureWorldLength;
             float ageRatio = Mathf.Clamp(_points[i].Age / _maxLifetime, 0f, 1f);
             
             // Simple EaseOutQuad mapping
@@ -179,37 +184,41 @@ public class TrailSegment
 
 public partial class TireMarks : Node3D
 {
-    private Blackboard _blackboard;
+    [Export] public BlackboardComponent Blackboard;
+    [ExportGroup("Mesh Properties")]
+    [Export] public float GroundOffset = 0.01f;
+    [Export] public float TextureWorldLength = 3.0f;
+    
+    [Export] public Vector3 LocalOffset;
+
+    [ExportGroup("Blood Effect")]
+    [Export] public float BloodDuration = 2.0f; 
+    [Export] public Color BloodColor = new Color(0.59f, 0.04f, 0.04f); // 150, 10, 10
+    
     private List<TrailSegment> _segments = new List<TrailSegment>();
     private TrailSegment _activeSegment; 
     private Vector3 _lastSampledPos;
     private bool _wasEmitting;
-    [Export] public Vector3 LocalOffset;
     private float _noDriftCooldown;
     private Color _currentColor = Colors.Black;
     private float _bloodTimer = 0f;
-    private const float BloodDuration = 2.0f; 
-    private Color _bloodColor = new Color(0.59f, 0.04f, 0.04f); // 150, 10, 10
     
     private Material _trailMaterial;
     
-    public void Init(Blackboard blackboard)
+    public override void _Ready()
     {
-        _blackboard = blackboard;
-        
         StandardMaterial3D mat = new StandardMaterial3D();
         mat.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
         mat.VertexColorUseAsAlbedo = true;
         mat.CullMode = BaseMaterial3D.CullModeEnum.Disabled;
         mat.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
-        // Depth draw settings can be tweaked if z-fighting happens
         
         _trailMaterial = mat;
     }
 
-    public override void _Process(double delta)
+    public override void _PhysicsProcess(double delta)
     {
-        if (_blackboard == null) return;
+        if (Blackboard == null) return;
         
         float dt = (float)delta;
 
@@ -217,7 +226,7 @@ public partial class TireMarks : Node3D
         {
             _bloodTimer -= dt;
             float t = Mathf.Clamp(_bloodTimer / BloodDuration, 0f, 1f);
-            _currentColor = Colors.Black.Lerp(_bloodColor, t);
+            _currentColor = Colors.Black.Lerp(BloodColor, t);
         }
         else
         {
@@ -225,7 +234,7 @@ public partial class TireMarks : Node3D
         }
 
         Vector3 upDir = Vector3.Up; // Or blackboard.Owner.Transform.Basis.Y
-        Vector3 wheelWorldPos = _blackboard.Owner.GlobalTransform * LocalOffset;
+        Vector3 wheelWorldPos = Blackboard.Owner.GlobalTransform * LocalOffset;
         
         // Raycast down to find ground
         var spaceState = GetWorld3D().DirectSpaceState;
@@ -233,14 +242,14 @@ public partial class TireMarks : Node3D
         var result = spaceState.IntersectRay(query);
         
         Vector3 groundPoint = wheelWorldPos;
-        bool isGrounded = _blackboard.State.IsOnGround;
+        bool isGrounded = Blackboard.State.IsOnGround;
         
         if (result.Count > 0)
         {
             groundPoint = (Vector3)result["position"];
         }
         
-        bool shouldEmitTrail = _blackboard.Kinematics.DriftFactor > _blackboard.MovementConfig.TrailDriftThreshold && _blackboard.Input.MoveInput.X != 0f && isGrounded;
+        bool shouldEmitTrail = Blackboard.Kinematics.DriftFactor > Blackboard.MovementConfig.TrailDriftThreshold && Blackboard.Input.MoveInput.X != 0f && isGrounded;
 
         if (!isGrounded)
         {
@@ -254,7 +263,7 @@ public partial class TireMarks : Node3D
             {
                 if (!_wasEmitting)
                 {
-                    _activeSegment = new TrailSegment(GetTree().CurrentScene as Node3D ?? this, _blackboard.MovementConfig.TrailWidth, _blackboard.MovementConfig.TrailMaxLifetime, _trailMaterial);
+                    _activeSegment = new TrailSegment(GetTree().CurrentScene as Node3D ?? this, Blackboard.MovementConfig.TrailWidth, Blackboard.MovementConfig.TrailMaxLifetime, _trailMaterial, GroundOffset, TextureWorldLength);
                     _segments.Add(_activeSegment);
 
                     _activeSegment.AddPoint(new WheelGroundContact
@@ -262,7 +271,7 @@ public partial class TireMarks : Node3D
                         Position = groundPoint,
                         Normal = upDir,
                         IsGrounded = isGrounded,
-                        DriftFactor = _blackboard.Kinematics.DriftFactor,
+                        DriftFactor = Blackboard.Kinematics.DriftFactor,
                         Age = 0f,
                         Color = _currentColor
                     });
@@ -270,7 +279,7 @@ public partial class TireMarks : Node3D
                     _wasEmitting = true;
                 }
                 
-                _noDriftCooldown = _blackboard.MovementConfig.TrailCooldown; 
+                _noDriftCooldown = Blackboard.MovementConfig.TrailCooldown; 
             }
             else if (_wasEmitting)
             {
@@ -286,14 +295,14 @@ public partial class TireMarks : Node3D
         if (_activeSegment != null
             && isGrounded
             && shouldEmitTrail
-            && _lastSampledPos.DistanceTo(groundPoint) >= _blackboard.MovementConfig.TrailSampleDistance)
+            && _lastSampledPos.DistanceTo(groundPoint) >= Blackboard.MovementConfig.TrailSampleDistance)
         {
             _activeSegment.AddPoint(new WheelGroundContact
             {
                 Position = groundPoint,
                 Normal = upDir,
                 IsGrounded = isGrounded,
-                DriftFactor = _blackboard.Kinematics.DriftFactor,
+                DriftFactor = Blackboard.Kinematics.DriftFactor,
                 Age = 0f,
                 Color = _currentColor
             });

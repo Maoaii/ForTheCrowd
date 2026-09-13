@@ -4,10 +4,13 @@ using Godot;
 
 namespace CarGame.Entities.Player;
 
-public class ShoveItState : TrickState
+public partial class ShoveItState : TrickState
 {
     private float _timeEnteredTrick;
-    public ShoveItState() : base(PlayerStates.SHOVE_IT_STATE, Constants.SHOVE_IT_SCORE) { }
+
+    public override void _Ready()
+    {
+    }
 
     public override void Enter(double delta = 0)
     {
@@ -30,7 +33,7 @@ public class ShoveItState : TrickState
         _blackboard.Kinematics.Velocity = vel;
         float currentTime = Time.GetTicksMsec();
         if (currentTime - _timeEnteredTrick > _blackboard.MovementConfig.ShoveItTrickDuration)
-            _stateMachine.TransitionState(PlayerStates.AIR_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.Air, delta);
     }
 
     public override void Exit(double delta = 0)

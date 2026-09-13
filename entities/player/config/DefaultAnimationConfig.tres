@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PlayerAnimationConfig" format=3 uid="uid://c7m504n3k2q1"]
+
+[ext_resource type="Script" uid="uid://dq6itrcnilvsb" path="res://entities/player/config/PlayerAnimationConfig.cs" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+DefaultScale = Vector3(1.7, 1.7, 1.7)
+StretchScale = Vector3(1.5, 2, 1.5)
+SquashScale = Vector3(2, 1.5, 2)
+LaunchStretchTweenDuration = 0.12
+AirTweenDuration = 0.08
+LandingSquashTweenDuration = 0.1
+RecoveryTweenDuration = 0.08

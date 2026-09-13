@@ -5,11 +5,15 @@ using Godot;
 
 namespace CarGame.Entities.Player;
 
-public class MovingState : State
+public partial class MovingState : PlayerState
 {
     public bool JustJumped => !_blackboard.State.IsOnGround && _blackboard.State.WasOnGround;
     public bool JustHitGround => _blackboard.State.IsOnGround && !_blackboard.State.WasOnGround;
-    public MovingState() : base(PlayerStates.MOVING_STATE) { }
+
+    [ExportGroup("Landing Camera Kick")]
+    [Export] public float LandingFovKick = (Mathf.Pi / 4.0f) * 1.03f;
+    [Export] public float LandingFovKickTimeUpS = 0.05f;
+    [Export] public float LandingFovKickTimeDownS = 0.3f;
 
     public override void Enter(double delta = 0)
     {
@@ -19,7 +23,7 @@ public class MovingState : State
         if (delta != 0 && !_blackboard.State.WasOnGround)
         {
             _blackboard.Animator.PlayLandingAnimation();
-            _blackboard.Camera.SetFOVKick(Constants.LANDING_FOV_KICK, Constants.LANDING_FOV_KICK_TIME_UP_S, Constants.LANDING_FOV_KICK_TIME_DOWN_S);
+            _blackboard.Camera.SetFOVKick(LandingFovKick, LandingFovKickTimeUpS, LandingFovKickTimeDownS);
             
             _blackboard.Events.OnLanded?.Invoke(_blackboard.Kinematics.Velocity.Y);
         }
@@ -44,10 +48,10 @@ public class MovingState : State
         bool isAlmostStopped = Math.Abs(_blackboard.Kinematics.Speed) <= 0.5f && _blackboard.Input.MoveInput == Godot.Vector2.Zero;
 
         if (isAlmostStopped)
-            _stateMachine.TransitionState(PlayerStates.IDLE_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.Idle, delta);
         if (_blackboard.Input.WantsJump)
-            _stateMachine.TransitionState(PlayerStates.OLLIE_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.Ollie, delta);
         if (_blackboard.Tricks.WantsBackManual)
-            _stateMachine.TransitionState(PlayerStates.BACK_MANUAL_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.BackManual, delta);
     }
 }

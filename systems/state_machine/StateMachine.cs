@@ -6,42 +6,46 @@ using Godot;
 
 namespace CarGame.Systems;
 
-public abstract class StateMachine
+public partial class StateMachine : Node
 {
-    private List<State> _states = [];
+    private Dictionary<Enum, State> _states = new();
     private State _previousState;
     private State _currentState;
-    private Blackboard _blackboard;
+    
+    [Export] public BlackboardComponent Blackboard;
+    [Export] public NodePath InitialStatePath;
 
     public Enum CurrentStateName => _currentState?.StateName;
-    public StateMachine(Blackboard blackboard)
+
+    public override void _Ready()
     {
-        _blackboard = blackboard;
-    }
-
-    public void RegisterState(State state)
-    {
-        if (state == null) return;
-        if (_states.Contains(state)) return;
-
-        state.RegisterBlackboard(this, _blackboard);
-        _states.Add(state);
-    }
-
-    public void SetInitialState(State state, double delta = 0)
-    {
-        if (state == null) return;
-        if (!_states.Contains(state)) return;
-
-        _currentState = state;
-        _previousState = _currentState;
-        _currentState.Enter(delta);
+        foreach (Node child in GetChildren())
+        {
+            if (child is State state)
+            {
+                if (state.StateName != null)
+                {
+                    _states[state.StateName] = state;
+                }
+                state.RegisterBlackboard(this, Blackboard);
+            }
+        }
+        
+        if (InitialStatePath != null)
+        {
+            var initialState = GetNodeOrNull<State>(InitialStatePath);
+            if (initialState != null)
+            {
+                _currentState = initialState;
+                _previousState = _currentState;
+                _currentState.Enter(0);
+            }
+        }
     }
 
     public virtual void TransitionState(Enum toStateName, double delta = 0)
     {
-        State toState = _states.Find((st) => st.StateName.Equals(toStateName));
-        if (toState == null) return;
+        if (!_states.TryGetValue(toStateName, out State toState)) return;
 
         _currentState?.Exit(delta);
         _previousState = _currentState;
@@ -49,7 +53,7 @@ public abstract class StateMachine
         _currentState.Enter(delta);
     }
 
-    public virtual void Update(double delta)
+    public override void _PhysicsProcess(double delta)
     {
         _currentState?.Update(delta);
     }

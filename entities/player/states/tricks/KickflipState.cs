@@ -4,10 +4,13 @@ using Godot;
 
 namespace CarGame.Entities.Player;
 
-public class KickflipState : TrickState
+public partial class KickflipState : TrickState
 {
     private float _timeEnteredTrick;
-    public KickflipState() : base(PlayerStates.KICKFLIP_STATE, Constants.KICKFLIP_SCORE) { }
+
+    public override void _Ready()
+    {
+    }
 
     public override void Enter(double delta = 0)
     {
@@ -30,7 +33,7 @@ public class KickflipState : TrickState
         _blackboard.Kinematics.Velocity = vel;
         float currentTime = Time.GetTicksMsec();
         if (currentTime - _timeEnteredTrick > _blackboard.MovementConfig.KickflipTrickDuration)
-            _stateMachine.TransitionState(PlayerStates.AIR_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.Air, delta);
     }
 
     public override void Exit(double delta = 0)

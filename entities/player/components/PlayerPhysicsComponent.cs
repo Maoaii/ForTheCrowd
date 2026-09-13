@@ -2,11 +2,75 @@ using System;
 using Godot;
 using CarGame.Systems.Blackboards;
 
-namespace CarGame.Entities.Player;
+namespace CarGame.Entities.Components;
 
-public static class PlayerPhysicsHelper
+public partial class PlayerPhysicsComponent : Node
 {
-    public static void ApplyGroundPhysics(Blackboard blackboard, float dt)
+    [Export] public BlackboardComponent Blackboard;
+    [Export] public CharacterBody3D Body;
+
+    public override void _PhysicsProcess(double delta)
+    {
+        if (Blackboard == null || Body == null) return;
+        
+        float dt = (float)delta;
+        
+        Blackboard.State.WasOnGround = Blackboard.State.IsOnGround;
+        Blackboard.State.IsOnGround = Body.IsOnFloor();
+        
+        Blackboard.State.WantsGroundPhysics = Blackboard.State.IsOnGround;
+        
+        if (Blackboard.State.WantsGroundPhysics)
+        {
+            ApplyGroundPhysics(Blackboard, dt);
+        }
+        
+        Move(dt);
+    }
+
+    private void Move(float dt)
+    {
+        if (Blackboard.State.CanMove)
+        {
+            float yawRate = Blackboard.Kinematics.Speed / Blackboard.MovementConfig.Wheelbase * Mathf.Tan(Mathf.DegToRad(Blackboard.Kinematics.SteerAngle));
+            Body.Rotation = new Godot.Vector3(Body.Rotation.X, Body.Rotation.Y + yawRate * dt, Body.Rotation.Z);
+        }
+
+        Godot.Vector3 targetDirection = -Body.Transform.Basis.Z; // Forward in Godot is -Z
+        float catchUpRate = Mathf.Lerp(
+            Blackboard.MovementConfig.HighGripRate, 
+            Blackboard.MovementConfig.LowGripRate, 
+            Blackboard.Kinematics.DriftFactor
+        );
+
+        if (Blackboard.Kinematics.MovementDirection == Godot.Vector3.Zero)
+            Blackboard.Kinematics.MovementDirection = targetDirection;
+            
+        Blackboard.Kinematics.MovementDirection = Blackboard.Kinematics.MovementDirection.Lerp(targetDirection, catchUpRate * dt);
+        Blackboard.Kinematics.MovementDirection = Blackboard.Kinematics.MovementDirection.Normalized();
+
+        float gravityComponent = Blackboard.Kinematics.Velocity.Y;
+
+        Godot.Vector3 newVelocity = Blackboard.Kinematics.MovementDirection * Blackboard.Kinematics.Speed;
+        
+        if (!Blackboard.State.IsOnGround)
+        {
+            gravityComponent -= Blackboard.MovementConfig.GravityForce * Blackboard.MovementConfig.FallMultiplier * dt;
+        }
+        
+        newVelocity.Y = gravityComponent * Blackboard.Kinematics.GravityToggler;
+        
+        Blackboard.Kinematics.Velocity = newVelocity;
+        Body.Velocity = newVelocity;
+        
+        Body.MoveAndSlide();
+        
+        Godot.Vector3 updatedVel = Blackboard.Kinematics.Velocity;
+        updatedVel.Y = Body.Velocity.Y;
+        Blackboard.Kinematics.Velocity = updatedVel;
+    }
+
+    private void ApplyGroundPhysics(BlackboardComponent blackboard, float dt)
     {
         ApplyDrift(blackboard);
         ApplyAcceleration(blackboard, dt);
@@ -14,7 +78,7 @@ public static class PlayerPhysicsHelper
         ApplySteering(blackboard, dt);
     }
 
-    private static void ApplyDrift(Blackboard blackboard)
+    private void ApplyDrift(BlackboardComponent blackboard)
     {
         float speedFactor = Mathf.Clamp(
             (Math.Abs(blackboard.Kinematics.Speed) - blackboard.MovementConfig.MinDriftSpeed) / (blackboard.MovementConfig.MaxSpeedForward - blackboard.MovementConfig.MinDriftSpeed), 
@@ -32,7 +96,7 @@ public static class PlayerPhysicsHelper
             blackboard.Events.OnDrifting?.Invoke(blackboard.Kinematics.DriftFactor);
     }
 
-    private static void ApplyAcceleration(Blackboard blackboard, float dt)
+    private void ApplyAcceleration(BlackboardComponent blackboard, float dt)
     {
         if (!blackboard.State.IsOnGround)
             return;
@@ -51,7 +115,7 @@ public static class PlayerPhysicsHelper
             blackboard.Kinematics.Speed = 0;
     }
 
-    private static void ApplyFriction(Blackboard blackboard, float dt)
+    private void ApplyFriction(BlackboardComponent blackboard, float dt)
     {
         if (blackboard.State.IsOnGround && blackboard.Input.MoveInput.Y == 0)
             blackboard.Kinematics.Speed *= Mathf.Pow(1 - blackboard.MovementConfig.CoastingFriction, dt);
@@ -59,7 +123,7 @@ public static class PlayerPhysicsHelper
             blackboard.Kinematics.Speed *= Mathf.Pow(1 - blackboard.MovementConfig.AirFriction, dt);
     }
 
-    private static void ApplySteering(Blackboard blackboard, float dt)
+    private void ApplySteering(BlackboardComponent blackboard, float dt)
     {
         if (!blackboard.State.IsOnGround || blackboard.Kinematics.Speed == 0)
         {

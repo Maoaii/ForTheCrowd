@@ -6,16 +6,17 @@ namespace CarGame.Entities.Enemies;
 
 public partial class Zombie : Area3D, ISwarmable
 {
-    // --- Constants ---
-    private const float SeekingForce = 5.0f;
-    private const float SeekingWeight = 0.5f;
-    private const float SeparationForce = 15.0f;
-    private const float SeparationWeight = 0.5f;
-    private const float VelocityLerpSpeed = 1.0f;
+    // --- Physics Properties ---
+    [ExportGroup("Movement")]
+    [Export] public float SeekingForce = 5.0f;
+    [Export] public float SeekingWeight = 0.5f;
+    [Export] public float SeparationForce = 15.0f;
+    [Export] public float SeparationWeight = 0.5f;
+    [Export] public float VelocityLerpSpeed = 1.0f;
 
     // --- Fields ---
     public Node3D Target;
-    public SwarmBehaviour Swarm;
+    public SwarmManager Swarm;
     private Vector3 _velocity = Vector3.Zero;
     
     public event Action<Node3D> OnFreed;

@@ -2,6 +2,22 @@
 
 [ext_resource type="Script" uid="uid://shy62ulnqk45" path="res://entities/player/Player.cs" id="1_symyc"]
 [ext_resource type="PackedScene" uid="uid://c6u7k6rdr7x0" path="res://entities/player/CameraRig.tscn" id="2_rig"]
+[ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://systems/blackboard/BlackboardComponent.cs" id="3_blackboard"]
+[ext_resource type="Script" uid="uid://upcwv1lan6pk" path="res://entities/player/components/PlayerInputComponent.cs" id="4_input"]
+[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://entities/player/components/PlayerPhysicsComponent.cs" id="5_physics"]
+[ext_resource type="Script" uid="uid://be4lcbuabo0j1" path="res://entities/player/components/PlayerAnimatorComponent.cs" id="6_animator"]
+[ext_resource type="Script" uid="uid://k7hp4ufs8p3s" path="res://entities/player/components/PlayerVFXComponent.cs" id="7_vfx"]
+[ext_resource type="Script" uid="uid://dg6cl2rbd23yw" path="res://entities/player/components/TireMarks.cs" id="8_tiremarks"]
+[ext_resource type="Script" uid="uid://dcodybfoa2fdw" path="res://systems/state_machine/StateMachine.cs" id="9_statemachine"]
+[ext_resource type="Script" uid="uid://cp61tjntayhkk" path="res://entities/player/states/IdleState.cs" id="10_idle"]
+[ext_resource type="Script" uid="uid://dky0gqx806rsi" path="res://entities/player/states/MovingState.cs" id="11_moving"]
+[ext_resource type="Script" uid="uid://bbat5nqxcrnlk" path="res://entities/player/states/AirState.cs" id="12_air"]
+[ext_resource type="Script" uid="uid://bdabso6ket7xs" path="res://entities/player/states/tricks/OllieState.cs" id="13_ollie"]
+[ext_resource type="Script" uid="uid://bt34mvhjuuyo2" path="res://entities/player/states/tricks/KickflipState.cs" id="14_kickflip"]
+[ext_resource type="Script" uid="uid://rnhwm540cak2" path="res://entities/player/states/tricks/ShoveItState.cs" id="15_shoveit"]
+[ext_resource type="Script" uid="uid://djd7c3tcyn1vv" path="res://entities/player/states/tricks/BackManualState.cs" id="16_backmanual"]
+[ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://entities/player/config/DefaultMovementConfig.tres" id="17_movement_config"]
+[ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://entities/player/config/DefaultAnimationConfig.tres" id="18_animation_config"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_symyc"]
 size = Vector3(2, 2, 2)
@@ -40,9 +56,10 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_dust")
 size = Vector2(0.5, 0.5)
 
-[node name="Player" type="CharacterBody3D" unique_id=1669282]
+[node name="Player" type="CharacterBody3D" unique_id=1669282 node_paths=PackedStringArray("Blackboard")]
 collision_layer = 2
 script = ExtResource("1_symyc")
+Blackboard = NodePath("Components/BlackboardComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1337208391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -55,19 +72,108 @@ transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0.8468656, 0)
 mesh = SubResource("BoxMesh_symyc")
 skeleton = NodePath("../..")
 
-[node name="CameraRig" parent="." unique_id=1669618986 node_paths=PackedStringArray("Target") instance=ExtResource("2_rig")]
-Target = NodePath("..")
-
 [node name="Decal" type="Decal" parent="." unique_id=2065064013]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.87256646, 0)
 size = Vector3(4.8, 2, 4.8)
 texture_albedo = SubResource("GradientTexture2D_decal")
 modulate = Color(0, 0, 0, 0.4)
 cull_mask = 1048573
 
-[node name="VFX" type="Node3D" parent="." unique_id=1045225062]
+[node name="Components" type="Node3D" parent="." unique_id=252611481]
 
-[node name="LandingDustFL" type="GPUParticles3D" parent="VFX" unique_id=1371366236]
+[node name="PlayerStateMachine" type="Node" parent="Components" unique_id=12001113 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("9_statemachine")
+Blackboard = NodePath("../BlackboardComponent")
+InitialStatePath = NodePath("IdleState")
+
+[node name="IdleState" type="Node" parent="Components/PlayerStateMachine" unique_id=1066422790]
+script = ExtResource("10_idle")
+LandingFovKick = null
+LandingFovKickTimeUpS = null
+LandingFovKickTimeDownS = null
+StateId = null
+
+[node name="MovingState" type="Node" parent="Components/PlayerStateMachine" unique_id=408746131]
+script = ExtResource("11_moving")
+LandingFovKick = null
+LandingFovKickTimeUpS = null
+LandingFovKickTimeDownS = null
+StateId = 1
+
+[node name="AirState" type="Node" parent="Components/PlayerStateMachine" unique_id=16902210]
+script = ExtResource("12_air")
+StateId = 2
+
+[node name="OllieState" type="Node" parent="Components/PlayerStateMachine" unique_id=889456271]
+script = ExtResource("13_ollie")
+Score = null
+FovKick = null
+FovKickTimeUpS = null
+FovKickTimeDownS = null
+StateId = 3
+
+[node name="KickflipState" type="Node" parent="Components/PlayerStateMachine" unique_id=574052145]
+script = ExtResource("14_kickflip")
+Score = null
+FovKick = null
+FovKickTimeUpS = null
+FovKickTimeDownS = null
+StateId = 4
+
+[node name="ShoveItState" type="Node" parent="Components/PlayerStateMachine" unique_id=2085200523]
+script = ExtResource("15_shoveit")
+Score = null
+FovKick = null
+FovKickTimeUpS = null
+FovKickTimeDownS = null
+StateId = 5
+
+[node name="BackManualState" type="Node" parent="Components/PlayerStateMachine" unique_id=1987039259]
+script = ExtResource("16_backmanual")
+Score = null
+FovKick = null
+FovKickTimeUpS = null
+FovKickTimeDownS = null
+StateId = 6
+
+[node name="BlackboardComponent" type="Node" parent="Components" unique_id=2094349858 node_paths=PackedStringArray("Owner", "Animator")]
+script = ExtResource("3_blackboard")
+Owner = NodePath("../..")
+Animator = NodePath("../PlayerAnimatorComponent")
+MovementConfig = ExtResource("17_movement_config")
+AnimationConfig = ExtResource("18_animation_config")
+
+[node name="PlayerInputComponent" type="Node" parent="Components" unique_id=2080471671 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("4_input")
+Blackboard = NodePath("../BlackboardComponent")
+
+[node name="PlayerPhysicsComponent" type="Node" parent="Components" unique_id=562824719 node_paths=PackedStringArray("Blackboard", "Body")]
+script = ExtResource("5_physics")
+Blackboard = NodePath("../BlackboardComponent")
+Body = NodePath("../..")
+
+[node name="PlayerAnimatorComponent" type="Node" parent="Components" unique_id=651404184 node_paths=PackedStringArray("Blackboard", "VisualsRoot")]
+script = ExtResource("6_animator")
+Blackboard = NodePath("../BlackboardComponent")
+VisualsRoot = NodePath("../../Visuals/MeshInstance3D")
+
+[node name="PlayerVFXComponent" type="Node" parent="Components" unique_id=1239692573 node_paths=PackedStringArray("Blackboard", "LandDustFL", "LandDustFR", "LandDustRL", "LandDustRR", "DriftDustRL", "DriftDustRR")]
+script = ExtResource("7_vfx")
+Blackboard = NodePath("../BlackboardComponent")
+LandDustFL = NodePath("../VFX/LandingDustFL")
+LandDustFR = NodePath("../VFX/LandingDustFR")
+LandDustRL = NodePath("../VFX/LandingDustRL")
+LandDustRR = NodePath("../VFX/LandingDustRR")
+DriftDustRL = NodePath("../VFX/DriftDustRL")
+DriftDustRR = NodePath("../VFX/DriftDustRR")
+MinDriftParticles = null
+MaxDriftParticles = null
+MinLandingParticles = null
+MaxLandingParticles = null
+
+[node name="VFX" type="Node3D" parent="Components" unique_id=1045225062]
+
+[node name="LandingDustFL" type="GPUParticles3D" parent="Components/VFX" unique_id=1371366236]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, -0.75221705)
 emitting = false
 amount = 16
@@ -76,7 +182,7 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
 draw_pass_1 = SubResource("QuadMesh_dust")
 
-[node name="LandingDustFR" type="GPUParticles3D" parent="VFX" unique_id=1052010975]
+[node name="LandingDustFR" type="GPUParticles3D" parent="Components/VFX" unique_id=1052010975]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, -0.8032799)
 emitting = false
 amount = 16
@@ -85,7 +191,7 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
 draw_pass_1 = SubResource("QuadMesh_dust")
 
-[node name="LandingDustRL" type="GPUParticles3D" parent="VFX" unique_id=621981973]
+[node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=621981973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8447373)
 emitting = false
 amount = 16
@@ -94,7 +200,7 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
 draw_pass_1 = SubResource("QuadMesh_dust")
 
-[node name="LandingDustRR" type="GPUParticles3D" parent="VFX" unique_id=2101392995]
+[node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=2101392995]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84136426)
 emitting = false
 amount = 16
@@ -103,16 +209,41 @@ explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_dust")
 draw_pass_1 = SubResource("QuadMesh_dust")
 
-[node name="DriftDustRL" type="GPUParticles3D" parent="VFX" unique_id=2037112779]
+[node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2037112779]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8608966)
 emitting = false
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_dust")
 draw_pass_1 = SubResource("QuadMesh_dust")
 
-[node name="DriftDustRR" type="GPUParticles3D" parent="VFX" unique_id=823369358]
+[node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=823369358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84009135)
 emitting = false
 amount = 32
 process_material = SubResource("ParticleProcessMaterial_dust")
 draw_pass_1 = SubResource("QuadMesh_dust")
+
+[node name="TireMarks" type="Node3D" parent="Components" unique_id=1421653948]
+
+[node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1218171051 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("8_tiremarks")
+Blackboard = NodePath("../../BlackboardComponent")
+GroundOffset = null
+TextureWorldLength = null
+LocalOffset = Vector3(0.8, -0.4, 0.85)
+BloodDuration = null
+BloodColor = null
+
+[node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("8_tiremarks")
+Blackboard = NodePath("../../BlackboardComponent")
+GroundOffset = null
+TextureWorldLength = null
+LocalOffset = Vector3(-0.8, -0.4, 0.85)
+BloodDuration = null
+BloodColor = null
+
+[node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
+Target = NodePath("../..")
+Blackboard = NodePath("../BlackboardComponent")
+Sensitivity = 0.01

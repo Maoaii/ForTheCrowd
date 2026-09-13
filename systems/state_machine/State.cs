@@ -4,18 +4,14 @@ using Godot;
 
 namespace CarGame.Systems;
 
-public abstract class State
+public abstract partial class State : Node
 {
-    protected Blackboard _blackboard;
+    protected BlackboardComponent _blackboard;
     protected StateMachine _stateMachine;
-    public Enum StateName { get; private set; }
+    
+    public virtual Enum StateName => null;
 
-    public State(Enum stateName)
-    {
-        StateName = stateName;
-    }
-
-    public void RegisterBlackboard(StateMachine stateMachine, Blackboard blackboard)
+    public void RegisterBlackboard(StateMachine stateMachine, BlackboardComponent blackboard)
     {
         _stateMachine = stateMachine;
         _blackboard = blackboard;
@@ -23,16 +19,13 @@ public abstract class State
 
     public virtual void Enter(double delta = 0) 
     {
-        // GD.Print($"Entering state {StateName}");
     }
 
     public virtual void Update(double delta)
     {
-        
     }
 
     public virtual void Exit(double delta = 0)
     {
-        // GD.Print($"Exiting state {StateName}");
     }
 }

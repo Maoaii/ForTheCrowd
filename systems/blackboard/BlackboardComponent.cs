@@ -61,15 +61,14 @@ public class BlackboardTricks
     public bool WantsStopBackManual = false;
 }
 
-public class Blackboard
+public partial class BlackboardComponent : Node
 {
-    public Blackboard() {}
-
     // Core references
-    public CharacterBody3D Owner;
-    public MovementConfig MovementConfig;
-    public PlayerAnimationConfig AnimationConfig;
-    public PlayerAnimator Animator;
+    [Export] public new CharacterBody3D Owner;
+    [Export] public PlayerAnimatorComponent Animator;
+    
+    [Export] public MovementConfig MovementConfig;
+    [Export] public PlayerAnimationConfig AnimationConfig;
 
     // Segmented states
     public BlackboardEvents Events = new();

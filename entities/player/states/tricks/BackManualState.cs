@@ -4,10 +4,13 @@ using Godot;
 
 namespace CarGame.Entities.Player;
 
-public class BackManualState : TrickState
+public partial class BackManualState : TrickState
 {
     private float _timeEnteredTrick;
-    public BackManualState() : base(PlayerStates.BACK_MANUAL_STATE, Constants.BACK_MANUAL_SCORE) { }
+
+    public override void _Ready()
+    {
+    }
 
     public override void Enter(double delta = 0)
     {
@@ -22,9 +25,9 @@ public class BackManualState : TrickState
     {
         base.Update(delta);
         if (_blackboard.Tricks.WantsStopBackManual)
-            _stateMachine.TransitionState(PlayerStates.MOVING_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.Moving, delta);
         if (_blackboard.Input.WantsJump)
-            _stateMachine.TransitionState(PlayerStates.OLLIE_STATE, delta);
+            _stateMachine.TransitionState(PlayerStates.Ollie, delta);
     }
 
     public override void Exit(double delta = 0)

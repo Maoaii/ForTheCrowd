@@ -3,10 +3,10 @@ using Godot;
 
 namespace CarGame.Entities.Enemies.Swarm;
 
-public class SwarmBehaviour
+public partial class SwarmManager : Node
 {
-    // --- Constants ---
-    private const float SeparationDistance = 1.5f;
+    // --- Properties ---
+    [Export] public float SeparationDistance = 1.5f;
 
     // --- Fields ---
     private readonly List<ISwarmable> _swarmEntities = new();

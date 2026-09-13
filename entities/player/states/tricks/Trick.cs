@@ -5,19 +5,19 @@ using Godot;
 
 namespace CarGame.Entities.Player;
 
-public abstract class TrickState : State
+public abstract partial class TrickState : PlayerState
 {
-    private float _score;
+    [Export] public float Score;
 
-    public TrickState(Enum stateName, float score) : base(stateName)
-    {
-        _score = score;
-    }
+    [ExportGroup("FOV Kick")]
+    [Export] public float FovKick = (Mathf.Pi / 4.0f) * 1.03f;
+    [Export] public float FovKickTimeUpS = 0.15f;
+    [Export] public float FovKickTimeDownS = 0.35f;
 
     public override void Enter(double delta = 0)
     {
         base.Enter(delta);
-        _blackboard.Camera.SetFOVKick(Constants.CAMERA_FOV_KICK, Constants.CAMERA_FOV_KICK_TIME_UP_S, Constants.CAMERA_FOV_KICK_TIME_DOWN_S);
-        TrickPopupManager.Instance?.PopupTrick(StateName.ToString(), _score);
+        _blackboard.Camera.SetFOVKick(FovKick, FovKickTimeUpS, FovKickTimeDownS);
+        TrickPopupManager.Instance?.PopupTrick(StateName.ToString(), Score);
     }
 }
