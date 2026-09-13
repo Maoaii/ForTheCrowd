@@ -9,6 +9,7 @@ public class BlackboardEvents
 {
     public Action<float> OnLanded;
     public Action<float> OnDrifting;
+    public Action OnZombieRunOver;
 }
 
 public class BlackboardKinematics

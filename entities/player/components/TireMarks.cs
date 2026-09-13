@@ -214,6 +214,24 @@ public partial class TireMarks : Node3D
         mat.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
         
         _trailMaterial = mat;
+
+        if (Blackboard != null)
+        {
+            Blackboard.Events.OnZombieRunOver += TriggerBloodEffect;
+        }
+    }
+
+    public override void _ExitTree()
+    {
+        if (Blackboard != null)
+        {
+            Blackboard.Events.OnZombieRunOver -= TriggerBloodEffect;
+        }
+    }
+
+    private void TriggerBloodEffect()
+    {
+        _bloodTimer = BloodDuration;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -221,12 +239,16 @@ public partial class TireMarks : Node3D
         if (Blackboard == null) return;
         
         float dt = (float)delta;
+        
+        bool isDrifting = Blackboard.Kinematics.DriftFactor > Blackboard.MovementConfig.TrailDriftThreshold && Blackboard.Input.MoveInput.X != 0f;
 
         if (_bloodTimer > 0f)
         {
             _bloodTimer -= dt;
             float t = Mathf.Clamp(_bloodTimer / BloodDuration, 0f, 1f);
-            _currentColor = Colors.Black.Lerp(BloodColor, t);
+            
+            Color targetColor = isDrifting ? Colors.Black : new Color(0f, 0f, 0f, 0f);
+            _currentColor = targetColor.Lerp(BloodColor, t);
         }
         else
         {
@@ -249,7 +271,7 @@ public partial class TireMarks : Node3D
             groundPoint = (Vector3)result["position"];
         }
         
-        bool shouldEmitTrail = Blackboard.Kinematics.DriftFactor > Blackboard.MovementConfig.TrailDriftThreshold && Blackboard.Input.MoveInput.X != 0f && isGrounded;
+        bool shouldEmitTrail = (isDrifting || _bloodTimer > 0f) && isGrounded;
 
         if (!isGrounded)
         {

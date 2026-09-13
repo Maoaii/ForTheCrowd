@@ -18,6 +18,7 @@
 [ext_resource type="Script" uid="uid://djd7c3tcyn1vv" path="res://entities/player/states/tricks/BackManualState.cs" id="16_backmanual"]
 [ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://entities/player/config/DefaultMovementConfig.tres" id="17_movement_config"]
 [ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://entities/player/config/DefaultAnimationConfig.tres" id="18_animation_config"]
+[ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://entities/player/components/ZombieDetector.cs" id="19_we0b7"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_symyc"]
 size = Vector3(2, 2, 2)
@@ -55,6 +56,9 @@ particles_anim_loop = false
 [sub_resource type="QuadMesh" id="QuadMesh_dust"]
 material = SubResource("StandardMaterial3D_dust")
 size = Vector2(0.5, 0.5)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_we0b7"]
+size = Vector3(2.0090332, 2.1328735, 1.9874268)
 
 [node name="Player" type="CharacterBody3D" unique_id=1669282 node_paths=PackedStringArray("Blackboard")]
 collision_layer = 2
@@ -228,22 +232,23 @@ draw_pass_1 = SubResource("QuadMesh_dust")
 [node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1218171051 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
-GroundOffset = null
-TextureWorldLength = null
 LocalOffset = Vector3(0.8, -0.4, 0.85)
-BloodDuration = null
-BloodColor = null
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
-GroundOffset = null
-TextureWorldLength = null
 LocalOffset = Vector3(-0.8, -0.4, 0.85)
-BloodDuration = null
-BloodColor = null
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
 Target = NodePath("../..")
 Blackboard = NodePath("../BlackboardComponent")
 Sensitivity = 0.01
+
+[node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("19_we0b7")
+Blackboard = NodePath("../BlackboardComponent")
+metadata/_custom_type_script = "uid://ci4ovq8dq64i5"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Components/ZombieDetector" unique_id=556856829]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0028076172, 0.9385681, 0.015197754)
+shape = SubResource("BoxShape3D_we0b7")
