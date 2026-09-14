@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://cq6rrc1io56ec"]
+
+[ext_resource type="Texture2D" uid="uid://daosearntmphp" path="res://Entities/Assets/ground_shadow.png" id="1_vhfof"]
+
+[node name="ShadowDecal" type="Decal" unique_id=721473518]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.5926514, 0)
+size = Vector3(2, 14.185303, 2)
+texture_albedo = ExtResource("1_vhfof")
+normal_fade = 0.5
+cull_mask = 1

@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://br3pmwa6x1iwn" path="res://Entities/Zombie/Zombie.cs" id="1_zmb"]
 [ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="2_g07s8"]
 [ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="3_g07s8"]
+[ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="4_eg0v1"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_zmb"]
 radius = 1.0
@@ -53,3 +54,7 @@ draw_pass_1 = SubResource("SphereMesh_blood")
 
 [node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("3_g07s8")]
 size = Vector3(3, 5, 3)
+
+[node name="ShadowDecal" parent="." unique_id=721473518 instance=ExtResource("4_eg0v1")]
+size = Vector3(3, 14.185, 3)
+cull_mask = 5

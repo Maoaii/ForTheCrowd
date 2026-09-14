@@ -20,6 +20,7 @@
 [ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="17_ppdlg"]
 [ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://Entities/Player/Config/default_animation_config.tres" id="18_animation_config"]
 [ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
+[ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_symyc"]
 size = Vector3(2, 2, 2)
@@ -206,3 +207,7 @@ metadata/_custom_type_script = "uid://ci4ovq8dq64i5"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Components/ZombieDetector" unique_id=556856829]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0028076172, 0.9385681, 0.015197754)
 shape = SubResource("BoxShape3D_we0b7")
+
+[node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("21_v7p16")]
+size = Vector3(3, 14.185, 3)
+cull_mask = 5
