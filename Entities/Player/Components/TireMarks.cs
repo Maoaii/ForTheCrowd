@@ -38,11 +38,12 @@ public class TrailSegment
         _textureWorldLength = textureWorldLength;
         
         _mesh = new ImmediateMesh();
-        _meshInstance = new MeshInstance3D();
-        _meshInstance.Mesh = _mesh;
-        _meshInstance.MaterialOverride = material;
-        _meshInstance.CastShadow = GeometryInstance3D.ShadowCastingSetting.Off;
-        // _meshInstance.TopLevel = true; // Detach from parent transform so it stays in world space
+        _meshInstance = new MeshInstance3D
+        {
+            Mesh = _mesh,
+            MaterialOverride = material,
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+        };
         parent.AddChild(_meshInstance);
         _meshInstance.GlobalTransform = Transform3D.Identity;
     }
@@ -207,12 +208,14 @@ public partial class TireMarks : Node3D
     
     public override void _Ready()
     {
-        StandardMaterial3D mat = new StandardMaterial3D();
-        mat.Transparency = BaseMaterial3D.TransparencyEnum.Alpha;
-        mat.VertexColorUseAsAlbedo = true;
-        mat.CullMode = BaseMaterial3D.CullModeEnum.Disabled;
-        mat.ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded;
-        
+        StandardMaterial3D mat = new StandardMaterial3D
+        {
+            Transparency = BaseMaterial3D.TransparencyEnum.Alpha,
+            VertexColorUseAsAlbedo = true,
+            CullMode = BaseMaterial3D.CullModeEnum.Disabled,
+            ShadingMode = BaseMaterial3D.ShadingModeEnum.Unshaded
+        };
+
         _trailMaterial = mat;
 
         if (Blackboard != null)

@@ -14,6 +14,10 @@ public partial class Zombie : Area3D, ISwarmable
     [Export] public float SeparationForce = 15.0f;
     [Export] public float SeparationWeight = 0.5f;
     [Export] public float VelocityLerpSpeed = 1.0f;
+    
+    [ExportGroup("Visuals")]
+    [Export] private GpuParticles3D _bloodParticles;
+    [Export] private Decal _bloodDecal;
 
     // --- Fields ---
     public Node3D Target;
@@ -49,16 +53,20 @@ public partial class Zombie : Area3D, ISwarmable
     {
         if (body is CarGame.Entities.Player.Player)
         {
-            // Spawn blood particle (assuming child node)
-            var particles = GetNodeOrNull<GpuParticles3D>("BloodParticles");
-            if (particles != null)
-            {
-                particles.Reparent(GetTree().CurrentScene);
-                particles.Emitting = true;
-                
-                // Cleanup particle after it finishes (e.g., SceneTreeTimer)
-                GetTree().CreateTimer(particles.Lifetime).Timeout += () => particles.QueueFree();
-            }
+            GpuParticles3D particles = _bloodParticles;
+            _bloodParticles.Reparent(GetTree().CurrentScene);
+            _bloodParticles.Emitting = true;
+            _bloodParticles.Owner = GetTree().CurrentScene;
+
+            GetTree().CreateTimer(_bloodParticles.Lifetime).Timeout += particles.QueueFree;
+            
+            Decal decal = _bloodDecal;
+            _bloodDecal.Reparent(GetTree().CurrentScene);
+            _bloodDecal.Owner = GetTree().CurrentScene;
+            _bloodDecal.Visible = true;
+            Tween tween = GetTree().CurrentScene.CreateTween();
+            tween.TweenProperty(decal, "modulate:a", 0.0f, 3).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut);
+            tween.TweenCallback(Callable.From(() => decal.QueueFree()));
             
             QueueFree();
         }

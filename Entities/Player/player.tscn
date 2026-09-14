@@ -56,6 +56,7 @@ shape = SubResource("BoxShape3D_symyc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals" unique_id=1186658863]
 transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0.8468656, 0)
+layers = 2
 mesh = SubResource("BoxMesh_symyc")
 skeleton = NodePath("../..")
 

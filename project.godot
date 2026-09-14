@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="CarGame"
+config/name="ForTheCrowd"
 run/main_scene="res://world.tscn"
 config/features=PackedStringArray("4.6", "C#", "Forward Plus")
 config/icon="res://icon.svg"
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 window/size/viewport_width=384
 window/size/viewport_height=216
+window/size/borderless=true
 window/size/window_width_override=1920
 window/size/window_height_override=1080
 window/stretch/mode="viewport"
@@ -71,6 +72,12 @@ trick_back_manual={
 ]
 }
 
+[layer_names]
+
+3d_render/layer_1="Statics"
+3d_render/layer_2="Player"
+3d_render/layer_3="Enemies"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
@@ -78,3 +85,4 @@ trick_back_manual={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+textures/decals/filter=0

@@ -1,6 +1,8 @@
 [gd_scene format=3 uid="uid://dd0ombie"]
 
 [ext_resource type="Script" uid="uid://br3pmwa6x1iwn" path="res://Entities/Zombie/Zombie.cs" id="1_zmb"]
+[ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="2_g07s8"]
+[ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="3_g07s8"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_zmb"]
 radius = 1.0
@@ -20,16 +22,15 @@ gravity = Vector3(0, -19.6, 0)
 scale_min = 0.099999994
 scale_max = 0.59999996
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_blood"]
-albedo_color = Color(0.8, 0, 0, 1)
-
 [sub_resource type="SphereMesh" id="SphereMesh_blood"]
-material = SubResource("StandardMaterial3D_blood")
+material = ExtResource("2_g07s8")
 
-[node name="Zombie" type="Area3D" unique_id=453756859]
+[node name="Zombie" type="Area3D" unique_id=453756859 node_paths=PackedStringArray("_bloodParticles", "_bloodDecal")]
 collision_mask = 3
 script = ExtResource("1_zmb")
 VelocityLerpSpeed = 10.0
+_bloodParticles = NodePath("BloodParticles")
+_bloodDecal = NodePath("BloodDecal")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=485121078]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
@@ -37,6 +38,7 @@ shape = SubResource("SphereShape3D_zmb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=681532023]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 4
 mesh = SubResource("BoxMesh_zmb")
 surface_material_override/0 = SubResource("StandardMaterial3D_zmb")
 
@@ -48,3 +50,6 @@ one_shot = true
 explosiveness = 1.0
 process_material = SubResource("ParticleProcessMaterial_blood")
 draw_pass_1 = SubResource("SphereMesh_blood")
+
+[node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("3_g07s8")]
+size = Vector3(3, 5, 3)
