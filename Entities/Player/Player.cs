@@ -13,6 +13,12 @@ public partial class Player : CharacterBody3D
         Blackboard.Owner = this;
 
         Blackboard.Events.OnZombieRunOver += () => TrickPopupManager.Instance.PopupTrick("Roadkill", 2);
+        
+        Blackboard.Events.OnZombieRunOver += () =>
+        {
+            Blackboard.Camera.WantsCameraShake = true;
+            Blackboard.Camera.CameraShakeTime = 1.0f;
+        };
     }
 }
 

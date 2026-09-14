@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using CarGame.Systems.Blackboards;
+using System.Threading.Tasks;
 
 namespace CarGame.Entities.Player;
 
@@ -81,10 +82,8 @@ public partial class CameraRig : Node3D
         
         GlobalPosition = Target.GlobalPosition;
         
-        if (Blackboard != null)
-        {
-            TryApplyFOVKick();
-        }
+        TryApplyFOVKick();
+        _ = TryApplyCameraShake(delta);
         
         float dt = (float)delta;
         float lerpAmount = 1.0f - Mathf.Exp(LagFactor * dt);
@@ -95,7 +94,7 @@ public partial class CameraRig : Node3D
         // Apply rotation to this node
         Basis basis = Basis.Identity;
         basis = basis.Rotated(Vector3.Up, OrbitalRotation);
-        basis = basis.Rotated(basis.X, -HeightRotation); // Note: Godot's Y is up, X is right. Rotating around local X for height.
+        basis = basis.Rotated(basis.X, -HeightRotation);
         Basis = basis;
     }
     
@@ -117,5 +116,34 @@ public partial class CameraRig : Node3D
             .SetEase(Tween.EaseType.InOut);
             
         Blackboard.Camera.WantsFOVKick = false;
+    }
+
+    private async Task TryApplyCameraShake(double delta)
+    {
+        if (!Blackboard.Camera.WantsCameraShake) return;
+        Blackboard.Camera.WantsCameraShake = false;
+        
+        Transform3D initial_transform = this.Transform;
+        float elapsed_time = 0.0f;
+
+        while(elapsed_time < Blackboard.Camera.CameraShakeTime)
+        {
+            var offset = new Vector3(
+                (float)GD.RandRange(-0.2f, 0.2f),
+                (float)GD.RandRange(-0.2f, 0.2f),
+                0.0f
+            );
+
+            Transform3D new_transform = initial_transform;
+            new_transform.Origin += offset;
+            Transform = new_transform;
+
+            elapsed_time += (float)GetProcessDeltaTime();
+
+            await ToSignal(GetTree(), "process_frame");
+            GD.Print(elapsed_time);
+        }
+
+        Transform = initial_transform;
     }
 }

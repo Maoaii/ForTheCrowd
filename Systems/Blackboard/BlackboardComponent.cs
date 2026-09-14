@@ -52,6 +52,8 @@ public class BlackboardCamera
         FOVKickUpTime = fovKickUpTime;
         FOVKickDownTime = fovKickDownTime;
     }
+    public bool WantsCameraShake = false;
+    public float CameraShakeTime = 0.0f;
 }
 
 public class BlackboardTricks
