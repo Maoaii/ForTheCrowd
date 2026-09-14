@@ -16,10 +16,6 @@ public partial class ZombieDetector : Area3D
 
     private void OnAreaEntered(Area3D area)
     {
-        if (area is Zombie zombie)
-        {
-            // Only responsible for updating the player's internal state
-            Blackboard?.Events.OnZombieRunOver?.Invoke();
-        }
+        Blackboard?.Events.OnZombieRunOver?.Invoke();
     }
 }

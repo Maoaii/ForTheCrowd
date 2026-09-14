@@ -35,6 +35,9 @@ public partial class MovingState : PlayerState
         base.Update(delta);
 
         TryChangingStates(delta);
+
+        if (TrickPopupManager.Instance.StaleTricks())
+            TrickPopupManager.Instance?.ResetTricks();
     }
 
     public override void Exit(double delta = 0)

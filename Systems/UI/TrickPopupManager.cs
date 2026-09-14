@@ -63,8 +63,7 @@ public partial class TrickPopupManager : CanvasLayer
     private float _hiddenScoreTotal = 0f;
     
     private Node2D _activeContainer;
-    
-    // We'll use a dynamic font or default theme font.
+    private float _lastTimeTricked;
 
     public override void _Ready()
     {
@@ -115,6 +114,7 @@ public partial class TrickPopupManager : CanvasLayer
              .SetEase(Tween.EaseType.InOut);
              
         LayoutTricks(_activeTricks, _activeContainer);
+        _lastTimeTricked = Time.GetTicksMsec();
     }
 
     public void ResetTricks()
@@ -175,6 +175,11 @@ public partial class TrickPopupManager : CanvasLayer
             sequence.ContainerNode.QueueFree();
             _fadingSequences.Remove(sequence);
         }));
+    }
+
+    public bool StaleTricks()
+    {
+        return Time.GetTicksMsec() - _lastTimeTricked > 3000.0f;
     }
 
     private void LayoutTricks(List<TrickData> tricks, Node2D containerNode)

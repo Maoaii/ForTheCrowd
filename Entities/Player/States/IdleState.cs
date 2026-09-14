@@ -35,5 +35,9 @@ public partial class IdleState : PlayerState
         
         if (_blackboard.Input.WantsJump)
             _stateMachine.TransitionState(PlayerStates.Ollie, delta);
+        
+
+        if (TrickPopupManager.Instance.StaleTricks())
+            TrickPopupManager.Instance?.ResetTricks();
     }
 }

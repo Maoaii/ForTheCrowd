@@ -1,5 +1,6 @@
 using Godot;
 using CarGame.Systems.Blackboards;
+using CarGame.Systems.UI;
 
 namespace CarGame.Entities.Player;
 
@@ -9,8 +10,9 @@ public partial class Player : CharacterBody3D
 
     public override void _Ready()
     {
-        if (Blackboard != null)
-            Blackboard.Owner = this;
+        Blackboard.Owner = this;
+
+        Blackboard.Events.OnZombieRunOver += () => TrickPopupManager.Instance.PopupTrick("Roadkill", 2);
     }
 }
 
