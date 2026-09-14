@@ -198,6 +198,7 @@ LocalOffset = Vector3(-0.8, -0.4, 0.85)
 Target = NodePath("../..")
 Blackboard = NodePath("../BlackboardComponent")
 Sensitivity = 0.01
+MinYaw = 0.159
 
 [node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("19_we0b7")

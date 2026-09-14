@@ -41,27 +41,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 [node name="ZombieSpawner1" type="Node3D" parent="SceneRoot" unique_id=1328426010 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 30)
 script = ExtResource("4_spawner")
-SpawnRate = 0.5
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner2" type="Node3D" parent="SceneRoot" unique_id=888174229 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -30)
 script = ExtResource("4_spawner")
-SpawnRate = 0.5
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner3" type="Node3D" parent="SceneRoot" unique_id=1716447240 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 30)
 script = ExtResource("4_spawner")
-SpawnRate = 0.5
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner4" type="Node3D" parent="SceneRoot" unique_id=729826076 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -30)
 script = ExtResource("4_spawner")
-SpawnRate = 0.5
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")

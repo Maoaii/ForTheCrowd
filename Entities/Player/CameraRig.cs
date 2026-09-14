@@ -30,7 +30,8 @@ public partial class CameraRig : Node3D
     
     [ExportGroup("FOV")]
     [Export] public float BaseFov { get; set; } = Mathf.Pi / 4.0f;
-    
+    [ExportGroup("Camera Shake")]
+    [Export] public float ShakeMagnitude { get; set; } = 0.2f;
     private float _targetOrbitalRotation;
     private float _targetHeightRotation;
     
@@ -129,8 +130,8 @@ public partial class CameraRig : Node3D
         while(elapsed_time < Blackboard.Camera.CameraShakeTime)
         {
             var offset = new Vector3(
-                (float)GD.RandRange(-0.2f, 0.2f),
-                (float)GD.RandRange(-0.2f, 0.2f),
+                (float)GD.RandRange(-ShakeMagnitude, ShakeMagnitude),
+                (float)GD.RandRange(-ShakeMagnitude, ShakeMagnitude),
                 0.0f
             );
 
@@ -141,7 +142,6 @@ public partial class CameraRig : Node3D
             elapsed_time += (float)GetProcessDeltaTime();
 
             await ToSignal(GetTree(), "process_frame");
-            GD.Print(elapsed_time);
         }
 
         Transform = initial_transform;
