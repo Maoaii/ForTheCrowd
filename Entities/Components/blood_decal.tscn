@@ -3,6 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://dra5i86w4c8rt" path="res://Entities/Assets/ground_blood_texture.png" id="1_4nm8i"]
 
 [node name="BloodDecal" type="Decal" unique_id=621376739]
+visible = false
 size = Vector3(2, 5, 2)
 texture_albedo = ExtResource("1_4nm8i")
 normal_fade = 0.5
