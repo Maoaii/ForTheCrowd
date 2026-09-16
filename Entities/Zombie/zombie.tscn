@@ -23,7 +23,7 @@ gravity = Vector3(0, -19.6, 0)
 scale_min = 0.099999994
 scale_max = 0.59999996
 
-[sub_resource type="SphereMesh" id="SphereMesh_blood"]
+[sub_resource type="QuadMesh" id="QuadMesh_eg0v1"]
 material = ExtResource("2_g07s8")
 
 [node name="Zombie" type="Area3D" unique_id=453756859 node_paths=PackedStringArray("_bloodParticles", "_bloodDecal")]
@@ -50,8 +50,9 @@ emitting = false
 amount = 16
 one_shot = true
 explosiveness = 1.0
+trail_enabled = true
 process_material = SubResource("ParticleProcessMaterial_blood")
-draw_pass_1 = SubResource("SphereMesh_blood")
+draw_pass_1 = SubResource("QuadMesh_eg0v1")
 
 [node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("3_g07s8")]
 size = Vector3(3, 5, 3)

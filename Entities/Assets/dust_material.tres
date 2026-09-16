@@ -1,0 +1,13 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://b4crhfy2xkma3"]
+
+[ext_resource type="Texture2D" uid="uid://bdck42al67kpp" path="res://Entities/Assets/dust_particle.png" id="1_3pmwj"]
+
+[resource]
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_3pmwj")
+billboard_mode = 1
+billboard_keep_scale = true

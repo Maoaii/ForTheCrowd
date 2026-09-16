@@ -19,6 +19,7 @@
 [ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://Entities/Player/Config/default_movement_config.tres" id="17_movement_config"]
 [ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="17_ppdlg"]
 [ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://Entities/Player/Config/default_animation_config.tres" id="18_animation_config"]
+[ext_resource type="QuadMesh" uid="uid://bwyevkeub83kw" path="res://Entities/Assets/dust_material_quad.tres" id="18_avsg8"]
 [ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
 
@@ -35,16 +36,6 @@ material = SubResource("StandardMaterial3D_ppdlg")
 albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_v7p16"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dust"]
-transparency = 1
-vertex_color_use_as_albedo = true
-albedo_color = Color(1, 1, 1, 0.7)
-
-[sub_resource type="SphereMesh" id="SphereMesh_dust"]
-material = SubResource("StandardMaterial3D_dust")
-radius = 0.25
-height = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_we0b7"]
 size = Vector3(2.0090332, 2.1328735, 1.9874268)
@@ -146,52 +137,50 @@ DriftDustRR = NodePath("../VFX/DriftDustRR")
 [node name="LandingDustFL" type="GPUParticles3D" parent="Components/VFX" unique_id=1371366236]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, -0.75221705)
 emitting = false
-amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("17_ppdlg")
-draw_pass_1 = SubResource("SphereMesh_dust")
+draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustFR" type="GPUParticles3D" parent="Components/VFX" unique_id=1052010975]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, -0.8032799)
 emitting = false
-amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("17_ppdlg")
-draw_pass_1 = SubResource("SphereMesh_dust")
+draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=621981973]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8447373)
 emitting = false
-amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("17_ppdlg")
-draw_pass_1 = SubResource("SphereMesh_dust")
+draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=2101392995]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84136426)
 emitting = false
-amount = 16
 one_shot = true
 explosiveness = 1.0
 process_material = ExtResource("17_ppdlg")
-draw_pass_1 = SubResource("SphereMesh_dust")
+draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2037112779]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8608966)
 emitting = false
-amount = 32
+amount = 64
+lifetime = 2.0
 process_material = ExtResource("17_ppdlg")
-draw_pass_1 = SubResource("SphereMesh_dust")
+draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=823369358]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84009135)
 emitting = false
-amount = 32
+amount = 64
+lifetime = 2.0
 process_material = ExtResource("17_ppdlg")
-draw_pass_1 = SubResource("SphereMesh_dust")
+draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="TireMarks" type="Node3D" parent="Components" unique_id=1421653948]
 
