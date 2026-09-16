@@ -1,6 +1,9 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://bfrrmjklitiiw"]
 
-[ext_resource type="Script" path="res://Utils/Debug/DebugHud.cs" id="1_debughud"]
+[ext_resource type="Script" uid="uid://tlf77ve5nfua" path="res://Utils/Debug/DebugHud.cs" id="1_debughud"]
+[ext_resource type="FontFile" uid="uid://dhcn3lnsb378m" path="res://Assets/Fonts/upheaval_pro/UpheavalPro.ttf" id="2_2ftlk"]
 
-[node name="DebugHud" type="CanvasLayer"]
+[node name="DebugHud" type="CanvasLayer" unique_id=540074584]
 script = ExtResource("1_debughud")
+Font = ExtResource("2_2ftlk")
+FontSize = 32

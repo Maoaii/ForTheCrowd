@@ -8,8 +8,11 @@ public partial class DebugHud : CanvasLayer
 {
     [Export] public Key ToggleKey = Key.Key0;
     [Export] public double UpdateInterval = 0.1;
-    [Export] public int FontSize = 8;
     [Export] public SwarmManager Swarm;
+
+    [ExportGroup("Font")]
+    [Export] public Font Font;
+    [Export] public int FontSize = 8;
 
     private PanelContainer _panel;
     private Label _headerLabel;
@@ -102,6 +105,10 @@ public partial class DebugHud : CanvasLayer
             Text = defaultText,
             MouseFilter = Control.MouseFilterEnum.Ignore
         };
+        if (Font != null)
+        {
+            label.AddThemeFontOverride("font", Font);
+        }
         label.AddThemeFontSizeOverride("font_size", FontSize);
         label.AddThemeColorOverride("font_color", color);
         return label;

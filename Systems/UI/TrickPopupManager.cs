@@ -23,6 +23,9 @@ public partial class TrickPopupManager : CanvasLayer
     [Export] public float LineHeight = 10f;
     [Export] public float SeparatorWidth = 10f;
     [Export] public float TextBottomMargin = 30f;
+
+    [ExportGroup("Font")]
+    [Export] public Font Font;
     [Export] public int FontSize = 8;
     [Export] public Color FontColor = new Color(1.0f, 0.498f, 0.313f);
 
@@ -82,10 +85,7 @@ public partial class TrickPopupManager : CanvasLayer
         var trickData = new TrickData { Name = trickName, Score = score };
         _activeTricks.Add(trickData);
 
-        Label label = new Label();
-        label.Text = trickData.ToString();
-        label.AddThemeColorOverride("font_color", FontColor); 
-        label.AddThemeFontSizeOverride("font_size", FontSize);
+        Label label = CreateTrickLabel(trickData.ToString());
         _activeContainer.AddChild(label);
         trickData.UINode = label;
 
@@ -131,10 +131,7 @@ public partial class TrickPopupManager : CanvasLayer
         };
         _activeTricks.Add(totalEntry);
 
-        Label totalLabel = new Label();
-        totalLabel.Text = totalEntry.ToString();
-        totalLabel.AddThemeColorOverride("font_color", FontColor);
-        totalLabel.AddThemeFontSizeOverride("font_size", FontSize);
+        Label totalLabel = CreateTrickLabel(totalEntry.ToString());
         _activeContainer.AddChild(totalLabel);
         totalEntry.UINode = totalLabel;
         
@@ -175,6 +172,19 @@ public partial class TrickPopupManager : CanvasLayer
             sequence.ContainerNode.QueueFree();
             _fadingSequences.Remove(sequence);
         }));
+    }
+
+    private Label CreateTrickLabel(string text)
+    {
+        Label label = new Label();
+        label.Text = text;
+        if (Font != null)
+        {
+            label.AddThemeFontOverride("font", Font);
+        }
+        label.AddThemeColorOverride("font_color", FontColor);
+        label.AddThemeFontSizeOverride("font_size", FontSize);
+        return label;
     }
 
     public bool StaleTricks()

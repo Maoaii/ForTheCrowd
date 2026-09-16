@@ -201,6 +201,8 @@ Sensitivity = 0.01
 MinYaw = 0.159
 
 [node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
+collision_layer = 0
+collision_mask = 4
 script = ExtResource("19_we0b7")
 Blackboard = NodePath("../BlackboardComponent")
 metadata/_custom_type_script = "uid://ci4ovq8dq64i5"
