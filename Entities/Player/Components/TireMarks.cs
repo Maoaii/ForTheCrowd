@@ -42,7 +42,9 @@ public class TrailSegment
         {
             Mesh = _mesh,
             MaterialOverride = material,
-            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off
+            CastShadow = GeometryInstance3D.ShadowCastingSetting.Off,
+             TopLevel = true
+
         };
         parent.AddChild(_meshInstance);
         _meshInstance.GlobalTransform = Transform3D.Identity;

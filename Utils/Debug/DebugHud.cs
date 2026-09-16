@@ -82,7 +82,7 @@ public partial class DebugHud : CanvasLayer
 
         VBoxContainer vbox = new VBoxContainer();
         vbox.MouseFilter = Control.MouseFilterEnum.Ignore;
-        vbox.AddThemeConstantOverride("separation", 1);
+        vbox.AddThemeConstantOverride("separation", 32);
         _panel.AddChild(vbox);
 
         _headerLabel = CreateLabel("[DEBUG HUD] (Key 0)", new Color(0.6f, 0.8f, 1.0f));
@@ -103,7 +103,8 @@ public partial class DebugHud : CanvasLayer
         Label label = new Label
         {
             Text = defaultText,
-            MouseFilter = Control.MouseFilterEnum.Ignore
+            MouseFilter = Control.MouseFilterEnum.Ignore,
+            HorizontalAlignment = HorizontalAlignment.Right
         };
         if (Font != null)
         {
