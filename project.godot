@@ -17,12 +17,9 @@ config/icon="res://icon.svg"
 
 [display]
 
-window/size/viewport_width=384
-window/size/viewport_height=216
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/size/borderless=true
-window/size/window_width_override=1920
-window/size/window_height_override=1080
-window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
 [dotnet]
@@ -87,5 +84,6 @@ trick_back_manual={
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
 textures/decals/filter=0
