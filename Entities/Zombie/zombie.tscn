@@ -57,5 +57,6 @@ draw_pass_1 = SubResource("SphereMesh_blood")
 size = Vector3(3, 5, 3)
 
 [node name="ShadowDecal" parent="." unique_id=721473518 instance=ExtResource("4_eg0v1")]
-size = Vector3(3, 14.185, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.074204, 0)
+size = Vector3(3, 13.221895, 3)
 cull_mask = 5

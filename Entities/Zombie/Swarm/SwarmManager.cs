@@ -7,7 +7,7 @@ namespace CarGame.Entities.Enemies.Swarm;
 public partial class SwarmManager : Node3D
 {
 	// --- Properties ---
-    [Export] public ulong CalculateSeparationInterval = 10;
+	[Export] public ulong CalculateSeparationInterval = 10;
 	[Export] public float SeparationDistance = 1.5f;
 	[Export(PropertyHint.Layers3DPhysics)]
 	public uint TargetLayers { get; set; }
