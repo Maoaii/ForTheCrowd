@@ -44,9 +44,14 @@ public partial class Zombie : Area3D, ISwarmable
         OnFreed?.Invoke(this);
     }
 
-    public new Godot.Vector3 GetPosition()
+    public new Vector3 GetPosition()
     {
         return GlobalPosition;
+    }
+
+    public new Transform3D GetGlobalTransform()
+    {
+        return GlobalTransform;
     }
 
     private void HandleCollision(Node3D body)
@@ -91,7 +96,7 @@ public partial class Zombie : Area3D, ISwarmable
         Vector3 separationVector = Vector3.Zero;
         if (Swarm != null)
         {
-            separationVector = Swarm.GetSeparationDirection(this, Time.GetTicksMsec() / 1000.0);
+            separationVector = Swarm.GetSeparationDirection(this);
         }
 
         Vector3 seeking = directionToTarget * SeekingForce;
@@ -102,9 +107,9 @@ public partial class Zombie : Area3D, ISwarmable
         GlobalPosition += _velocity * dt;
 
         // Draw debug vectors
-        Vector3 zPos = GlobalPosition + Vector3.Up * 1.5f; // Draw above zombie head
-        VectorRenderer.DrawVector(zPos, seeking * SeekingWeight, Colors.Red, 1.0f); // Seeking
-        VectorRenderer.DrawVector(zPos, separation * SeparationWeight, Colors.Yellow, 1.0f); // Separation
-        VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f); // Final Velocity
+        Vector3 zPos = GlobalPosition + Vector3.Up * 1.5f; 
+        VectorRenderer.DrawVector(zPos, seeking * SeekingWeight, Colors.Red, 1.0f); 
+        VectorRenderer.DrawVector(zPos, separation * SeparationWeight, Colors.Yellow, 1.0f); 
+        VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f);
     }
 }
