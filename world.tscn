@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cfhyxuw61871r" path="res://Systems/UI/trick_popup_manager.tscn" id="3_ui"]
 [ext_resource type="Script" uid="uid://dcxy74cax762x" path="res://Entities/ZombieSpawner/ZombieSpawner.cs" id="4_spawner"]
 [ext_resource type="Script" uid="uid://cm7gmgxvliihg" path="res://Entities/Zombie/Swarm/SwarmManager.cs" id="5_swarm"]
+[ext_resource type="PackedScene" path="res://Utils/Debug/debug_hud.tscn" id="6_debughud"]
 
 [sub_resource type="Environment" id="Environment_c7v1"]
 background_mode = 1
@@ -18,6 +19,9 @@ albedo_color = Color(0.156863, 0.156863, 0.156863, 1)
 environment = SubResource("Environment_c7v1")
 
 [node name="TrickPopupManager" parent="." unique_id=1406413591 instance=ExtResource("3_ui")]
+
+[node name="DebugHud" parent="." unique_id=763645562 node_paths=PackedStringArray("Swarm") instance=ExtResource("6_debughud")]
+Swarm = NodePath("../SceneRoot/SwarmManager")
 
 [node name="SceneRoot" type="Node3D" parent="." unique_id=1866639040]
 metadata/_edit_lock_ = true
