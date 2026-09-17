@@ -1,13 +1,8 @@
 [gd_scene format=3 uid="uid://c7l2pr5dl6ych"]
 
-[ext_resource type="PackedScene" uid="uid://cotpk62rdr7x0" path="res://Entities/Player/player.tscn" id="1_player"]
+[ext_resource type="PackedScene" uid="uid://c34oidoq8r30j" path="res://level.tscn" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://cfhyxuw61871r" path="res://Systems/UI/trick_popup_manager.tscn" id="3_ui"]
-[ext_resource type="Script" uid="uid://dcxy74cax762x" path="res://Entities/ZombieSpawner/ZombieSpawner.cs" id="4_spawner"]
-[ext_resource type="Script" uid="uid://cm7gmgxvliihg" path="res://Entities/Zombie/Swarm/SwarmManager.cs" id="5_swarm"]
-[ext_resource type="PackedScene" path="res://Utils/Debug/debug_hud.tscn" id="6_debughud"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_floor"]
-albedo_color = Color(0.156863, 0.156863, 0.156863, 1)
+[ext_resource type="PackedScene" uid="uid://bfrrmjklitiiw" path="res://Utils/Debug/debug_hud.tscn" id="6_debughud"]
 
 [sub_resource type="Environment" id="Environment_c7v1"]
 background_mode = 1
@@ -29,54 +24,7 @@ handle_input_locally = false
 size = Vector2i(384, 216)
 render_target_update_mode = 4
 
-[node name="SceneRoot" type="Node3D" parent="SubViewportContainer/SubViewport" unique_id=1866639040]
-metadata/_edit_lock_ = true
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=1093064805]
-transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
-
-[node name="Floor" type="CSGBox3D" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=1293201486]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
-use_collision = true
-size = Vector3(258.46387, 1, 261.16797)
-material = SubResource("StandardMaterial3D_floor")
-
-[node name="Player" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=1771557400 instance=ExtResource("1_player")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-
-[node name="ZombieSpawner1" type="Node3D" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=1328426010 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 30)
-script = ExtResource("4_spawner")
-SpawnRate = 0.1
-Target = NodePath("../Player")
-Swarm = NodePath("../SwarmManager")
-
-[node name="ZombieSpawner2" type="Node3D" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=888174229 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -30)
-script = ExtResource("4_spawner")
-SpawnRate = 0.1
-Target = NodePath("../Player")
-Swarm = NodePath("../SwarmManager")
-
-[node name="ZombieSpawner3" type="Node3D" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=1716447240 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 30)
-script = ExtResource("4_spawner")
-SpawnRate = 0.1
-Target = NodePath("../Player")
-Swarm = NodePath("../SwarmManager")
-
-[node name="ZombieSpawner4" type="Node3D" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=729826076 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -30)
-script = ExtResource("4_spawner")
-SpawnRate = 0.1
-Target = NodePath("../Player")
-Swarm = NodePath("../SwarmManager")
-
-[node name="SwarmManager" type="Node3D" parent="SubViewportContainer/SubViewport/SceneRoot" unique_id=1701658353]
-script = ExtResource("5_swarm")
-SeparationDistance = 1.0
-TargetLayers = 4
-metadata/_custom_type_script = "uid://cm7gmgxvliihg"
+[node name="SceneRoot" parent="SubViewportContainer/SubViewport" unique_id=1291758080 instance=ExtResource("1_tlwt5")]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=586573587]
 environment = SubResource("Environment_c7v1")
@@ -84,4 +32,4 @@ environment = SubResource("Environment_c7v1")
 [node name="TrickPopupManager" parent="." unique_id=1406413591 instance=ExtResource("3_ui")]
 
 [node name="DebugHud" parent="." unique_id=763645562 node_paths=PackedStringArray("Swarm") instance=ExtResource("6_debughud")]
-Swarm = NodePath("../SubViewportContainer/SubViewport/SceneRoot/SwarmManager")
+Swarm = NodePath("")
