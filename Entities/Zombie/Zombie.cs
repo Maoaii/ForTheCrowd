@@ -2,10 +2,13 @@ using Godot;
 using System;
 using CarGame.Entities.Enemies.Swarm;
 using CarGame.Utils.Debug;
+using Godot.Collections;
+using System.Linq;
+using System.Drawing;
 
 namespace CarGame.Entities.Enemies;
 
-public partial class Zombie : CharacterBody3D, ISwarmable
+public partial class Zombie : Area3D, ISwarmable
 {
     // --- Physics Properties ---
     [ExportGroup("Movement")]
@@ -16,8 +19,11 @@ public partial class Zombie : CharacterBody3D, ISwarmable
     [Export] public float VelocityLerpSpeed = 1.0f;
     
     [ExportGroup("Physics")]
-    [Export] public float GravityMultiplier = 9.8f;
-    [Export] public Area3D Area;
+    [Export] public float GravityForce = 9.8f;
+    [Export(PropertyHint.Layers3DPhysics)] public uint GroundMask = 1;
+    [Export] public float GroundOffset = 0.0f;
+    [Export] public Marker3D GroundFrom;
+    [Export] public Marker3D GroundTo;
 
     [ExportGroup("Visuals")]
     [Export] private GpuParticles3D _bloodParticles;
@@ -32,7 +38,8 @@ public partial class Zombie : CharacterBody3D, ISwarmable
 
     public override void _Ready()
     {
-        Area.BodyEntered += HandleCollision;
+        AddToGroup("TerrainTrackable");
+        this.BodyEntered += HandleCollision;
         Swarm?.RegisterEntity(this);
     }
 
@@ -101,24 +108,30 @@ public partial class Zombie : CharacterBody3D, ISwarmable
         Vector3 separation = separationVector * SeparationForce;
         Vector3 final = (seeking * SeekingWeight) + (separation * SeparationWeight);
 
+        // Keep the current Y velocity so we don't lerp gravity away
+        float currentY = _velocity.Y;
+        _velocity = _velocity.Lerp(final, VelocityLerpSpeed * dt);
+        _velocity.Y = currentY;
 
-        Vector3 targetVelocity = _velocity.Lerp(final, VelocityLerpSpeed * dt);
-        
-        Velocity = new Vector3(targetVelocity.X, Velocity.Y, targetVelocity.Z);
+        _velocity.Y -= GravityForce * dt;
 
-        if (!IsOnFloor())
+        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+        // Use GlobalPosition and cast further down to catch slopes/falls
+        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(GroundFrom.GlobalPosition, GroundTo.GlobalPosition + (Vector3.Down * 2.0f));
+        query.CollisionMask = GroundMask;
+        Dictionary result = spaceState.IntersectRay(query);
+
+        GlobalPosition += _velocity * dt;
+        if (result.Count > 0)
         {
-            Velocity = new Vector3(Velocity.X, Velocity.Y - (GravityMultiplier * dt), Velocity.Z);
+            _velocity.Y = 0; // Reset downward momentum when grounded
+            GlobalPosition = new Vector3(GlobalPosition.X, ((Vector3)result["position"]).Y + GroundOffset, GlobalPosition.Z);
         }
-
-        _velocity = new Vector3(Velocity.X, 0, Velocity.Z);
-
-        MoveAndSlide();
 
         // Draw debug vectors
         Vector3 zPos = GlobalPosition + Vector3.Up * 1.5f; 
         VectorRenderer.DrawVector(zPos, seeking * SeekingWeight, Colors.Red, 1.0f); 
         VectorRenderer.DrawVector(zPos, separation * SeparationWeight, Colors.Yellow, 1.0f); 
-        VectorRenderer.DrawVector(zPos, Velocity, Colors.Green, 0.5f);
+        VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f);
     }
 }

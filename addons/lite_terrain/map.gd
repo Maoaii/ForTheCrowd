@@ -382,8 +382,8 @@ func _setup_streaming_collision() -> void:
 	_col_active = true
 	var scene_root := get_tree().current_scene
 	if scene_root != null:
-		# Track every moving body (RigidBody3D/VehicleBody3D/CharacterBody3D); _register_body filters.
-		for n in scene_root.find_children("*", "PhysicsBody3D", true, false):
+		# Track every moving body (RigidBody3D/VehicleBody3D/CharacterBody3D) or anything in TerrainTrackable; _register_body filters.
+		for n in scene_root.find_children("*", "CollisionObject3D", true, false):
 			_register_body(n)
 	if not get_tree().node_added.is_connected(_on_node_added):
 		get_tree().node_added.connect(_on_node_added)
@@ -393,7 +393,7 @@ func _setup_streaming_collision() -> void:
 # A moving body worth giving ground collision to (excludes StaticBody3D, Area3D, etc.).
 # VehicleBody3D is a RigidBody3D subclass, so it is covered by the RigidBody3D check.
 func _is_trackable_body(n: Node) -> bool:
-	return n is RigidBody3D or n is CharacterBody3D
+	return n is RigidBody3D or n is CharacterBody3D or n.is_in_group("TerrainTrackable")
 
 # Highest trackable body in n's ancestor chain, or n itself if none above it. Used to skip
 # sub-bodies (e.g. a part welded onto a vehicle) — the top body's window already covers them.
@@ -428,11 +428,11 @@ func _unregister_body(n: Node) -> void:
 	_col_bodies = kept
 
 func _on_node_added(n: Node) -> void:
-	if _is_trackable_body(n):
-		call_deferred("_register_body", n)   # defer so parent/position are settled
+	if n is CollisionObject3D:
+		call_deferred("_register_body", n)   # defer so parent/position and _Ready() groups are settled
 
 func _on_node_removed(n: Node) -> void:
-	if _is_trackable_body(n):
+	if n is CollisionObject3D:
 		_unregister_body(n)
 
 func _clear_collision_cells() -> void:
