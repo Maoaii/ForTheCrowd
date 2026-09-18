@@ -34,17 +34,17 @@ public partial class PlayerPhysicsComponent : Node
         if (Blackboard.State.CanMove)
         {
             float yawRate = Blackboard.Kinematics.Speed / Blackboard.MovementConfig.Wheelbase * Mathf.Tan(Mathf.DegToRad(Blackboard.Kinematics.SteerAngle));
-            Body.Rotation = new Godot.Vector3(Body.Rotation.X, Body.Rotation.Y + yawRate * dt, Body.Rotation.Z);
+            Body.Rotation = new Vector3(Body.Rotation.X, Body.Rotation.Y + yawRate * dt, Body.Rotation.Z);
         }
 
-        Godot.Vector3 targetDirection = -Body.Transform.Basis.Z; // Forward in Godot is -Z
+        Vector3 targetDirection = -Body.Transform.Basis.Z; // Forward in Godot is -Z
         float catchUpRate = Mathf.Lerp(
             Blackboard.MovementConfig.HighGripRate, 
             Blackboard.MovementConfig.LowGripRate, 
             Blackboard.Kinematics.DriftFactor
         );
 
-        if (Blackboard.Kinematics.MovementDirection == Godot.Vector3.Zero)
+        if (Blackboard.Kinematics.MovementDirection == Vector3.Zero)
             Blackboard.Kinematics.MovementDirection = targetDirection;
             
         Blackboard.Kinematics.MovementDirection = Blackboard.Kinematics.MovementDirection.Lerp(targetDirection, catchUpRate * dt);
@@ -52,21 +52,20 @@ public partial class PlayerPhysicsComponent : Node
 
         float gravityComponent = Blackboard.Kinematics.Velocity.Y;
 
-        Godot.Vector3 newVelocity = Blackboard.Kinematics.MovementDirection * Blackboard.Kinematics.Speed;
+        Vector3 newVelocity = Blackboard.Kinematics.MovementDirection * Blackboard.Kinematics.Speed + Blackboard.Kinematics.MovementDirection * Blackboard.Kinematics.BoostForce;
         
-        if (!Blackboard.State.IsOnGround)
+        if (!Blackboard.State.IsOnGround) 
         {
             gravityComponent -= Blackboard.MovementConfig.GravityForce * Blackboard.MovementConfig.FallMultiplier * dt;
         }
         
         newVelocity.Y = gravityComponent * Blackboard.Kinematics.GravityToggler;
-        
         Blackboard.Kinematics.Velocity = newVelocity;
         Body.Velocity = newVelocity;
         
         Body.MoveAndSlide();
         
-        Godot.Vector3 updatedVel = Blackboard.Kinematics.Velocity;
+        Vector3 updatedVel = Blackboard.Kinematics.Velocity;
         updatedVel.Y = Body.Velocity.Y;
         Blackboard.Kinematics.Velocity = updatedVel;
 

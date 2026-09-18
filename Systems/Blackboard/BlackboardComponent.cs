@@ -20,6 +20,7 @@ public class BlackboardKinematics
     public float SteerAngle = 0.0f;
     public float Speed = 0.0f;
     public float GravityToggler = 1.0f;
+    public float BoostForce = 0.0f;
 }
 
 public class BlackboardState
@@ -37,6 +38,7 @@ public class BlackboardInput
     public bool WantsJump = false;
     public bool IsHoldingJump = false;
     public bool ReleasedJump = false;
+    public bool WantsBoost = false;
 }
 
 public class BlackboardCamera

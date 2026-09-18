@@ -22,6 +22,7 @@
 [ext_resource type="QuadMesh" uid="uid://bwyevkeub83kw" path="res://Entities/Assets/dust_material_quad.tres" id="18_avsg8"]
 [ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
+[ext_resource type="Script" uid="uid://7e1w2abt42wl" path="res://Entities/Player/Components/BoostComponent.cs" id="23_avsg8"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
 radius = 1.1661224
@@ -131,6 +132,12 @@ LandDustRR = NodePath("../VFX/LandingDustRR")
 DriftDustRL = NodePath("../VFX/DriftDustRL")
 DriftDustRR = NodePath("../VFX/DriftDustRR")
 
+[node name="BoostComponent" type="Node" parent="Components" unique_id=1984693079 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("23_avsg8")
+BoostForce = 50.0
+Blackboard = NodePath("../BlackboardComponent")
+metadata/_custom_type_script = "uid://7e1w2abt42wl"
+
 [node name="VFX" type="Node3D" parent="Components" unique_id=1045225062]
 
 [node name="LandingDustFL" type="GPUParticles3D" parent="Components/VFX" unique_id=1371366236]
@@ -190,14 +197,12 @@ script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
 GroundOffset = 0.3
 TextureWorldLength = 1.0
-TireMarkColor = Color(0.31196576, 0.21334457, 0.09472615, 1)
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895, 0, 0.775)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
 GroundOffset = 0.3
-TireMarkColor = Color(0.31196576, 0.21334457, 0.09472615, 1)
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
 Target = NodePath("../..")

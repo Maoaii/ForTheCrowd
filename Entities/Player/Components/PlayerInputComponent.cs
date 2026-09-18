@@ -16,6 +16,7 @@ public partial class PlayerInputComponent : Node
         Blackboard.Input.MoveInput = moveInput;
         Blackboard.Input.WantsJump = Input.IsActionJustPressed("jump");
         Blackboard.Input.IsHoldingJump = Input.IsActionPressed("jump");
+        Blackboard.Input.WantsBoost = Input.IsActionPressed("boost");
         
         if (Input.IsActionJustPressed("jump"))
             Blackboard.Input.LastJumpInputTime = Time.GetTicksMsec() / 1000.0f;
