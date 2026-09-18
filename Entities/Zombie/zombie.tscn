@@ -5,8 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="3_g07s8"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="4_eg0v1"]
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_eg0v1"]
+radius = 1.062
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_zmb"]
-radius = 1.0
+radius = 1.3
 
 [sub_resource type="BoxMesh" id="BoxMesh_zmb"]
 size = Vector3(1, 2, 1)
@@ -26,20 +29,27 @@ scale_max = 0.59999996
 [sub_resource type="QuadMesh" id="QuadMesh_eg0v1"]
 material = ExtResource("2_g07s8")
 
-[node name="Zombie" type="Area3D" unique_id=453756859 node_paths=PackedStringArray("_bloodParticles", "_bloodDecal")]
+[node name="Zombie" type="CharacterBody3D" unique_id=1667231998 node_paths=PackedStringArray("Area", "_bloodParticles", "_bloodDecal")]
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_zmb")
 VelocityLerpSpeed = 20.0
+GravityMultiplier = 10.0
+Area = NodePath("Area3D")
 _bloodParticles = NodePath("BloodParticles")
 _bloodDecal = NodePath("BloodDecal")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=485121078]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1508187855]
+shape = SubResource("SphereShape3D_eg0v1")
+
+[node name="Area3D" type="Area3D" parent="." unique_id=1261615811]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" unique_id=485121078]
 shape = SubResource("SphereShape3D_zmb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=681532023]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 layers = 4
 mesh = SubResource("BoxMesh_zmb")
 surface_material_override/0 = SubResource("StandardMaterial3D_zmb")
@@ -60,4 +70,3 @@ size = Vector3(3, 5, 3)
 [node name="ShadowDecal" parent="." unique_id=721473518 instance=ExtResource("4_eg0v1")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.074204, 0)
 size = Vector3(3, 13.221895, 3)
-cull_mask = 5

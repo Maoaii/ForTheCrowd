@@ -23,8 +23,8 @@
 [ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_symyc"]
-size = Vector3(2, 2, 2)
+[sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
+radius = 1.1661224
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ppdlg"]
 albedo_color = Color(1, 0.49803922, 0.3137255, 1)
@@ -47,13 +47,12 @@ script = ExtResource("1_symyc")
 Blackboard = NodePath("Components/BlackboardComponent")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1337208391]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-shape = SubResource("BoxShape3D_symyc")
+shape = SubResource("SphereShape3D_a8wow")
 
 [node name="Visuals" type="Node3D" parent="." unique_id=388810045]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals" unique_id=1186658863]
-transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0.8468656, 0)
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
 layers = 2
 mesh = SubResource("BoxMesh_symyc")
 skeleton = NodePath("../..")
@@ -135,7 +134,7 @@ DriftDustRR = NodePath("../VFX/DriftDustRR")
 [node name="VFX" type="Node3D" parent="Components" unique_id=1045225062]
 
 [node name="LandingDustFL" type="GPUParticles3D" parent="Components/VFX" unique_id=1371366236]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, -0.75221705)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.7655983, -0.75221705)
 emitting = false
 one_shot = true
 explosiveness = 1.0
@@ -143,7 +142,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustFR" type="GPUParticles3D" parent="Components/VFX" unique_id=1052010975]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, -0.8032799)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, -0.8032799)
 emitting = false
 one_shot = true
 explosiveness = 1.0
@@ -151,7 +150,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=621981973]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8447373)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.8447373)
 emitting = false
 one_shot = true
 explosiveness = 1.0
@@ -159,7 +158,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=2101392995]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84136426)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.84136426)
 emitting = false
 one_shot = true
 explosiveness = 1.0
@@ -167,7 +166,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2037112779]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, 0, 0.8608966)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.8608966)
 emitting = false
 amount = 64
 lifetime = 2.0
@@ -175,7 +174,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=823369358]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, 0, 0.84009135)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.84009135)
 emitting = false
 amount = 64
 lifetime = 2.0
@@ -183,16 +182,20 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="TireMarks" type="Node3D" parent="Components" unique_id=1421653948]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.84, 0)
 
 [node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1218171051 node_paths=PackedStringArray("Blackboard")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8945165, 0, 0.77451515)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
-LocalOffset = Vector3(0.8, -0.4, 0.85)
+GroundOffset = 0.3
+TextureWorldLength = 1.0
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895, 0, 0.775)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
-LocalOffset = Vector3(-0.8, -0.4, 0.85)
+GroundOffset = 0.3
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
 Target = NodePath("../..")
@@ -208,7 +211,6 @@ Blackboard = NodePath("../BlackboardComponent")
 metadata/_custom_type_script = "uid://ci4ovq8dq64i5"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Components/ZombieDetector" unique_id=556856829]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0028076172, 0.9385681, 0.015197754)
 shape = SubResource("BoxShape3D_we0b7")
 
 [node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("21_v7p16")]

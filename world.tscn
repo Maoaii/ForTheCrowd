@@ -32,4 +32,6 @@ environment = SubResource("Environment_c7v1")
 [node name="TrickPopupManager" parent="." unique_id=1406413591 instance=ExtResource("3_ui")]
 
 [node name="DebugHud" parent="." unique_id=763645562 node_paths=PackedStringArray("Swarm") instance=ExtResource("6_debughud")]
-Swarm = NodePath("")
+Swarm = NodePath("../SubViewportContainer/SubViewport/SceneRoot/SwarmManager")
+
+[editable path="SubViewportContainer/SubViewport/SceneRoot"]

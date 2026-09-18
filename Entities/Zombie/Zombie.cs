@@ -5,7 +5,7 @@ using CarGame.Utils.Debug;
 
 namespace CarGame.Entities.Enemies;
 
-public partial class Zombie : Area3D, ISwarmable
+public partial class Zombie : CharacterBody3D, ISwarmable
 {
     // --- Physics Properties ---
     [ExportGroup("Movement")]
@@ -15,6 +15,10 @@ public partial class Zombie : Area3D, ISwarmable
     [Export] public float SeparationWeight = 0.5f;
     [Export] public float VelocityLerpSpeed = 1.0f;
     
+    [ExportGroup("Physics")]
+    [Export] public float GravityMultiplier = 9.8f;
+    [Export] public Area3D Area;
+
     [ExportGroup("Visuals")]
     [Export] private GpuParticles3D _bloodParticles;
     [Export] private Decal _bloodDecal;
@@ -28,19 +32,13 @@ public partial class Zombie : Area3D, ISwarmable
 
     public override void _Ready()
     {
-        BodyEntered += HandleCollision;
-        if (Swarm != null)
-        {
-            Swarm.RegisterEntity(this);
-        }
+        Area.BodyEntered += HandleCollision;
+        Swarm?.RegisterEntity(this);
     }
 
     public override void _ExitTree()
     {
-        if (Swarm != null)
-        {
-            Swarm.RemoveEntity(this);
-        }
+        Swarm?.RemoveEntity(this);
         OnFreed?.Invoke(this);
     }
 
@@ -56,7 +54,7 @@ public partial class Zombie : Area3D, ISwarmable
 
     private void HandleCollision(Node3D body)
     {
-        if (body is CarGame.Entities.Player.Player)
+        if (body is Player.Player)
         {
             GpuParticles3D particles = _bloodParticles;
             _bloodParticles.Reparent(GetTree().CurrentScene);
@@ -103,13 +101,24 @@ public partial class Zombie : Area3D, ISwarmable
         Vector3 separation = separationVector * SeparationForce;
         Vector3 final = (seeking * SeekingWeight) + (separation * SeparationWeight);
 
-        _velocity = _velocity.Lerp(final, VelocityLerpSpeed * dt);
-        GlobalPosition += _velocity * dt;
+
+        Vector3 targetVelocity = _velocity.Lerp(final, VelocityLerpSpeed * dt);
+        
+        Velocity = new Vector3(targetVelocity.X, Velocity.Y, targetVelocity.Z);
+
+        if (!IsOnFloor())
+        {
+            Velocity = new Vector3(Velocity.X, Velocity.Y - (GravityMultiplier * dt), Velocity.Z);
+        }
+
+        _velocity = new Vector3(Velocity.X, 0, Velocity.Z);
+
+        MoveAndSlide();
 
         // Draw debug vectors
         Vector3 zPos = GlobalPosition + Vector3.Up * 1.5f; 
         VectorRenderer.DrawVector(zPos, seeking * SeekingWeight, Colors.Red, 1.0f); 
         VectorRenderer.DrawVector(zPos, separation * SeparationWeight, Colors.Yellow, 1.0f); 
-        VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f);
+        VectorRenderer.DrawVector(zPos, Velocity, Colors.Green, 0.5f);
     }
 }

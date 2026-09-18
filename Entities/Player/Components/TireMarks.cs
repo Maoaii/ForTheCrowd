@@ -189,10 +189,10 @@ public partial class TireMarks : Node3D
 {
     [Export] public BlackboardComponent Blackboard;
     [ExportGroup("Mesh Properties")]
+    [Export(PropertyHint.Layers3DPhysics)] public uint CollisionMask = 1;
     [Export] public float GroundOffset = 0.01f;
     [Export] public float TextureWorldLength = 3.0f;
     
-    [Export] public Vector3 LocalOffset;
 
     [ExportGroup("Blood Effect")]
     [Export] public float BloodDuration = 2.0f; 
@@ -260,12 +260,13 @@ public partial class TireMarks : Node3D
             _currentColor = Colors.Black;
         }
 
-        Vector3 upDir = Vector3.Up; // Or blackboard.Owner.Transform.Basis.Y
-        Vector3 wheelWorldPos = Blackboard.Owner.GlobalTransform * LocalOffset;
+        Vector3 upDir = Vector3.Up;
+        Vector3 wheelWorldPos = GlobalPosition;
         
         // Raycast down to find ground
         var spaceState = GetWorld3D().DirectSpaceState;
         var query = PhysicsRayQueryParameters3D.Create(wheelWorldPos + Vector3.Up, wheelWorldPos + Vector3.Down * 2.0f);
+        query.CollisionMask = CollisionMask;
         var result = spaceState.IntersectRay(query);
         
         Vector3 groundPoint = wheelWorldPos;
@@ -274,6 +275,7 @@ public partial class TireMarks : Node3D
         if (result.Count > 0)
         {
             groundPoint = (Vector3)result["position"];
+            upDir = (Vector3)result["normal"];
         }
         
         bool shouldEmitTrail = (isDrifting || _bloodTimer > 0f) && isGrounded;

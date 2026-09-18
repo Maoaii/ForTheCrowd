@@ -12,31 +12,31 @@ metadata/_edit_lock_ = true
 transform = Transform3D(0.707107, -0.5, 0.5, 0, 0.707107, 0.707107, -0.707107, -0.5, 0.5, 0, 10, 0)
 
 [node name="Player" parent="." unique_id=1669282 instance=ExtResource("1_oi3di")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.246187, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.2638397, 11.246187, -9.110293)
 
 [node name="ZombieSpawner1" type="Node3D" parent="." unique_id=1394872206 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, 30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, 30)
 script = ExtResource("2_0b4ue")
 SpawnRate = 0.1
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner2" type="Node3D" parent="." unique_id=1668180259 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, -30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, -30)
 script = ExtResource("2_0b4ue")
 SpawnRate = 0.1
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner3" type="Node3D" parent="." unique_id=1899509651 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 0, 30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2, 30)
 script = ExtResource("2_0b4ue")
 SpawnRate = 0.1
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 
 [node name="ZombieSpawner4" type="Node3D" parent="." unique_id=531577181 node_paths=PackedStringArray("Target", "Swarm")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 0, -30)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, -30)
 script = ExtResource("2_0b4ue")
 SpawnRate = 0.1
 Target = NodePath("../Player")
@@ -49,6 +49,7 @@ TargetLayers = 4
 metadata/_custom_type_script = "uid://cm7gmgxvliihg"
 
 [node name="LiteTerrain" type="StaticBody3D" parent="." unique_id=440384419]
+collision_mask = 0
 script = ExtResource("4_0b4ue")
 chunk_size = 32
 enable_lod = false
