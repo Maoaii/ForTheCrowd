@@ -190,12 +190,14 @@ script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
 GroundOffset = 0.3
 TextureWorldLength = 1.0
+TireMarkColor = Color(0.31196576, 0.21334457, 0.09472615, 1)
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895, 0, 0.775)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
 GroundOffset = 0.3
+TireMarkColor = Color(0.31196576, 0.21334457, 0.09472615, 1)
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
 Target = NodePath("../..")

@@ -192,11 +192,11 @@ public partial class TireMarks : Node3D
     [Export(PropertyHint.Layers3DPhysics)] public uint CollisionMask = 1;
     [Export] public float GroundOffset = 0.01f;
     [Export] public float TextureWorldLength = 3.0f;
-    
+    [Export] public Color TireMarkColor = new Color(0.1f, 0.1f, 0.1f); // Dark gray
 
     [ExportGroup("Blood Effect")]
     [Export] public float BloodDuration = 2.0f; 
-    [Export] public Color BloodColor = new Color(0.59f, 0.04f, 0.04f); // 150, 10, 10
+    [Export] public Color BloodColor = new Color(0.59f, 0.04f, 0.04f);
     
     private List<TrailSegment> _segments = new List<TrailSegment>();
     private TrailSegment _activeSegment; 
@@ -252,12 +252,12 @@ public partial class TireMarks : Node3D
             _bloodTimer -= dt;
             float t = Mathf.Clamp(_bloodTimer / BloodDuration, 0f, 1f);
             
-            Color targetColor = isDrifting ? Colors.Black : new Color(0f, 0f, 0f, 0f);
+            Color targetColor = isDrifting ? TireMarkColor : new Color(0f, 0f, 0f, 0f);
             _currentColor = targetColor.Lerp(BloodColor, t);
         }
         else
         {
-            _currentColor = Colors.Black;
+            _currentColor = TireMarkColor;
         }
 
         Vector3 upDir = Vector3.Up;
