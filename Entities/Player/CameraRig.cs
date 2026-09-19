@@ -31,8 +31,7 @@ public partial class CameraRig : Node3D
     [ExportGroup("FOV")]
     [Export] public float BaseFov { get; set; } = Mathf.Pi / 4.0f;
     [Export] public float SpeedFovDegrees { get; set; } = 6.0f;
-    [Export] public float KickFovDegrees { get; set; } = 5.0f;
-    [Export] public float KickFovTime { get; set; } = 0.2f;
+    [Export] public float BoostFovDegrees { get; set; } = 6.0f;
 
     [ExportGroup("Camera Shake")]
     [Export] public float ShakeMagnitude { get; set; } = 0.2f;
@@ -106,16 +105,20 @@ public partial class CameraRig : Node3D
 
     private void ApplyFOV()
     {
-        float speedTerm = CalculateSpeedTerm();
         TryApplyFOVKick();
 
-        float fov = Mathf.RadToDeg(BaseFov) + speedTerm + _kickOffsetDegrees; // + boostTerm + kickOffset;
+        float fov = Mathf.RadToDeg(BaseFov) + CalculateSpeedTerm()  + CalculateBoostTerm() + _kickOffsetDegrees;
         _camera.Fov = Mathf.Clamp(fov, 1.0f, 179.0f);
     }
 
     private float CalculateSpeedTerm()
     {
         return SpeedFovDegrees * Mathf.Clamp(Mathf.Abs(Blackboard.Kinematics.Speed) / Blackboard.MovementConfig.MaxSpeedForward, 0, 1);
+    }
+
+    private float CalculateBoostTerm()
+    {
+        return BoostFovDegrees;
     }
     
     private void TryApplyFOVKick()
@@ -127,17 +130,17 @@ public partial class CameraRig : Node3D
         tween.TweenMethod(
             Callable.From((float value) => _kickOffsetDegrees = value),
             0,
-            KickFovDegrees,
-            KickFovTime
+            Blackboard.Camera.FOVKick,
+            Blackboard.Camera.FOVKickUpTime
         )
         .SetTrans(Tween.TransitionType.Cubic)
         .SetEase(Tween.EaseType.Out);
 
         tween.TweenMethod(
             Callable.From((float value) => _kickOffsetDegrees = value),
-            KickFovDegrees,
+            Blackboard.Camera.FOVKick,
             0,
-            KickFovTime
+            Blackboard.Camera.FOVKickDownTime
         )
         .SetTrans(Tween.TransitionType.Cubic)
         .SetEase(Tween.EaseType.InOut);

@@ -84,21 +84,25 @@ StateId = 2
 [node name="OllieState" type="Node" parent="Components/PlayerStateMachine" unique_id=889456271]
 script = ExtResource("13_ollie")
 Score = 5.0
+FovKick = 1.0
 StateId = 3
 
 [node name="KickflipState" type="Node" parent="Components/PlayerStateMachine" unique_id=574052145]
 script = ExtResource("14_kickflip")
 Score = 15.0
+FovKick = 1.0
 StateId = 4
 
 [node name="ShoveItState" type="Node" parent="Components/PlayerStateMachine" unique_id=2085200523]
 script = ExtResource("15_shoveit")
 Score = 15.0
+FovKick = 1.0
 StateId = 5
 
 [node name="BackManualState" type="Node" parent="Components/PlayerStateMachine" unique_id=1987039259]
 script = ExtResource("16_backmanual")
 Score = 10.0
+FovKick = 1.0
 StateId = 6
 
 [node name="BlackboardComponent" type="Node" parent="Components" unique_id=2094349858 node_paths=PackedStringArray("Owner", "Animator")]
@@ -210,7 +214,6 @@ Sensitivity = 0.01
 MinYaw = 0.159
 BaseFov = 0.7853982
 SpeedFovDegrees = 5.0
-KickFovDegrees = 1.5
 
 [node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
 collision_layer = 0
