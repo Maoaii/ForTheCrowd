@@ -30,12 +30,17 @@ public partial class CameraRig : Node3D
     
     [ExportGroup("FOV")]
     [Export] public float BaseFov { get; set; } = Mathf.Pi / 4.0f;
+    [Export] public float SpeedFovDegrees { get; set; } = 6.0f;
+    [Export] public float KickFovDegrees { get; set; } = 5.0f;
+    [Export] public float KickFovTime { get; set; } = 0.2f;
+
     [ExportGroup("Camera Shake")]
     [Export] public float ShakeMagnitude { get; set; } = 0.2f;
     private float _targetOrbitalRotation;
     private float _targetHeightRotation;
     
     private bool _isMouseLocked = true;
+    private float _kickOffsetDegrees = 0.0f;
     
     public override void _Ready()
     {
@@ -83,7 +88,7 @@ public partial class CameraRig : Node3D
         
         GlobalPosition = Target.GlobalPosition;
         
-        TryApplyFOVKick();
+        ApplyFOV();
         _ = TryApplyCameraShake(delta);
         
         float dt = (float)delta;
@@ -98,6 +103,20 @@ public partial class CameraRig : Node3D
         basis = basis.Rotated(basis.X, -HeightRotation);
         Basis = basis;
     }
+
+    private void ApplyFOV()
+    {
+        float speedTerm = CalculateSpeedTerm();
+        TryApplyFOVKick();
+
+        float fov = Mathf.RadToDeg(BaseFov) + speedTerm + _kickOffsetDegrees; // + boostTerm + kickOffset;
+        _camera.Fov = Mathf.Clamp(fov, 1.0f, 179.0f);
+    }
+
+    private float CalculateSpeedTerm()
+    {
+        return SpeedFovDegrees * Mathf.Clamp(Mathf.Abs(Blackboard.Kinematics.Speed) / Blackboard.MovementConfig.MaxSpeedForward, 0, 1);
+    }
     
     private void TryApplyFOVKick()
     {
@@ -105,16 +124,23 @@ public partial class CameraRig : Node3D
         
         Tween tween = CreateTween();
         
-        float defaultFov = Mathf.RadToDeg(BaseFov);
-        float kickFov = Mathf.RadToDeg(Blackboard.Camera.FOVKick);
-        
-        tween.TweenProperty(_camera, "fov", kickFov, Blackboard.Camera.FOVKickUpTime)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.Out);
-            
-        tween.TweenProperty(_camera, "fov", defaultFov, Blackboard.Camera.FOVKickDownTime)
-            .SetTrans(Tween.TransitionType.Cubic)
-            .SetEase(Tween.EaseType.InOut);
+        tween.TweenMethod(
+            Callable.From((float value) => _kickOffsetDegrees = value),
+            0,
+            KickFovDegrees,
+            KickFovTime
+        )
+        .SetTrans(Tween.TransitionType.Cubic)
+        .SetEase(Tween.EaseType.Out);
+
+        tween.TweenMethod(
+            Callable.From((float value) => _kickOffsetDegrees = value),
+            KickFovDegrees,
+            0,
+            KickFovTime
+        )
+        .SetTrans(Tween.TransitionType.Cubic)
+        .SetEase(Tween.EaseType.InOut);
             
         Blackboard.Camera.WantsFOVKick = false;
     }
