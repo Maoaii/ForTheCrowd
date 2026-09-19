@@ -48,8 +48,20 @@ public partial class MovementConfig : Resource
     /// <summary>Maximum rotation speed of the car in rad/s. Caps the steer limit at high speed so the car can't spin faster than this.</summary>
     [Export] public float MaxYawRate { get; set; } = 3.4f;
 
-    /// <summary>Multiplies MaxSpeedForward at full boost.</summary>
+    /// <summary>Boost tank size, in seconds of continuous boosting.</summary>
     [ExportGroup("Boost")]
+    [Export] public float BoostFuel { get; set; } = 5.0f;
+
+    /// <summary>Fuel (seconds of boost) regained per second while not boosting. 1 = refills in as long as it takes to empty.</summary>
+    [Export] public float BoostFuelRegenRate { get; set; } = 1.0f;
+
+    /// <summary>Seconds after boosting stops before the tank starts refilling.</summary>
+    [Export] public float BoostRegenDelay { get; set; } = 1.0f;
+
+    /// <summary>Fraction of the tank (0-1) that must refill after running dry before boost can be used again. Prevents flickering on an empty tank.</summary>
+    [Export] public float BoostRestartThreshold { get; set; } = 0.25f;
+
+    /// <summary>Multiplies MaxSpeedForward at full boost.</summary>
     [Export] public float BoostSpeedMult { get; set; } = 2.0f;
 
     /// <summary>Multiplies Acceleration at full boost. Higher = harder kick when boost starts.</summary>

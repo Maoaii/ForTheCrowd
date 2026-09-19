@@ -21,6 +21,7 @@ public class BlackboardKinematics
     public float Speed = 0.0f;
     public float GravityToggler = 1.0f;
     public float BoostIntensity = 0.0f;
+    public float BoostFuelFraction = 1.0f;
 }
 
 public class BlackboardState
@@ -29,6 +30,7 @@ public class BlackboardState
     public bool IsOnGround = false;
     public bool WantsGroundPhysics = false;
     public bool CanMove = true;
+    public bool IsBoosting = false;
 }
 
 public class BlackboardInput

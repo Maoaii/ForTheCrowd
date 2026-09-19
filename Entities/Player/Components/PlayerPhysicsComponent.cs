@@ -121,7 +121,7 @@ public partial class PlayerPhysicsComponent : Node
         if (!blackboard.State.IsOnGround)
             return;
 
-        bool throttlingForward = blackboard.Input.MoveInput.Y > 0 || blackboard.Input.WantsBoost;
+        bool throttlingForward = blackboard.Input.MoveInput.Y > 0 || blackboard.State.IsBoosting;
         bool throttlingBackwards = blackboard.Input.MoveInput.Y < 0;
 
         if (throttlingForward)
@@ -148,7 +148,7 @@ public partial class PlayerPhysicsComponent : Node
 
     private void ApplyFriction(BlackboardComponent blackboard, float dt)
     {
-        bool throttling = blackboard.Input.MoveInput.Y != 0 || blackboard.Input.WantsBoost;
+        bool throttling = blackboard.Input.MoveInput.Y != 0 || blackboard.State.IsBoosting;
 
         float friction = throttling ? blackboard.MovementConfig.AirFriction : blackboard.MovementConfig.CoastingFriction;
         blackboard.Kinematics.Speed *= Mathf.Pow(1 - friction, dt);
