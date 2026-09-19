@@ -2,6 +2,11 @@
 
 [ext_resource type="Script" uid="uid://vhwvkgdttlwx" path="res://Entities/Player/Config/MovementConfig.cs" id="1_script"]
 
+[sub_resource type="Curve" id="Curve_dwh8u"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_count = 2
+
 [resource]
 script = ExtResource("1_script")
 CoastingFriction = 0.65
@@ -9,7 +14,12 @@ AirFriction = 0.01
 SpeedLowerThreshold = 0.1
 JumpBufferThreshold = 0.2
 GravityForce = 49.05
-DriftDecayRate = 0.1
+BoostAccelerationMult = 6.0
+BoostGripMult = 0.7
+BoostAttackTime = 0.25
+RampCurve = SubResource("Curve_dwh8u")
+DriftDecayRate = 6.3
+LowGripRate = 4.0
 TrailSampleDistance = 0.15
 TrailWidth = 0.4
 TrailDriftThreshold = 0.15

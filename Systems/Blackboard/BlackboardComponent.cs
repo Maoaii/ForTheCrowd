@@ -20,7 +20,7 @@ public class BlackboardKinematics
     public float SteerAngle = 0.0f;
     public float Speed = 0.0f;
     public float GravityToggler = 1.0f;
-    public float BoostForce = 0.0f;
+    public float BoostIntensity = 0.0f;
 }
 
 public class BlackboardState

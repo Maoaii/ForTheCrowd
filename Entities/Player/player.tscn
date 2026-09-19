@@ -134,7 +134,6 @@ DriftDustRR = NodePath("../VFX/DriftDustRR")
 
 [node name="BoostComponent" type="Node" parent="Components" unique_id=1984693079 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("23_avsg8")
-BoostForce = 50.0
 Blackboard = NodePath("../BlackboardComponent")
 metadata/_custom_type_script = "uid://7e1w2abt42wl"
 
