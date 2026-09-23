@@ -2,7 +2,7 @@ using CarGame.Systems.Blackboards;
 using Godot;
 using System;
 
-public partial class CircularProgressBar : MeshInstance3D
+public partial class FuelProgressBar : MeshInstance3D
 {
 	[Export(PropertyHint.Range, "0,1,0.01")] private float _showBarTime;
 	[Export(PropertyHint.Range, "0,1,0.01")] private float _hideBarTime;
@@ -14,38 +14,15 @@ public partial class CircularProgressBar : MeshInstance3D
 	[Export] private BlackboardComponent _blackboard;
 	[Export] private TextureProgressBar _progressBar;
 
-
-	private Tween _showTween;
 	private bool _depleted = false;
-	private bool _barVisible = false;
 	public override void _Ready()
 	{
 		_progressBar.Value = _progressBar.MaxValue;
-		_progressBar.Modulate = _progressBar.Modulate with { A = 0.0f };
 	}
 
 	public override void _Process(double delta)
 	{
 		float fuelFraction = _blackboard.Kinematics.BoostFuelFraction;
-		
-		bool shouldShowBar = fuelFraction < 1.0f;
-		if (_barVisible != shouldShowBar)
-		{
-			_barVisible = shouldShowBar;
-
-			_showTween?.Kill();
-			_showTween = CreateTween();
-			
-			if (!_barVisible)
-				_showTween.TweenInterval(_barDisappearTime);
-			
-			_showTween.TweenProperty(
-				_progressBar,
-				"modulate:a",
-				shouldShowBar ? 1.0f : 0.0f,
-				shouldShowBar ? _showBarTime : _hideBarTime
-			);
-		}
 
 		if (!_depleted)
 			_depleted = fuelFraction <= 0;

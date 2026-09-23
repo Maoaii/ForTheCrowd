@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d0fm85nhbggxb"
-path="res://.godot/imported/CircularProgressBar.png-0e01d4c3effc4b6f9a0ddd293aac1f43.ctex"
+path="res://.godot/imported/CircularProgressBar.png-4d77fb7e92eaa023a1f1ed43e8a97ef4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Entities/Player/Components/CircularProgressBar/Assets/CircularProgressBar.png"
-dest_files=["res://.godot/imported/CircularProgressBar.png-0e01d4c3effc4b6f9a0ddd293aac1f43.ctex"]
+source_file="res://Entities/Player/Components/FuelProgressBar/Assets/CircularProgressBar.png"
+dest_files=["res://.godot/imported/CircularProgressBar.png-4d77fb7e92eaa023a1f1ed43e8a97ef4.ctex"]
 
 [params]
 

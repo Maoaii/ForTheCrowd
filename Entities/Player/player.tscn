@@ -23,7 +23,7 @@
 [ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
 [ext_resource type="Script" uid="uid://7e1w2abt42wl" path="res://Entities/Player/Components/BoostComponent.cs" id="23_avsg8"]
-[ext_resource type="PackedScene" uid="uid://di7aaxxg3hhxy" path="res://Entities/Player/Components/CircularProgressBar/circular_progress_bar.tscn" id="24_dv6dp"]
+[ext_resource type="PackedScene" uid="uid://di7aaxxg3hhxy" path="res://Entities/Player/Components/FuelProgressBar/fuel_progress_bar.tscn" id="24_dv6dp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
 radius = 1.1661224
@@ -247,8 +247,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.4882665, 0)
 size = Vector3(3, 12.39377, 3)
 cull_mask = 5
 
-[node name="CircularProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8626491)
+[node name="FuelProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
+transform = Transform3D(1.6219957, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 0.5765978, 0.8626491)
 cast_shadow = 0
 mesh = SubResource("QuadMesh_ui1ln")
 _blackboard = NodePath("../BlackboardComponent")

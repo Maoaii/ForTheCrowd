@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://di7aaxxg3hhxy"]
 
-[ext_resource type="Texture2D" uid="uid://d0fm85nhbggxb" path="res://Entities/Player/Components/CircularProgressBar/Assets/CircularProgressBar.png" id="1_ccpwc"]
-[ext_resource type="Script" uid="uid://pcqyceef6tsg" path="res://Entities/Player/Components/CircularProgressBar/CircularProgressBar.cs" id="1_ibrpr"]
+[ext_resource type="Script" uid="uid://pcqyceef6tsg" path="res://Entities/Player/Components/FuelProgressBar/FuelProgressBar.cs" id="1_k8d82"]
+[ext_resource type="Texture2D" uid="uid://ceygxg4plhxuu" path="res://Entities/Player/Components/FuelProgressBar/Assets/HorizontalProgressBar.png" id="2_c2inc"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ibrpr"]
 viewport_path = NodePath("SubViewport")
@@ -13,16 +13,15 @@ alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
 albedo_texture = SubResource("ViewportTexture_ibrpr")
-billboard_mode = 1
 billboard_keep_scale = true
 
 [sub_resource type="QuadMesh" id="QuadMesh_771qn"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_771qn")
 
-[node name="CircularProgressBar" type="MeshInstance3D" unique_id=695472194 node_paths=PackedStringArray("_progressBar")]
+[node name="FuelProgressBar" type="MeshInstance3D" unique_id=695472194 node_paths=PackedStringArray("_progressBar")]
 mesh = SubResource("QuadMesh_771qn")
-script = ExtResource("1_ibrpr")
+script = ExtResource("1_k8d82")
 _showBarTime = 0.1
 _hideBarTime = 0.25
 _barDisappearTime = 0.5
@@ -42,8 +41,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-fill_mode = 4
 nine_patch_stretch = true
-texture_under = ExtResource("1_ccpwc")
-texture_progress = ExtResource("1_ccpwc")
+texture_under = ExtResource("2_c2inc")
+texture_progress = ExtResource("2_c2inc")
 tint_under = Color(0, 0, 0, 1)

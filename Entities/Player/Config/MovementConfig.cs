@@ -53,13 +53,13 @@ public partial class MovementConfig : Resource
     [Export] public float BoostFuel { get; set; } = 5.0f;
 
     /// <summary>Fuel (seconds of boost) regained per second while not boosting. 1 = refills in as long as it takes to empty.</summary>
-    [Export] public float BoostFuelRegenRate { get; set; } = 1.0f;
+    [Export] public float BoostFuelRegenRate { get; set; } = 0.5f;
 
     /// <summary>Seconds after boosting stops before the tank starts refilling.</summary>
     [Export] public float BoostRegenDelay { get; set; } = 1.0f;
 
     /// <summary>Fraction of the tank (0-1) that must refill after running dry before boost can be used again. Prevents flickering on an empty tank.</summary>
-    [Export] public float BoostRestartThreshold { get; set; } = 0.25f;
+    [Export] public float BoostRestartThreshold { get; set; } = 0.4f;
 
     /// <summary>Multiplies MaxSpeedForward at full boost.</summary>
     [Export] public float BoostSpeedMult { get; set; } = 2.0f;
