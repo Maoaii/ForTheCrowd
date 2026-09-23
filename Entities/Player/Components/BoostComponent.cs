@@ -39,18 +39,25 @@ public partial class BoostComponent : Node
 
         bool boosting = Blackboard.Input.WantsBoost && !_depleted && _fuel > 0.0f;
         Blackboard.State.IsBoosting = boosting;
-
+    
         if (boosting)
         {
+            Blackboard.Events.OnStartedBoosting?.Invoke();
             _fuel = Mathf.Max(_fuel - dt, 0.0f);
             _regenTimer = config.BoostRegenDelay;
             if (_fuel <= 0.0f)
                 _depleted = true;
         }
         else if (_regenTimer > 0.0f)
+        {
+            Blackboard.Events.OnStoppedBoosting?.Invoke();
             _regenTimer -= dt;
+        }
         else
+        {
+            Blackboard.Events.OnStoppedBoosting?.Invoke();
             _fuel = Mathf.Min(_fuel + config.BoostFuelRegenRate * dt, maxFuel);
+        }
 
         Blackboard.Kinematics.BoostFuelFraction = _fuel / maxFuel;
     }

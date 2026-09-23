@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://c34oidoq8r30j" path="res://level.tscn" id="1_tlwt5"]
 [ext_resource type="PackedScene" uid="uid://cfhyxuw61871r" path="res://Systems/UI/trick_popup_manager.tscn" id="3_ui"]
+[ext_resource type="PackedScene" uid="uid://brbr8juotfapg" path="res://Systems/UI/SpeedLines/speed_lines.tscn" id="4_aqk2v"]
 [ext_resource type="PackedScene" uid="uid://bfrrmjklitiiw" path="res://Utils/Debug/debug_hud.tscn" id="6_debughud"]
 
 [sub_resource type="Environment" id="Environment_c7v1"]
@@ -35,5 +36,7 @@ FontColor = Color(0.28059933, 0.075647675, 1.5642495e-07, 1)
 
 [node name="DebugHud" parent="." unique_id=763645562 node_paths=PackedStringArray("Swarm") instance=ExtResource("6_debughud")]
 Swarm = NodePath("../SubViewportContainer/SubViewport/SceneRoot/SwarmManager")
+
+[node name="SpeedLines" parent="." unique_id=1372788396 instance=ExtResource("4_aqk2v")]
 
 [editable path="SubViewportContainer/SubViewport/SceneRoot"]

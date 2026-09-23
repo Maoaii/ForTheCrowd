@@ -1,0 +1,38 @@
+[gd_scene format=3 uid="uid://brbr8juotfapg"]
+
+[ext_resource type="Shader" uid="uid://bsdf41niwyvnx" path="res://Assets/Shaders/speed_lines.gdshader" id="1_iqple"]
+[ext_resource type="Script" uid="uid://dci2sob11guq4" path="res://Systems/UI/SpeedLines/SpeedLines.cs" id="1_ppdsb"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_036b0"]
+frequency = 0.1
+offset = Vector3(0, 1000, 0)
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_n6hdu"]
+noise = SubResource("FastNoiseLite_036b0")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dwbse"]
+shader = ExtResource("1_iqple")
+shader_parameter/noise = SubResource("NoiseTexture2D_n6hdu")
+shader_parameter/line_color = Color(1, 1, 1, 1)
+shader_parameter/line_count = 3.0
+shader_parameter/line_density = 0.26800001273
+shader_parameter/line_faloff = 0.14000000665
+shader_parameter/mask_size = 0.0
+shader_parameter/mask_edge = 0.9200000437
+shader_parameter/line_taper = 1.0
+shader_parameter/animation_speed = 11.434000495615
+shader_parameter/intensity = 1.0
+
+[node name="SpeedLines" type="CanvasLayer" unique_id=1372788396 node_paths=PackedStringArray("_colorRect")]
+script = ExtResource("1_ppdsb")
+_colorRect = NodePath("ColorRect")
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1515323890]
+material = SubResource("ShaderMaterial_dwbse")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

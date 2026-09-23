@@ -20,4 +20,9 @@ public partial class Player : CharacterBody3D
 			Blackboard.Camera.CameraShakeTime = 1.0f;
 		};
 	}
+
+	public override void _Process(double delta)
+	{
+		SpeedLines.Instance?.SetIntensity(Blackboard.Kinematics.BoostIntensity);
+	}
 }
