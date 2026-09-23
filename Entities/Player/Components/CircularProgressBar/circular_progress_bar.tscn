@@ -1,0 +1,49 @@
+[gd_scene format=3 uid="uid://di7aaxxg3hhxy"]
+
+[ext_resource type="Texture2D" uid="uid://d0fm85nhbggxb" path="res://Entities/Player/Components/CircularProgressBar/Assets/CircularProgressBar.png" id="1_ccpwc"]
+[ext_resource type="Script" uid="uid://pcqyceef6tsg" path="res://Entities/Player/Components/CircularProgressBar/CircularProgressBar.cs" id="1_ibrpr"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_ibrpr"]
+viewport_path = NodePath("SubViewport")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_771qn"]
+resource_local_to_scene = true
+transparency = 2
+alpha_scissor_threshold = 0.5
+alpha_antialiasing_mode = 0
+shading_mode = 0
+albedo_texture = SubResource("ViewportTexture_ibrpr")
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="QuadMesh" id="QuadMesh_771qn"]
+resource_local_to_scene = true
+material = SubResource("StandardMaterial3D_771qn")
+
+[node name="CircularProgressBar" type="MeshInstance3D" unique_id=695472194 node_paths=PackedStringArray("_progressBar")]
+mesh = SubResource("QuadMesh_771qn")
+script = ExtResource("1_ibrpr")
+_showBarTime = 0.1
+_hideBarTime = 0.25
+_barDisappearTime = 0.5
+_yellowThreshold = 0.6
+_redThreshold = 0.3
+_progressBar = NodePath("SubViewport/TextureProgressBar")
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=163980599]
+transparent_bg = true
+size = Vector2i(2048, 2048)
+size_2d_override_stretch = true
+render_target_update_mode = 4
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="SubViewport" unique_id=1940295675]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = ExtResource("1_ccpwc")
+texture_progress = ExtResource("1_ccpwc")
+tint_under = Color(0, 0, 0, 1)
