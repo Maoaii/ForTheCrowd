@@ -2,13 +2,26 @@
 
 [ext_resource type="Script" uid="uid://iij1wa5jjwwd" path="res://Entities/Player/CameraRig.cs" id="1_c6u7k"]
 
+[sub_resource type="Curve" id="Curve_bxxf6"]
+_limits = [0.0, 1.5, 0.0, 1.0]
+_data = [Vector2(0, 0), 0.0, 7.832483, 0, 0, Vector2(0.36150235, 1.2977529), 0.0, 0.0, 0, 0, Vector2(1, 1.011236), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="Curve" id="Curve_1el1r"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [sub_resource type="SphereShape3D" id="SphereShape3D_6u7k"]
 
-[node name="CameraRig" type="Node3D" unique_id=2049278849]
+[node name="CameraRig" type="Node3D" unique_id=2049278849 node_paths=PackedStringArray("_springArm", "_camera")]
 top_level = true
 script = ExtResource("1_c6u7k")
 DistanceFromTarget = 25.0
 BaseFov = 1.0
+BoostFovAttackCurve = SubResource("Curve_bxxf6")
+BoostFovReleaseCurve = SubResource("Curve_1el1r")
+_springArm = NodePath("SpringArm3D")
+_camera = NodePath("SpringArm3D/Camera3D")
 
 [node name="SpringArm3D" type="SpringArm3D" parent="." unique_id=1819629785]
 shape = SubResource("SphereShape3D_6u7k")

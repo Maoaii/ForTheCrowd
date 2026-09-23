@@ -9,10 +9,10 @@ public partial class BoostComponent : Node
     [ExportGroup("References")]
     [Export] public BlackboardComponent Blackboard;
 
-    private float _progress;      // linear 0..1, timed by BoostAttackTime/BoostReleaseTime; RampCurve turns it into BoostIntensity
-    private float _fuel;          // seconds of boost left
-    private float _regenTimer;    // seconds until the tank starts refilling
-    private bool _depleted;       // ran dry; locked out until the tank refills past BoostRestartThreshold
+    private float _progress;
+    private float _fuel;
+    private float _regenTimer;
+    private bool _depleted;
 
     public override void _Ready()
     {

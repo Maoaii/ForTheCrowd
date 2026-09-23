@@ -8,13 +8,8 @@ namespace CarGame.Entities.Player;
 public partial class CameraRig : Node3D
 {
     [Export] public Node3D Target { get; set; }
-    
-    private SpringArm3D _springArm;
-    private Camera3D _camera;
     [Export] public BlackboardComponent Blackboard;
     
-    public float OrbitalRotation { get; set; }
-    public float HeightRotation { get; set; }
     [ExportGroup("Distance & Feel")]
     [Export] public float DistanceFromTarget { get; set; } = 35.0f;
     [Export] public float LagFactor { get; set; } = -12.0f;
@@ -31,22 +26,36 @@ public partial class CameraRig : Node3D
     [ExportGroup("FOV")]
     [Export] public float BaseFov { get; set; } = Mathf.Pi / 4.0f;
     [Export] public float SpeedFovDegrees { get; set; } = 6.0f;
+    [ExportSubgroup("Boost FOV")]
     [Export] public float BoostFovDegrees { get; set; } = 6.0f;
+    [Export] public float BoostFovAttackTime { get; set; } = 0.6f;
+    [Export] public float BoostFovReleaseTime { get; set; } = 0.4f;
+    [Export] public Curve BoostFovAttackCurve { get; set; }
+    [Export] public Curve BoostFovReleaseCurve { get; set; }
 
     [ExportGroup("Camera Shake")]
     [Export] public float ShakeMagnitude { get; set; } = 0.2f;
+
+    [ExportGroup("References")]
+    [Export] private SpringArm3D _springArm;
+    [Export] private Camera3D _camera;
+
+    public float OrbitalRotation { get; set; }
+    public float HeightRotation { get; set; }
     private float _targetOrbitalRotation;
     private float _targetHeightRotation;
     
     private bool _isMouseLocked = true;
     private float _kickOffsetDegrees = 0.0f;
+
+    private Tween _boostTween;
+    private float _boostFovOffset;
+    private bool _wasBoosting;
     
     public override void _Ready()
     {
         TopLevel = true;
         
-        _springArm = GetNode<SpringArm3D>("SpringArm3D");
-        _camera = GetNode<Camera3D>("SpringArm3D/Camera3D");
         _springArm.SpringLength = DistanceFromTarget;
         
         _camera.Fov = Mathf.RadToDeg(BaseFov);
@@ -87,6 +96,7 @@ public partial class CameraRig : Node3D
         
         GlobalPosition = Target.GlobalPosition;
         
+        UpdateBoostFOV();
         ApplyFOV();
         _ = TryApplyCameraShake(delta);
         
@@ -101,6 +111,35 @@ public partial class CameraRig : Node3D
         basis = basis.Rotated(Vector3.Up, OrbitalRotation);
         basis = basis.Rotated(basis.X, -HeightRotation);
         Basis = basis;
+    }
+
+    private void UpdateBoostFOV()
+    {
+        bool boosting = Blackboard.State.IsBoosting;
+        if (boosting == _wasBoosting) return;
+
+        _wasBoosting = boosting;
+        StartBoostTween(boosting);
+    }
+
+    private void StartBoostTween(bool boosting)
+    {
+        _boostTween?.Kill();
+
+        float start = _boostFovOffset;
+        float end = boosting ? 1.0f : 0.0f;
+        Curve curve = boosting ? BoostFovAttackCurve : BoostFovReleaseCurve;
+        float duration = boosting ? BoostFovAttackTime : BoostFovReleaseTime;
+
+        _boostTween = CreateTween();
+        _boostTween.TweenMethod(
+            Callable.From((float t) =>
+            {
+                float shaped = curve.SampleBaked(t);
+                _boostFovOffset = Mathf.Lerp(start, end, shaped);
+            }),
+            0.0f, 1.0f, duration
+        );
     }
 
     private void ApplyFOV()
@@ -118,7 +157,7 @@ public partial class CameraRig : Node3D
 
     private float CalculateBoostTerm()
     {
-        return BoostFovDegrees;
+        return BoostFovDegrees * _boostFovOffset;
     }
     
     private void TryApplyFOVKick()

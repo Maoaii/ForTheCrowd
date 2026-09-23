@@ -1,6 +1,7 @@
 <Project Sdk="Godot.NET.Sdk/4.6.0">
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <CodeAnalysisRuleSet>/var/home/girotto/Documents/Game Dev/ForTheCrowd/.vscode/ruleset.xml</CodeAnalysisRuleSet>
     <TargetFramework Condition=" '$(GodotTargetPlatform)' == 'android' ">net9.0</TargetFramework>
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <!-- Lets Godot show /// docstrings as tooltips in the inspector; CS1591 (missing docs) is silenced so undocumented members don't warn -->
