@@ -20,6 +20,7 @@ BoostAttackTime = 0.25
 RampCurve = SubResource("Curve_dwh8u")
 DriftDecayRate = 6.3
 LowGripRate = 4.0
+MaxSlipAngleDegrees = 70.0
 TrailSampleDistance = 0.15
 TrailWidth = 0.4
 TrailDriftThreshold = 0.15
