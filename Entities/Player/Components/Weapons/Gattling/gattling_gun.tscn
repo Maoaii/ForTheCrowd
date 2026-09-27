@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://drkrwjplhpn0h"]
+
+[ext_resource type="Script" uid="uid://b7tywwbfodjxf" path="res://Entities/Player/Components/Weapons/Gattling/GattlingGun.cs" id="1_fh2a1"]
+[ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Components/Weapons/WeaponConfig.cs" id="2_nlf5b"]
+[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Components/Weapons/Gattling/gattling_bullet.tscn" id="3_ycojx"]
+
+[sub_resource type="Resource" id="Resource_ycojx"]
+script = ExtResource("2_nlf5b")
+Cooldown = 0.1
+metadata/_custom_type_script = "uid://cidioslow8fcp"
+
+[sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
+
+[node name="GattlingGun" type="Node3D" unique_id=329357420]
+script = ExtResource("1_fh2a1")
+_weaponConfig = SubResource("Resource_ycojx")
+_bulletPackedScene = ExtResource("3_ycojx")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=581557477]
+transform = Transform3D(0.17690873, 0, 0, 0, 0.23620246, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_nlf5b")

@@ -24,6 +24,9 @@
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
 [ext_resource type="Script" uid="uid://7e1w2abt42wl" path="res://Entities/Player/Components/BoostComponent.cs" id="23_avsg8"]
 [ext_resource type="PackedScene" uid="uid://di7aaxxg3hhxy" path="res://Entities/Player/Components/FuelProgressBar/fuel_progress_bar.tscn" id="24_dv6dp"]
+[ext_resource type="Script" uid="uid://t2sf7rx63ucr" path="res://Entities/Player/Components/Weapons/WeaponManager.cs" id="25_01ng6"]
+[ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Components/Weapons/WeaponSlot.cs" id="26_ui1ln"]
+[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Components/Weapons/Gattling/gattling_gun.tscn" id="27_og23y"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
 radius = 1.1661224
@@ -42,21 +45,21 @@ albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_we0b7"]
 size = Vector3(2.0090332, 2.1328735, 1.9874268)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_dv6dp"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_og23y"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01ng6"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u86q5"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_dv6dp")
+albedo_texture = SubResource("ViewportTexture_og23y")
 billboard_keep_scale = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_ui1ln"]
+[sub_resource type="QuadMesh" id="QuadMesh_80ryp"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_01ng6")
+material = SubResource("StandardMaterial3D_u86q5")
 
 [node name="Player" type="CharacterBody3D" unique_id=1669282 node_paths=PackedStringArray("Blackboard")]
 collision_layer = 2
@@ -250,5 +253,26 @@ cull_mask = 5
 [node name="FuelProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
 transform = Transform3D(1.6219957, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 0.5765978, 0.8626491)
 cast_shadow = 0
-mesh = SubResource("QuadMesh_ui1ln")
+mesh = SubResource("QuadMesh_80ryp")
 _blackboard = NodePath("../BlackboardComponent")
+
+[node name="WeaponManager" type="Node3D" parent="Components" unique_id=986360104]
+script = ExtResource("25_01ng6")
+metadata/_custom_type_script = "uid://t2sf7rx63ucr"
+
+[node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=1451137019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+script = ExtResource("26_ui1ln")
+WeaponScene = ExtResource("27_og23y")
+
+[node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=131101080]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
+script = ExtResource("26_ui1ln")
+
+[node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=1255352803]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
+script = ExtResource("26_ui1ln")
+
+[node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1674044291]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+script = ExtResource("26_ui1ln")

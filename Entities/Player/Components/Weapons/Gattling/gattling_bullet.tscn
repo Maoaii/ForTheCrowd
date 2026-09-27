@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://dsc75goyekxjs"]
+
+[ext_resource type="Script" uid="uid://cp7glxmlu8dob" path="res://Entities/Player/Components/Weapons/Gattling/GattlingBullet.cs" id="1_y1ixq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_y1ixq"]
+
+[node name="GattlingBullet" type="Node3D" unique_id=400111306]
+script = ExtResource("1_y1ixq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1124764650]
+transform = Transform3D(0.43590426, 0, 0, 0, -3.0359164e-08, -0.47617903, 0, 0.6945367, -2.0814447e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_y1ixq")

@@ -90,6 +90,7 @@ public class BlackboardTricks
     public bool WantsStopBackManual = false;
 }
 
+[GlobalClass]
 public partial class BlackboardComponent : Node
 {
     // Core references
