@@ -43,6 +43,26 @@ public class BlackboardInput
     public bool IsHoldingJump = false;
     public bool ReleasedJump = false;
     public bool WantsBoost = false;
+    
+    public bool WantsActivateSlot1 = false;
+    public bool WantsActivateSlot2 = false;
+    public bool WantsActivateSlot3 = false;
+    public bool WantsActivateSlot4 = false;
+    public bool WantsActivateWeapon(out int slot)
+    {
+        if (WantsActivateSlot1)
+            slot = 1;
+        if (WantsActivateSlot2)
+            slot = 2;
+        if (WantsActivateSlot3)
+            slot = 3;
+        if (WantsActivateSlot4)
+            slot = 4;
+        
+        slot = -1;
+        
+        return WantsActivateSlot1 || WantsActivateSlot2 || WantsActivateSlot3 || WantsActivateSlot4;
+    }
 }
 
 public class BlackboardCamera

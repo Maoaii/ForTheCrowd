@@ -18,6 +18,13 @@ public partial class PlayerInputComponent : Node
         Blackboard.Input.IsHoldingJump = Input.IsActionPressed("jump");
         Blackboard.Input.WantsBoost = Input.IsActionPressed("boost");
         
+        
+        Blackboard.Input.WantsActivateSlot1 = Input.IsActionPressed("slot1");
+        Blackboard.Input.WantsActivateSlot2 = Input.IsActionPressed("slot2");
+        Blackboard.Input.WantsActivateSlot3 = Input.IsActionPressed("slot3");
+        Blackboard.Input.WantsActivateSlot4 = Input.IsActionPressed("slot4");
+
+
         if (Input.IsActionJustPressed("jump"))
             Blackboard.Input.LastJumpInputTime = Time.GetTicksMsec() / 1000.0f;
         
@@ -27,5 +34,7 @@ public partial class PlayerInputComponent : Node
         Blackboard.Tricks.WantsKickflip = Input.IsActionJustPressed("trick_kickflip");
         Blackboard.Tricks.WantsBackManual = Input.IsActionPressed("trick_back_manual");
         Blackboard.Tricks.WantsStopBackManual = Input.IsActionJustReleased("trick_back_manual");
+
+
     }
 }
