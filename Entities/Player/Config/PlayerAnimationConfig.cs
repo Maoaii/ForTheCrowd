@@ -3,6 +3,7 @@ using Godot;
 
 namespace CarGame.Entities.Player;
 
+[Tool]
 [GlobalClass]
 public partial class PlayerAnimationConfig : Resource
 {

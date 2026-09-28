@@ -234,6 +234,8 @@ Sensitivity = 0.01
 MinYaw = 0.159
 BaseFov = 0.7853982
 SpeedFovDegrees = 5.0
+BoostFovAttackCurve = null
+BoostFovReleaseCurve = null
 
 [node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
 collision_layer = 0
@@ -256,23 +258,20 @@ cast_shadow = 0
 mesh = SubResource("QuadMesh_80ryp")
 _blackboard = NodePath("../BlackboardComponent")
 
-[node name="WeaponManager" type="Node3D" parent="Components" unique_id=986360104]
+[node name="WeaponManager" type="Node3D" parent="Components" unique_id=986360104 node_paths=PackedStringArray("_blackboard")]
 script = ExtResource("25_01ng6")
+_blackboard = NodePath("../BlackboardComponent")
 metadata/_custom_type_script = "uid://t2sf7rx63ucr"
 
-[node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=1451137019]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+[node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=164653709]
 script = ExtResource("26_ui1ln")
 WeaponScene = ExtResource("27_og23y")
 
-[node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=131101080]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
+[node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1327966020]
 script = ExtResource("26_ui1ln")
 
-[node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=1255352803]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
+[node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=82123927]
 script = ExtResource("26_ui1ln")
 
-[node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1674044291]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+[node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1381613442]
 script = ExtResource("26_ui1ln")

@@ -4,6 +4,8 @@ using CarGame.Systems.Blackboards;
 
 namespace CarGame.Entities.Components;
 
+[Tool]
+[GlobalClass]
 public partial class PlayerAnimatorComponent : Node
 {
     [Export] public BlackboardComponent Blackboard;

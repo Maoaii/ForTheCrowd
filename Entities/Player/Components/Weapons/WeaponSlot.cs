@@ -4,7 +4,12 @@ using System;
 [GlobalClass]
 public partial class WeaponSlot : Node3D
 {
-	[Export] public PackedScene WeaponScene;
+	[Export] public PackedScene WeaponScene { get; set  {
+			_weaponScene = value;
+			InstantiateWeapon();
+		}
+	}
+	private PackedScene _weaponScene;
 
 
 	private IWeapon _weapon;
@@ -12,15 +17,18 @@ public partial class WeaponSlot : Node3D
 
 	public override void _Ready()
 	{
-		if (Engine.IsEditorHint())
-			return;
 		if (WeaponScene == null)
 			return;
 		
+		InstantiateWeapon();
+	}
+
+	private void InstantiateWeapon()
+	{
 		_weapon = WeaponScene.Instantiate<IWeapon>();
 		AddChild(_weapon as Node3D, true);
         (_weapon as Node3D).Owner = this;
-		_weapon.SetInitialBasis(this.Basis);
+		_weapon.SetInitialBasis(Basis);
 	}
 
 	public void TryActivate()

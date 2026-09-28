@@ -20,6 +20,14 @@ public partial class WeaponManager : Node3D
 	private WeaponSlot _slot3Marker;
 	private WeaponSlot _slot4Marker;
 
+    public override void _Ready()
+    {
+        base._Ready();
+		if (Engine.IsEditorHint())
+			return;
+		
+		GenerateSlotPositions();
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -28,6 +36,9 @@ public partial class WeaponManager : Node3D
 		
         base._PhysicsProcess(delta);
 		if (_blackboard.Input.WantsActivateWeapon(out int slot)) {
+			if (slot == -1)
+				return;
+			
 			WeaponSlot weaponSlot = _slots[slot];
 
 			weaponSlot.TryActivate();

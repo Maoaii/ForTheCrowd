@@ -90,6 +90,7 @@ public class BlackboardTricks
     public bool WantsStopBackManual = false;
 }
 
+[Tool]
 [GlobalClass]
 public partial class BlackboardComponent : Node
 {
