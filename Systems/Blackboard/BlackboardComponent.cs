@@ -50,6 +50,7 @@ public class BlackboardInput
     public bool WantsActivateSlot4 = false;
     public bool WantsActivateWeapon(out int slot)
     {
+        slot = -1;
         if (WantsActivateSlot1)
             slot = 1;
         if (WantsActivateSlot2)
@@ -59,7 +60,6 @@ public class BlackboardInput
         if (WantsActivateSlot4)
             slot = 4;
         
-        slot = -1;
         
         return WantsActivateSlot1 || WantsActivateSlot2 || WantsActivateSlot3 || WantsActivateSlot4;
     }

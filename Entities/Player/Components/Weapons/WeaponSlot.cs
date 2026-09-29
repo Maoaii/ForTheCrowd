@@ -4,13 +4,7 @@ using System;
 [GlobalClass]
 public partial class WeaponSlot : Node3D
 {
-	[Export] public PackedScene WeaponScene { get; set  {
-			_weaponScene = value;
-			InstantiateWeapon();
-		}
-	}
-	private PackedScene _weaponScene;
-
+	[Export] public PackedScene WeaponScene { get; set; }
 
 	private IWeapon _weapon;
 

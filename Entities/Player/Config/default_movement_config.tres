@@ -9,19 +9,10 @@ metadata/_snap_count = 2
 
 [resource]
 script = ExtResource("1_script")
-CoastingFriction = 0.65
-AirFriction = 0.01
-SpeedLowerThreshold = 0.1
-JumpBufferThreshold = 0.2
 GravityForce = 49.05
 BoostAccelerationMult = 6.0
 BoostGripMult = 0.7
 BoostAttackTime = 0.25
 RampCurve = SubResource("Curve_dwh8u")
-DriftDecayRate = 6.3
 LowGripRate = 4.0
 MaxSlipAngleDegrees = 70.0
-TrailSampleDistance = 0.15
-TrailWidth = 0.4
-TrailDriftThreshold = 0.15
-TrailCooldown = 0.05

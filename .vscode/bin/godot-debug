@@ -1,0 +1,27 @@
+#!/bin/bash
+godot_bin="/var/home/girotto/.var/app/io.github.MakovWait.Godots/data/godot/app_userdata/Godots/versions/Godot_v4_7_2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64"
+args=()
+rewrite_remote_debug=false
+log_file="/tmp/forthecrowd-godot-debug-launch.log"
+
+printf 'requested:' >> "$log_file"
+printf ' %q' "$@" >> "$log_file"
+printf '\n' >> "$log_file"
+
+for arg in "$@"; do
+	if [[ "$rewrite_remote_debug" == true ]]; then
+		if [[ "$arg" != *"://"* ]]; then
+			arg="tcp://$arg"
+		fi
+		rewrite_remote_debug=false
+	elif [[ "$arg" == "--remote-debug" ]]; then
+		rewrite_remote_debug=true
+	fi
+	args+=("$arg")
+done
+
+printf 'executed:' >> "$log_file"
+printf ' %q' "$godot_bin" "${args[@]}" >> "$log_file"
+printf '\n' >> "$log_file"
+
+exec "$godot_bin" "${args[@]}"

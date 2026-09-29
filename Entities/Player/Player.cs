@@ -24,5 +24,5 @@ public partial class Player : CharacterBody3D
 	public override void _Process(double delta)
 	{
 		SpeedLines.Instance?.SetIntensity(Blackboard.Kinematics.BoostIntensity);
-	}
+	}   
 }
