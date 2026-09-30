@@ -6,7 +6,7 @@ public partial class WeaponSlot : Node3D
 {
 	[Export] public PackedScene WeaponScene { get; set; }
 
-	private IWeapon _weapon;
+	private GattlingGun _weapon;
 
 
 	public override void _Ready()
@@ -19,14 +19,14 @@ public partial class WeaponSlot : Node3D
 
 	private void InstantiateWeapon()
 	{
-		_weapon = WeaponScene.Instantiate<IWeapon>();
-		AddChild(_weapon as Node3D, true);
-        (_weapon as Node3D).Owner = this;
+		_weapon = WeaponScene.Instantiate<GattlingGun>();
+		AddChild(_weapon);
+        _weapon.Owner = this;
 		_weapon.SetInitialBasis(Basis);
 	}
 
-	public void TryActivate()
+	public void TryActivate(Vector3 direction)
 	{
-		_weapon.TryActivate(Vector3.Forward);
+		_weapon.TryActivate(direction);
 	}
 }

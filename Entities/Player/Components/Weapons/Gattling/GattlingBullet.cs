@@ -9,11 +9,18 @@ public partial class GattlingBullet : Node3D, IBullet
     public override void _PhysicsProcess(double delta)
     {
         base._PhysicsProcess(delta);
-		Position += _direction * _speed * (float) delta;
+		GlobalPosition += _direction * _speed * (float) delta;
+        LookAt(GlobalPosition + _direction);
     }
     public void SetDirection(Vector3 direction, float speed)
     {
         _direction = direction;
 		_speed = speed;
+        LookAt(GlobalPosition + _direction);
+    }
+
+    public void SetLifetime(float lifetime)
+    {
+        GetTree().CreateTimer(lifetime).Timeout += () => QueueFree();
     }
 }

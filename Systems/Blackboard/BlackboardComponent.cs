@@ -17,7 +17,7 @@ public class BlackboardEvents
 public class BlackboardKinematics
 {
     public float DriftFactor = 0.0f; // 0-1
-    public Vector3 MovementDirection = Vector3.Zero;
+    public Vector3 MovementDirection = Vector3.Forward;
     public Vector3 Velocity = Vector3.Zero;
     public float SteerAngle = 0.0f;
     public float Speed = 0.0f;
@@ -90,6 +90,11 @@ public class BlackboardTricks
     public bool WantsStopBackManual = false;
 }
 
+public class BlackboardVisuals
+{
+    public Vector3 VisualDirection;
+}
+
 [Tool]
 [GlobalClass]
 public partial class BlackboardComponent : Node
@@ -108,4 +113,5 @@ public partial class BlackboardComponent : Node
     public BlackboardInput Input = new();
     public BlackboardCamera Camera = new();
     public BlackboardTricks Tricks = new();
+    public BlackboardVisuals Visuals = new();
 }

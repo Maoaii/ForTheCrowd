@@ -41,6 +41,8 @@ public partial class PlayerPhysicsComponent : Node
 
         float yawRate = Blackboard.Kinematics.Speed / Blackboard.MovementConfig.Wheelbase * Mathf.Tan(Mathf.DegToRad(Blackboard.Kinematics.SteerAngle));
         Body.Rotation = new Vector3(Body.Rotation.X, Body.Rotation.Y + yawRate * dt, Body.Rotation.Z);
+        Blackboard.Visuals.VisualDirection = Body.GlobalRotation;
+        GD.Print(Blackboard.Visuals.VisualDirection);
     }
 
     /// <summary>

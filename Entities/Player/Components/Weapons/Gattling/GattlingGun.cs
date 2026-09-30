@@ -14,9 +14,10 @@ public partial class GattlingGun : Node3D, IWeapon
   public void TryActivate(Vector3 direction)
   {
     GattlingBullet bullet = _bulletPackedScene.Instantiate<GattlingBullet>();
-    bullet.Basis = Basis;
-    bullet.TopLevel = true;
+    bullet.TopLevel = true; 
     AddChild(bullet);
+    bullet.GlobalPosition = GlobalPosition;
+    bullet.SetLifetime(_weaponConfig.BulletLifetime);
     bullet.SetDirection(direction, _weaponConfig.InitialSpeed);
   }
 }

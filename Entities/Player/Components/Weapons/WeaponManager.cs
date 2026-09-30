@@ -26,7 +26,7 @@ public partial class WeaponManager : Node3D
 		if (Engine.IsEditorHint())
 			return;
 		
-		GenerateSlotPositions();
+		CollectEditorSlots();
     }
 
     public override void _PhysicsProcess(double delta)
@@ -41,9 +41,17 @@ public partial class WeaponManager : Node3D
 			
 			WeaponSlot weaponSlot = _slots[slot];
 
-			weaponSlot.TryActivate();
+			weaponSlot.TryActivate(_blackboard.Visuals.VisualDirection.Normalized());
 		}
     }
+
+	private void CollectEditorSlots()
+	{
+		foreach (Node child in GetChildren(true))
+		{
+			_slots.Add(child as WeaponSlot);
+		}
+	}
 
 	public void SetWeapon(int slot)
 	{
@@ -84,6 +92,6 @@ public partial class WeaponManager : Node3D
 		AddChild(_slot4Marker, true, InternalMode.Disabled);
 		_slot4Marker.Owner = GetTree().EditedSceneRoot;
 		_slot4Marker.Name = "Slot 4";
-		_slots.Add(_slot3Marker);
+		_slots.Add(_slot4Marker);
 	}
 }
