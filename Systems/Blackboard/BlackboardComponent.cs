@@ -92,7 +92,7 @@ public class BlackboardTricks
 
 public class BlackboardVisuals
 {
-    public Vector3 VisualDirection;
+    public Vector3 VisualDirection = Vector3.Forward;
 }
 
 [Tool]

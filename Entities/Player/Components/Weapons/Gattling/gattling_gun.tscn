@@ -6,7 +6,7 @@
 
 [sub_resource type="Resource" id="Resource_ycojx"]
 script = ExtResource("2_nlf5b")
-Cooldown = 0.1
+Cooldown = 0.01
 metadata/_custom_type_script = "uid://cidioslow8fcp"
 
 [sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
