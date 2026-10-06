@@ -18,6 +18,7 @@ public partial class ClosestTargetAutoAimer : AimingProviderBase
         SphereShape3D shape = new SphereShape3D { Radius = AimRange};
 		PhysicsShapeQueryParameters3D query = new PhysicsShapeQueryParameters3D
 		{
+            Transform = new Transform3D(Basis.Identity, fromNode.GlobalPosition),
 			Shape = shape,
 			CollisionMask = TargetLayers,
 			CollideWithAreas = true,
@@ -26,15 +27,13 @@ public partial class ClosestTargetAutoAimer : AimingProviderBase
 
         Array<Dictionary> results = fromNode.GetWorld3D().DirectSpaceState.IntersectShape(query, 5000);
         if (results.Count == 0)
-            return Vector3.Forward;
+            return Vector3.Zero;
         
         var sorted = results.OrderBy(item => (item["collider"].AsGodotObject() as Node3D).GlobalPosition.DistanceTo(fromNode.GlobalPosition));
 
         Dictionary closest = sorted.First();
         Vector3 direction = fromNode.GlobalPosition.DirectionTo((closest["collider"].AsGodotObject() as Node3D).GlobalPosition).Normalized();
 		
-        VectorRenderer.DrawVector(fromNode.GlobalPosition, direction * 5.0f, Colors.Red);
-
         return direction;
     }
 }

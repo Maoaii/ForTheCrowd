@@ -64,7 +64,7 @@ material = SubResource("StandardMaterial3D_u86q5")
 
 [sub_resource type="Resource" id="Resource_og23y"]
 script = ExtResource("26_u86q5")
-AimRange = 500.0
+AimRange = 50.0
 TargetLayers = 4
 metadata/_custom_type_script = "uid://bnai5q2few736"
 
@@ -277,11 +277,14 @@ WeaponScene = ExtResource("27_og23y")
 [node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1327966020]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
 script = ExtResource("26_ui1ln")
+WeaponScene = ExtResource("27_og23y")
 
 [node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=82123927]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
 script = ExtResource("26_ui1ln")
+WeaponScene = ExtResource("27_og23y")
 
 [node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1381613442]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
 script = ExtResource("26_ui1ln")
+WeaponScene = ExtResource("27_og23y")

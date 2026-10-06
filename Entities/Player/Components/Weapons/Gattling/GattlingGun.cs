@@ -1,3 +1,4 @@
+using CarGame.Utils.Debug;
 using Godot;
 using System;
 
@@ -24,7 +25,6 @@ public partial class GattlingGun : WeaponBase
 
   public override bool TryActivate(Vector3 direction)
   {
-    
     if (!_cooldownTimer.IsStopped())
       return false;
         
