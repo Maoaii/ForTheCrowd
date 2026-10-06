@@ -41,12 +41,12 @@ public partial class WeaponManager : Node3D
 		
         base._PhysicsProcess(delta);
 		if (_blackboard.Input.WantsActivateWeapon(out int slot)) {
-			if (slot == -1)
+			if (slot == -1 || _slots.Count - 1 < slot)
 				return;
 			
-			WeaponSlot weaponSlot = _slots[slot];
+			WeaponSlot weaponSlot = _slots[slot - 1];
 
-			weaponSlot.TryActivate(_aimingProvider.GetAimingDirection());
+			weaponSlot.TryActivate(_aimingProvider.GetAimingDirection(this));
 		}
     }
 

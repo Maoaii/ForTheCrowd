@@ -27,6 +27,9 @@ public partial class WeaponSlot : Node3D
 
 	public void TryActivate(Vector3 direction)
 	{
+		if (_weapon == null)
+			return;
+			
 		_weapon.TryActivate(direction);
 	}
 }

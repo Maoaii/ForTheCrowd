@@ -25,6 +25,7 @@
 [ext_resource type="Script" uid="uid://7e1w2abt42wl" path="res://Entities/Player/Components/BoostComponent.cs" id="23_avsg8"]
 [ext_resource type="PackedScene" uid="uid://di7aaxxg3hhxy" path="res://Entities/Player/Components/FuelProgressBar/fuel_progress_bar.tscn" id="24_dv6dp"]
 [ext_resource type="Script" uid="uid://t2sf7rx63ucr" path="res://Entities/Player/Components/Weapons/WeaponManager.cs" id="25_01ng6"]
+[ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="26_u86q5"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Components/Weapons/WeaponSlot.cs" id="26_ui1ln"]
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Components/Weapons/Gattling/gattling_gun.tscn" id="27_og23y"]
 
@@ -60,6 +61,12 @@ billboard_keep_scale = true
 [sub_resource type="QuadMesh" id="QuadMesh_80ryp"]
 resource_local_to_scene = true
 material = SubResource("StandardMaterial3D_u86q5")
+
+[sub_resource type="Resource" id="Resource_og23y"]
+script = ExtResource("26_u86q5")
+AimRange = 500.0
+TargetLayers = 4
+metadata/_custom_type_script = "uid://bnai5q2few736"
 
 [node name="Player" type="CharacterBody3D" unique_id=1669282 node_paths=PackedStringArray("Blackboard")]
 collision_layer = 2
@@ -259,6 +266,7 @@ _blackboard = NodePath("../BlackboardComponent")
 [node name="WeaponManager" type="Node3D" parent="Components" unique_id=986360104 node_paths=PackedStringArray("_blackboard")]
 script = ExtResource("25_01ng6")
 _blackboard = NodePath("../BlackboardComponent")
+_aimingProvider = SubResource("Resource_og23y")
 metadata/_custom_type_script = "uid://t2sf7rx63ucr"
 
 [node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=164653709]
@@ -269,14 +277,11 @@ WeaponScene = ExtResource("27_og23y")
 [node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1327966020]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
 script = ExtResource("26_ui1ln")
-WeaponScene = ExtResource("27_og23y")
 
 [node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=82123927]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
 script = ExtResource("26_ui1ln")
-WeaponScene = ExtResource("27_og23y")
 
 [node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1381613442]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
 script = ExtResource("26_ui1ln")
-WeaponScene = ExtResource("27_og23y")
