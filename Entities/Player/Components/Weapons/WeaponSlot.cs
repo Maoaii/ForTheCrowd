@@ -25,11 +25,16 @@ public partial class WeaponSlot : Node3D
 		_weapon.SetInitialPosition(GlobalPosition);
 	}
 
-	public void TryActivate(Vector3 direction)
+	public bool TryActivate(Vector3 direction)
 	{
 		if (_weapon == null)
-			return;
-
-		_weapon.TryActivate(direction);
+			return false;
+		
+		bool activated = _weapon.TryActivate(direction);
+		
+		if (activated)
+			LookAt(GlobalPosition + direction);
+		
+		return activated;
 	}
 }

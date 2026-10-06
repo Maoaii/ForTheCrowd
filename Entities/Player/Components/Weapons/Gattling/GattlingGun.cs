@@ -27,11 +27,11 @@ public partial class GattlingGun : Node3D, IWeapon
     GlobalPosition = position;
   }
 
-  public void TryActivate(Vector3 direction)
+  public bool TryActivate(Vector3 direction)
   {
     if (!_cooldownTimer.IsStopped())
-      return;
-    
+      return false;
+        
     GattlingBullet bullet = _bulletPackedScene.Instantiate<GattlingBullet>();
     bullet.TopLevel = true; 
     AddChild(bullet);
@@ -40,5 +40,6 @@ public partial class GattlingGun : Node3D, IWeapon
     bullet.SetDirection(direction, _weaponConfig.InitialSpeed);
 
     _cooldownTimer.Start();
+    return true;
   }
 }

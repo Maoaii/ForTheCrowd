@@ -3,10 +3,12 @@
 [ext_resource type="Script" uid="uid://cp7glxmlu8dob" path="res://Entities/Player/Components/Weapons/Gattling/GattlingBullet.cs" id="1_y1ixq"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y1ixq"]
+radius = 0.72753906
+height = 1.4550781
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_y1ixq"]
-radius = 0.34033203
-height = 1.6708984
+radius = 0.20263672
+height = 0.6308594
 
 [node name="GattlingBullet" type="Area3D" unique_id=1366855782]
 collision_layer = 8
@@ -14,7 +16,7 @@ collision_mask = 4
 script = ExtResource("1_y1ixq")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1124764650]
-transform = Transform3D(0.43590426, 0, 0, -2.4612984e-23, -3.035917e-08, -0.47617903, 0, 0.6945367, -2.081445e-08, 0, 0, 0)
+transform = Transform3D(0.22396688, 0, 0, -1.264611e-23, -1.4290657e-08, -0.23616135, 0, 0.32693204, -1.0322943e-08, 0, 0, 0)
 layers = 2
 cast_shadow = 0
 gi_mode = 0
