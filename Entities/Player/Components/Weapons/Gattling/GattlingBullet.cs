@@ -1,10 +1,17 @@
 using Godot;
 using System;
 
-public partial class GattlingBullet : Node3D, IBullet
+public partial class GattlingBullet : Area3D, IBullet
 {
 	private Vector3 _direction;
 	private float _speed;
+
+    public override void _Ready()
+    {
+        base._Ready();
+        AreaEntered += area => QueueFree();
+        BodyEntered += body => QueueFree();
+    }
 
     public override void _PhysicsProcess(double delta)
     {

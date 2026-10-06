@@ -39,7 +39,8 @@ public partial class Zombie : Area3D, ISwarmable
     public override void _Ready()
     {
         AddToGroup("TerrainTrackable");
-        this.BodyEntered += HandleCollision;
+        BodyEntered += HandleCollision;
+        AreaEntered += HandleCollision;
         Swarm?.RegisterEntity(this);
     }
 
@@ -61,25 +62,22 @@ public partial class Zombie : Area3D, ISwarmable
 
     private void HandleCollision(Node3D body)
     {
-        if (body is Player.Player)
-        {
-            GpuParticles3D particles = _bloodParticles;
-            _bloodParticles.Reparent(GetTree().CurrentScene);
-            _bloodParticles.Emitting = true;
-            _bloodParticles.Owner = GetTree().CurrentScene;
+        GpuParticles3D particles = _bloodParticles;
+        _bloodParticles.Reparent(GetTree().CurrentScene);
+        _bloodParticles.Emitting = true;
+        _bloodParticles.Owner = GetTree().CurrentScene;
 
-            GetTree().CreateTimer(_bloodParticles.Lifetime).Timeout += particles.QueueFree;
-            
-            Decal decal = _bloodDecal;
-            _bloodDecal.Reparent(GetTree().CurrentScene);
-            _bloodDecal.Owner = GetTree().CurrentScene;
-            _bloodDecal.Visible = true;
-            Tween tween = GetTree().CurrentScene.CreateTween();
-            tween.TweenProperty(decal, "modulate:a", 0.0f, 3).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut);
-            tween.TweenCallback(Callable.From(() => decal.QueueFree()));
-            
-            QueueFree();
-        }
+        GetTree().CreateTimer(_bloodParticles.Lifetime).Timeout += particles.QueueFree;
+        
+        Decal decal = _bloodDecal;
+        _bloodDecal.Reparent(GetTree().CurrentScene);
+        _bloodDecal.Owner = GetTree().CurrentScene;
+        _bloodDecal.Visible = true;
+        Tween tween = GetTree().CurrentScene.CreateTween();
+        tween.TweenProperty(decal, "modulate:a", 0.0f, 3).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut);
+        tween.TweenCallback(Callable.From(() => decal.QueueFree()));
+        
+        QueueFree();
     }
 
     public override void _PhysicsProcess(double delta)

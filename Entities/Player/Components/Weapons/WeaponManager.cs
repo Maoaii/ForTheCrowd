@@ -46,7 +46,7 @@ public partial class WeaponManager : Node3D
 			
 			WeaponSlot weaponSlot = _slots[slot - 1];
 
-			weaponSlot.TryActivate(_aimingProvider.GetAimingDirection(this));
+			weaponSlot.TryActivate(_aimingProvider.GetAimingDirection(weaponSlot));
 		}
     }
 

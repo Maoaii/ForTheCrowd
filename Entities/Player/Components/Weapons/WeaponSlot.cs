@@ -22,14 +22,14 @@ public partial class WeaponSlot : Node3D
 		_weapon = WeaponScene.Instantiate<GattlingGun>();
 		AddChild(_weapon);
         _weapon.Owner = this;
-		_weapon.SetInitialBasis(Basis);
+		_weapon.SetInitialPosition(GlobalPosition);
 	}
 
 	public void TryActivate(Vector3 direction)
 	{
 		if (_weapon == null)
 			return;
-			
+
 		_weapon.TryActivate(direction);
 	}
 }

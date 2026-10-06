@@ -6,16 +6,17 @@
 
 [sub_resource type="Resource" id="Resource_ycojx"]
 script = ExtResource("2_nlf5b")
-Cooldown = 0.01
+Cooldown = 0.1
 metadata/_custom_type_script = "uid://cidioslow8fcp"
 
 [sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
 
-[node name="GattlingGun" type="Node3D" unique_id=329357420]
+[node name="GattlingGun" type="Node3D" unique_id=302018876]
 script = ExtResource("1_fh2a1")
 _weaponConfig = SubResource("Resource_ycojx")
 _bulletPackedScene = ExtResource("3_ycojx")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=581557477]
 transform = Transform3D(0.17690873, 0, 0, 0, 0.23620246, 0, 0, 0, 1, 0, 0, 0)
+layers = 2
 mesh = SubResource("BoxMesh_nlf5b")
