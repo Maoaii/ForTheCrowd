@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GattlingGun : Node3D, IWeapon
+public partial class GattlingGun : WeaponBase
 {
 	[Export] private WeaponConfig _weaponConfig;
 	[Export] private PackedScene _bulletPackedScene;
@@ -22,13 +22,9 @@ public partial class GattlingGun : Node3D, IWeapon
         AddChild(_cooldownTimer);
     }
 
-  public void SetInitialPosition(Vector3 position)
+  public override bool TryActivate(Vector3 direction)
   {
-    GlobalPosition = position;
-  }
-
-  public bool TryActivate(Vector3 direction)
-  {
+    
     if (!_cooldownTimer.IsStopped())
       return false;
         
@@ -39,6 +35,7 @@ public partial class GattlingGun : Node3D, IWeapon
     bullet.SetLifetime(_weaponConfig.BulletLifetime);
     bullet.SetDirection(direction, _weaponConfig.InitialSpeed);
 
+    base.TryActivate(direction);
     _cooldownTimer.Start();
     return true;
   }
