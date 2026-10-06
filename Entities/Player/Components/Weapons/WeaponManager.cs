@@ -1,3 +1,4 @@
+using CarGame.Entities.Components.AimingSystem;
 using CarGame.Systems.Blackboards;
 using Godot;
 using System;
@@ -11,7 +12,11 @@ public partial class WeaponManager : Node3D
 	public Callable GenerateSlotPositionsButton => Callable.From(GenerateSlotPositions); 
 
 	[ExportCategory("References")]
-	[Export] private BlackboardComponent _blackboard;
+	[Export] 
+	private BlackboardComponent _blackboard;
+
+	[Export]
+	private AimingProviderBase _aimingProvider;
 
 
 	private readonly List<WeaponSlot> _slots = [];
@@ -41,7 +46,7 @@ public partial class WeaponManager : Node3D
 			
 			WeaponSlot weaponSlot = _slots[slot];
 
-			weaponSlot.TryActivate(_blackboard.Visuals.VisualDirection.Normalized());
+			weaponSlot.TryActivate(_aimingProvider.GetAimingDirection());
 		}
     }
 
