@@ -1,11 +1,7 @@
-using CarGame.Utils.Debug;
 using Godot;
-using System;
 
 public partial class GattlingGun : WeaponBase
 {
-	[Export] private WeaponConfig _weaponConfig;
-	[Export] private PackedScene _bulletPackedScene;
 
   private Timer _cooldownTimer;
 
@@ -15,7 +11,7 @@ public partial class GattlingGun : WeaponBase
         base._Ready();
         _cooldownTimer = new Timer()
         {
-          WaitTime = _weaponConfig.Cooldown,
+          WaitTime = WeaponConfig.Cooldown,
           Autostart = false,
           OneShot = true,
         };
@@ -28,12 +24,12 @@ public partial class GattlingGun : WeaponBase
     if (!_cooldownTimer.IsStopped())
       return false;
         
-    GattlingBullet bullet = _bulletPackedScene.Instantiate<GattlingBullet>();
+    GattlingBullet bullet = BulletPackedScene.Instantiate<GattlingBullet>();
     bullet.TopLevel = true; 
     AddChild(bullet);
     bullet.GlobalPosition = GlobalPosition;
-    bullet.SetLifetime(_weaponConfig.BulletLifetime);
-    bullet.SetDirection(direction, _weaponConfig.InitialSpeed);
+    bullet.SetLifetime(WeaponConfig.BulletLifetime);
+    bullet.SetDirection(direction, WeaponConfig.InitialSpeed);
 
     base.TryActivate(direction);
     _cooldownTimer.Start();

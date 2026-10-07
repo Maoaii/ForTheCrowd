@@ -3,6 +3,12 @@ using System;
 
 public abstract partial class WeaponBase : Node3D
 {
+	[Export] public WeaponConfig WeaponConfig;
+	[Export] public PackedScene BulletPackedScene;
+	
+	private Tween scaleTween;
+	private Tween recoilTween;
+
 	public void SetInitialPosition(Vector3 position)
 	{
 		GlobalPosition = position;
@@ -15,16 +21,48 @@ public abstract partial class WeaponBase : Node3D
 		return true;
 	}
 
-	Tween tween;
 	private void ShootAnimation()
 	{
-		if (tween != null && tween.IsValid())
-		{
-			tween.Kill();
-		}
-		tween = CreateTween();
+		ScaleAnimation();
+		RecoilAnimation();
+	}
 
-		tween.TweenProperty(this, "scale", new Vector3(1.3f, 1.3f, 1.3f), 0.05);
-		tween.TweenProperty(this, "scale", new Vector3(1.0f, 1.0f, 1.0f), 0.1);
+	private void ScaleAnimation()
+	{
+		if (scaleTween != null && scaleTween.IsValid())
+		{
+			scaleTween.Kill();
+		}
+		scaleTween = CreateTween();
+		scaleTween.TweenProperty(this, "scale", WeaponConfig.ScaleUpAmount, WeaponConfig.ScaleUpTime)
+			.SetTrans(WeaponConfig.ScaleUpTweenTransition)
+			.SetEase(WeaponConfig.ScaleUpTweenEase);
+		scaleTween.TweenProperty(this, "scale", new Vector3(1f, 1f, 1f), WeaponConfig.ScaleDownTime)
+			.SetTrans(WeaponConfig.ScaleDownTweenTransition)
+			.SetEase(WeaponConfig.ScaleDownTweenEase);
+	}
+
+	private void RecoilAnimation()
+	{	
+		if (recoilTween != null && recoilTween.IsValid())
+		{
+			recoilTween.Kill();
+		}
+		
+		recoilTween = CreateTween();
+		
+		recoilTween.TweenProperty(this, "position", Position + new Vector3(0, 0, -WeaponConfig.RecoilDistance), WeaponConfig.RecoilUpTime)
+			.SetTrans(WeaponConfig.RecoilUpTweenTransition)
+			.SetEase(WeaponConfig.RecoilUpTweenEase);
+		recoilTween.Parallel().TweenProperty(this, "rotation", Rotation + new Vector3(Mathf.DegToRad(WeaponConfig.RecoilRotationAmount), 0, 0), WeaponConfig.RecoilUpTime)
+			.SetTrans(WeaponConfig.RecoilUpTweenTransition)
+			.SetEase(WeaponConfig.RecoilUpTweenEase);
+		
+		recoilTween.TweenProperty(this, "position", Vector3.Zero, WeaponConfig.RecoilDownTime)
+			.SetTrans(WeaponConfig.RecoilDownTweenTransition)
+			.SetEase(WeaponConfig.RecoilDownTweenEase);
+		recoilTween.Parallel().TweenProperty(this, "rotation", Vector3.Zero, WeaponConfig.RecoilDownTime)
+			.SetTrans(WeaponConfig.RecoilDownTweenTransition)
+			.SetEase(WeaponConfig.RecoilDownTweenEase);
 	}
 }
