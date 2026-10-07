@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://dsc75goyekxjs"]
 
-[ext_resource type="Script" uid="uid://cp7glxmlu8dob" path="res://Entities/Player/Components/Weapons/Gattling/GattlingBullet.cs" id="1_y1ixq"]
+[ext_resource type="Script" uid="uid://cp7glxmlu8dob" path="res://Entities/Player/Weapons/Gattling/GattlingBullet.cs" id="1_y1ixq"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y1ixq"]
 radius = 0.72753906

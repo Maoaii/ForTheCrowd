@@ -1,11 +1,11 @@
 [gd_scene format=3 uid="uid://drkrwjplhpn0h"]
 
-[ext_resource type="Script" uid="uid://b7tywwbfodjxf" path="res://Entities/Player/Components/Weapons/Gattling/GattlingGun.cs" id="1_fh2a1"]
-[ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Components/Weapons/WeaponConfig.cs" id="2_nlf5b"]
-[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Components/Weapons/Gattling/gattling_bullet.tscn" id="3_ycojx"]
+[ext_resource type="Script" uid="uid://b7tywwbfodjxf" path="res://Entities/Player/Weapons/Gattling/GattlingGun.cs" id="1_gp2re"]
+[ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Weapons/WeaponConfig.cs" id="2_1c758"]
+[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/Gattling/gattling_bullet.tscn" id="3_gquso"]
 
 [sub_resource type="Resource" id="Resource_fh2a1"]
-script = ExtResource("2_nlf5b")
+script = ExtResource("2_1c758")
 Cooldown = 0.2
 RecoilRotationAmount = 10.0
 metadata/_custom_type_script = "uid://cidioslow8fcp"
@@ -13,9 +13,9 @@ metadata/_custom_type_script = "uid://cidioslow8fcp"
 [sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
 
 [node name="GattlingGun" type="Node3D" unique_id=302018876]
-script = ExtResource("1_fh2a1")
+script = ExtResource("1_gp2re")
 WeaponConfig = SubResource("Resource_fh2a1")
-BulletPackedScene = ExtResource("3_ycojx")
+BulletPackedScene = ExtResource("3_gquso")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=581557477]
 transform = Transform3D(0.17690873, 0, 0, 0, 0.23620246, 0, 0, 0, 1, 0, 0, 0)
