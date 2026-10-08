@@ -2,37 +2,68 @@ using Godot;
 
 public partial class GattlingGun : WeaponBase
 {
+	private Tween scaleTween;
+	private Tween recoilTween;
 
-  private Timer _cooldownTimer;
+	public override bool TryActivate(Vector3 direction)
+	{
+		if (!_cooldownTimer.IsStopped())
+			return false;
 
+		GattlingBullet bullet = WeaponConfig.BulletPackedScene.Instantiate<GattlingBullet>();
+		bullet.TopLevel = true;
+		AddChild(bullet);
+		bullet.GlobalPosition = BulletSpawnPoint.GlobalPosition;
+		bullet.SetLifetime(WeaponConfig.BulletLifetime);
+		bullet.SetDirection(direction, WeaponConfig.InitialSpeed);
 
-    public override void _Ready()
-    {
-        base._Ready();
-        _cooldownTimer = new Timer()
-        {
-          WaitTime = WeaponConfig.Cooldown,
-          Autostart = false,
-          OneShot = true,
-        };
+		base.TryActivate(direction);
+		_cooldownTimer.Start();
+		return true;
+	}
 
-        AddChild(_cooldownTimer);
-    }
+	public override void ShootAnimation()
+	{
+		ScaleAnimation();
+		RecoilAnimation();
+	}
 
-  public override bool TryActivate(Vector3 direction)
-  {
-    if (!_cooldownTimer.IsStopped())
-      return false;
-        
-    GattlingBullet bullet = BulletPackedScene.Instantiate<GattlingBullet>();
-    bullet.TopLevel = true; 
-    AddChild(bullet);
-    bullet.GlobalPosition = GlobalPosition;
-    bullet.SetLifetime(WeaponConfig.BulletLifetime);
-    bullet.SetDirection(direction, WeaponConfig.InitialSpeed);
+	private void ScaleAnimation()
+	{
+		if (scaleTween != null && scaleTween.IsValid())
+		{
+			scaleTween.Kill();
+		}
+		scaleTween = CreateTween();
+		scaleTween.TweenProperty(this, "scale", WeaponConfig.ScaleUpAmount, WeaponConfig.ScaleUpTime)
+			.SetTrans(WeaponConfig.ScaleUpTweenTransition)
+			.SetEase(WeaponConfig.ScaleUpTweenEase);
+		scaleTween.TweenProperty(this, "scale", new Vector3(1f, 1f, 1f), WeaponConfig.ScaleDownTime)
+			.SetTrans(WeaponConfig.ScaleDownTweenTransition)
+			.SetEase(WeaponConfig.ScaleDownTweenEase);
+	}
 
-    base.TryActivate(direction);
-    _cooldownTimer.Start();
-    return true;
-  }
+	private void RecoilAnimation()
+	{
+		if (recoilTween != null && recoilTween.IsValid())
+		{
+			recoilTween.Kill();
+		}
+
+		recoilTween = CreateTween();
+
+		recoilTween.TweenProperty(this, "position", Position + new Vector3(0, 0, -WeaponConfig.RecoilDistance), WeaponConfig.RecoilUpTime)
+			.SetTrans(WeaponConfig.RecoilUpTweenTransition)
+			.SetEase(WeaponConfig.RecoilUpTweenEase);
+		recoilTween.Parallel().TweenProperty(this, "rotation", Rotation + new Vector3(Mathf.DegToRad(WeaponConfig.RecoilRotationAmount), 0, 0), WeaponConfig.RecoilUpTime)
+			.SetTrans(WeaponConfig.RecoilUpTweenTransition)
+			.SetEase(WeaponConfig.RecoilUpTweenEase);
+
+		recoilTween.TweenProperty(this, "position", Vector3.Zero, WeaponConfig.RecoilDownTime)
+			.SetTrans(WeaponConfig.RecoilDownTweenTransition)
+			.SetEase(WeaponConfig.RecoilDownTweenEase);
+		recoilTween.Parallel().TweenProperty(this, "rotation", Vector3.Zero, WeaponConfig.RecoilDownTime)
+			.SetTrans(WeaponConfig.RecoilDownTweenTransition)
+			.SetEase(WeaponConfig.RecoilDownTweenEase);
+	}
 }

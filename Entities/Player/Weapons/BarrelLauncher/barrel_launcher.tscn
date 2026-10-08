@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://cynej27r3h80u"]
+
+[ext_resource type="Script" uid="uid://b7hnw868xxh6i" path="res://Entities/Player/Weapons/BarrelLauncher/BarrelLauncher.cs" id="1_vbqvf"]
+[ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Weapons/WeaponConfig.cs" id="2_da1hm"]
+[ext_resource type="PackedScene" uid="uid://d1y6vo7sr2688" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_bullet.tscn" id="3_3hkbx"]
+
+[sub_resource type="Resource" id="Resource_v27kq"]
+script = ExtResource("2_da1hm")
+BulletPackedScene = ExtResource("3_3hkbx")
+metadata/_custom_type_script = "uid://cidioslow8fcp"
+
+[sub_resource type="BoxMesh" id="BoxMesh_flswb"]
+size = Vector3(1, 1, 2.0089111)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rl7tv"]
+size = Vector3(3.6669922, 1, 0.90966797)
+
+[node name="BarrelLauncher" type="Node3D" unique_id=1393748732 node_paths=PackedStringArray("BulletSpawnPoint")]
+script = ExtResource("1_vbqvf")
+WeaponConfig = SubResource("Resource_v27kq")
+BulletSpawnPoint = NodePath("Marker3D")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1952222712]
+transform = Transform3D(0.4404564, 0, 0, 0, 0.23620246, 0, 0, 0, 1.5329239, 0, 0, 0.773292)
+layers = 2
+mesh = SubResource("BoxMesh_flswb")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1544449804]
+transform = Transform3D(1, 0, 0, 0, 0.9999994, 0, 0, 0, 0.99998033, 0, 0, 0.96021694)
+mesh = SubResource("BoxMesh_rl7tv")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=428944922]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26599288, 2.2696862)

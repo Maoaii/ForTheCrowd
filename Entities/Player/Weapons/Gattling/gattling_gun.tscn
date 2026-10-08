@@ -7,17 +7,21 @@
 [sub_resource type="Resource" id="Resource_fh2a1"]
 script = ExtResource("2_1c758")
 Cooldown = 0.2
+BulletPackedScene = ExtResource("3_gquso")
 RecoilRotationAmount = 10.0
 metadata/_custom_type_script = "uid://cidioslow8fcp"
 
 [sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
 
-[node name="GattlingGun" type="Node3D" unique_id=302018876]
+[node name="GattlingGun" type="Node3D" unique_id=302018876 node_paths=PackedStringArray("BulletSpawnPoint")]
 script = ExtResource("1_gp2re")
 WeaponConfig = SubResource("Resource_fh2a1")
-BulletPackedScene = ExtResource("3_gquso")
+BulletSpawnPoint = NodePath("Marker3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=581557477]
 transform = Transform3D(0.17690873, 0, 0, 0, 0.23620246, 0, 0, 0, 1, 0, 0, 0)
 layers = 2
 mesh = SubResource("BoxMesh_nlf5b")
+
+[node name="Marker3D" type="Marker3D" parent="." unique_id=449475215]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.50021243)

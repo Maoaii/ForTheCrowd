@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class GattlingBullet : Area3D, IBullet
+public partial class GattlingBullet : BulletBase
 {
 	private Vector3 _direction;
 	private float _speed;
@@ -19,14 +19,14 @@ public partial class GattlingBullet : Area3D, IBullet
 		GlobalPosition += _direction * _speed * (float) delta;
         LookAt(GlobalPosition + _direction);
     }
-    public void SetDirection(Vector3 direction, float speed)
+    public override void SetDirection(Vector3 direction, float speed)
     {
         _direction = direction;
 		_speed = speed;
         LookAt(GlobalPosition + _direction);
     }
 
-    public void SetLifetime(float lifetime)
+    public override void SetLifetime(float lifetime)
     {
         GetTree().CreateTimer(lifetime).Timeout += () => QueueFree();
     }

@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="26_u86q5"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="26_ui1ln"]
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/Gattling/gattling_gun.tscn" id="27_og23y"]
+[ext_resource type="PackedScene" uid="uid://cynej27r3h80u" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.tscn" id="28_80ryp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
 radius = 1.1661224
@@ -272,7 +273,7 @@ metadata/_custom_type_script = "uid://t2sf7rx63ucr"
 [node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=164653709]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 script = ExtResource("26_ui1ln")
-WeaponScene = ExtResource("27_og23y")
+WeaponScene = ExtResource("28_80ryp")
 
 [node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1327966020]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
@@ -282,9 +283,7 @@ WeaponScene = ExtResource("27_og23y")
 [node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=82123927]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
 script = ExtResource("26_ui1ln")
-WeaponScene = ExtResource("27_og23y")
 
 [node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1381613442]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
 script = ExtResource("26_ui1ln")
-WeaponScene = ExtResource("27_og23y")
