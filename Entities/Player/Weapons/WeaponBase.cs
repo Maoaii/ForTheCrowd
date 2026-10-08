@@ -36,9 +36,23 @@ public abstract partial class WeaponBase : Node3D
 
 	public virtual bool TryActivate(Vector3 direction)
 	{
-		ShootAnimation();
+		if (!_cooldownTimer.IsStopped())
+			return false;
 
+
+		SpawnBullet(direction);
+		ShootAnimation();
+		_cooldownTimer.Start();
 		return true;
+	}
+
+	private void SpawnBullet(Vector3 direction)
+	{
+		BulletBase bullet = WeaponConfig.BulletConfig.BulletPackedScene.Instantiate<BulletBase>();
+		bullet.TopLevel = true;
+		AddChild(bullet);
+
+		bullet.Setup(WeaponConfig.BulletConfig, direction, BulletSpawnPoint.GlobalPosition);
 	}
 
 	public abstract void ShootAnimation();

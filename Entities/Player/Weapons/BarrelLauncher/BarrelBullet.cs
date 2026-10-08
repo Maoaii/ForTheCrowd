@@ -3,13 +3,8 @@ using Godot;
 
 public partial class BarrelBullet : BulletBase
 {
-    public override void SetDirection(Vector3 direction, float speed)
+    public override void MoveBullet(double delta)
     {
-        //throw new NotImplementedException();
-    }
-
-    public override void SetLifetime(float lifetime)
-    {
-        //throw new NotImplementedException();
+        // Custom movement logic for BarrelBullet
     }
 }

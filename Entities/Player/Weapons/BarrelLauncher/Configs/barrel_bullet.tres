@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="BulletConfig" format=3 uid="uid://dhpmeeyws6jud"]
+
+[ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="1_j02l5"]
+[ext_resource type="PackedScene" uid="uid://d1y6vo7sr2688" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_bullet.tscn" id="1_m45fb"]
+
+[resource]
+script = ExtResource("1_j02l5")
+BulletPackedScene = ExtResource("1_m45fb")
+metadata/_custom_type_script = "uid://q8f12lil0xdo"

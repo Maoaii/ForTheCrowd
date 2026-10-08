@@ -1,21 +1,13 @@
 [gd_scene format=3 uid="uid://drkrwjplhpn0h"]
 
 [ext_resource type="Script" uid="uid://b7tywwbfodjxf" path="res://Entities/Player/Weapons/Gattling/GattlingGun.cs" id="1_gp2re"]
-[ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Weapons/WeaponConfig.cs" id="2_1c758"]
-[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/Gattling/gattling_bullet.tscn" id="3_gquso"]
-
-[sub_resource type="Resource" id="Resource_fh2a1"]
-script = ExtResource("2_1c758")
-Cooldown = 0.2
-BulletPackedScene = ExtResource("3_gquso")
-RecoilRotationAmount = 10.0
-metadata/_custom_type_script = "uid://cidioslow8fcp"
+[ext_resource type="Resource" uid="uid://e6v5w7bhtq46" path="res://Entities/Player/Weapons/Gattling/Configs/gattling_gun.tres" id="2_15cus"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
 
 [node name="GattlingGun" type="Node3D" unique_id=302018876 node_paths=PackedStringArray("BulletSpawnPoint")]
 script = ExtResource("1_gp2re")
-WeaponConfig = SubResource("Resource_fh2a1")
+WeaponConfig = ExtResource("2_15cus")
 BulletSpawnPoint = NodePath("Marker3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=581557477]
