@@ -34,25 +34,25 @@ public abstract partial class WeaponBase : Node3D
 		GlobalPosition = position;
 	}
 
-	public virtual bool TryActivate(Vector3 direction)
+	public virtual bool TryActivate(Vector3 direction, Vector3 targetPosition)
 	{
 		if (!_cooldownTimer.IsStopped())
 			return false;
 
 
-		SpawnBullet(direction);
+		SpawnBullet(direction, targetPosition);
 		ShootAnimation();
 		_cooldownTimer.Start();
 		return true;
 	}
 
-	private void SpawnBullet(Vector3 direction)
+	private void SpawnBullet(Vector3 direction, Vector3 targetPosition)
 	{
 		BulletBase bullet = WeaponConfig.BulletConfig.BulletPackedScene.Instantiate<BulletBase>();
 		bullet.TopLevel = true;
 		AddChild(bullet);
 
-		bullet.Setup(WeaponConfig.BulletConfig, direction, BulletSpawnPoint.GlobalPosition);
+		bullet.Setup(WeaponConfig.BulletConfig, direction, BulletSpawnPoint.GlobalPosition, targetPosition);
 	}
 
 	public abstract void ShootAnimation();

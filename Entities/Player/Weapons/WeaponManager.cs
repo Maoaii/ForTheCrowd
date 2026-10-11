@@ -1,18 +1,18 @@
+using System;
+using System.Collections.Generic;
 using CarGame.Entities.Components.AimingSystem;
 using CarGame.Systems.Blackboards;
 using Godot;
-using System;
-using System.Collections.Generic;
 
 [Tool]
 [GlobalClass]
 public partial class WeaponManager : Node3D
 {
 	[ExportToolButton("Generate slot positions")]
-	public Callable GenerateSlotPositionsButton => Callable.From(GenerateSlotPositions); 
+	public Callable GenerateSlotPositionsButton => Callable.From(GenerateSlotPositions);
 
 	[ExportCategory("References")]
-	[Export] 
+	[Export]
 	private BlackboardComponent _blackboard;
 
 	[Export]
@@ -25,30 +25,30 @@ public partial class WeaponManager : Node3D
 	private WeaponSlot _slot3Marker;
 	private WeaponSlot _slot4Marker;
 
-    public override void _Ready()
-    {
-        base._Ready();
+	public override void _Ready()
+	{
+		base._Ready();
 		if (Engine.IsEditorHint())
 			return;
-		
-		CollectEditorSlots();
-    }
 
-    public override void _PhysicsProcess(double delta)
-    {
+		CollectEditorSlots();
+	}
+
+	public override void _PhysicsProcess(double delta)
+	{
 		if (Engine.IsEditorHint())
 			return;
-		
-        base._PhysicsProcess(delta);
-		
+
+		base._PhysicsProcess(delta);
+
 		foreach (WeaponSlot weaponSlot in _slots)
 		{
-			Vector3 direction = _aimingProvider.GetAimingDirection(weaponSlot);
+			var (direction, targetPosition) = _aimingProvider.GetAimingDirection(weaponSlot, _blackboard.Kinematics.Velocity);
 			if (direction == Vector3.Zero)
 				continue;
-			weaponSlot.TryActivate(direction);
+			weaponSlot.TryActivate(direction, targetPosition);
 		}
-    }
+	}
 
 	private void CollectEditorSlots()
 	{
@@ -65,7 +65,7 @@ public partial class WeaponManager : Node3D
 		throw new NotImplementedException();
 	}
 
-	
+
 	private void GenerateSlotPositions()
 	{
 		_slots.Clear();
@@ -74,7 +74,7 @@ public partial class WeaponManager : Node3D
 			RemoveChild(child);
 			child.QueueFree();
 		}
-		
+
 		_slot1Marker = new WeaponSlot();
 		AddChild(_slot1Marker, true, InternalMode.Disabled);
 		_slot1Marker.Owner = GetTree().EditedSceneRoot;
