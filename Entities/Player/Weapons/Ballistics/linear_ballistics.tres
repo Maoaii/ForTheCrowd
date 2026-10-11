@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="LinearBallistics" format=3 uid="uid://dehikt4hxi6dr"]
+
+[ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="1_sr5mj"]
+
+[resource]
+script = ExtResource("1_sr5mj")
+metadata/_custom_type_script = "uid://bpvv2e7pts1uc"

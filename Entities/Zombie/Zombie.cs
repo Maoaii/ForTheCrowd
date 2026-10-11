@@ -1,135 +1,139 @@
-using Godot;
 using System;
+using CarGame.Entities.Components;
 using CarGame.Entities.Enemies.Swarm;
 using CarGame.Utils.Debug;
+using Godot;
 using Godot.Collections;
-using System.Linq;
-using System.Drawing;
 
 namespace CarGame.Entities.Enemies;
 
-public partial class Zombie : Area3D, ISwarmable
+public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
 {
-    // --- Physics Properties ---
-    [ExportGroup("Movement")]
-    [Export] public float SeekingForce = 5.0f;
-    [Export] public float SeekingWeight = 0.5f;
-    [Export] public float SeparationForce = 15.0f;
-    [Export] public float SeparationWeight = 0.5f;
-    [Export] public float VelocityLerpSpeed = 1.0f;
-    
-    [ExportGroup("Physics")]
-    [Export] public float GravityForce = 9.8f;
-    [Export(PropertyHint.Layers3DPhysics)] public uint GroundMask = 1;
-    [Export] public float GroundOffset = 0.0f;
-    [Export] public Marker3D GroundFrom;
-    [Export] public Marker3D GroundTo;
+	// --- Physics Properties ---
+	[ExportGroup("Movement")]
+	[Export] public float SeekingForce = 5.0f;
+	[Export] public float SeekingWeight = 0.5f;
+	[Export] public float SeparationForce = 15.0f;
+	[Export] public float SeparationWeight = 0.5f;
+	[Export] public float VelocityLerpSpeed = 1.0f;
 
-    [ExportGroup("Visuals")]
-    [Export] private GpuParticles3D _bloodParticles;
-    [Export] private Decal _bloodDecal;
+	[ExportGroup("Physics")]
+	[Export] public float GravityForce = 9.8f;
+	[Export(PropertyHint.Layers3DPhysics)] public uint GroundMask = 1;
+	[Export] public float GroundOffset = 0.0f;
+	[Export] public Marker3D GroundFrom;
+	[Export] public Marker3D GroundTo;
 
-    // --- Fields ---
-    public Node3D Target;
-    public SwarmManager Swarm;
-    private Vector3 _velocity = Vector3.Zero;
-    
-    public event Action<Node3D> OnFreed;
+	[ExportGroup("Visuals")]
+	[Export] private GpuParticles3D _bloodParticles;
+	[Export] private Decal _bloodDecal;
 
-    public override void _Ready()
-    {
-        AddToGroup("TerrainTrackable");
-        BodyEntered += HandleCollision;
-        AreaEntered += HandleCollision;
-        Swarm?.RegisterEntity(this);
-    }
+	// --- Fields ---
+	public Node3D Target;
+	public SwarmManager Swarm;
+	private Vector3 _velocity = Vector3.Zero;
 
-    public override void _ExitTree()
-    {
-        Swarm?.RemoveEntity(this);
-        OnFreed?.Invoke(this);
-    }
+	public event Action<Node3D> OnFreed;
 
-    public new Vector3 GetPosition()
-    {
-        return GlobalPosition;
-    }
+	public override void _Ready()
+	{
+		AddToGroup("TerrainTrackable");
+		BodyEntered += HandleCollision;
+		AreaEntered += HandleCollision;
+		Swarm?.RegisterEntity(this);
+	}
 
-    public new Transform3D GetGlobalTransform()
-    {
-        return GlobalTransform;
-    }
+	public override void _ExitTree()
+	{
+		Swarm?.RemoveEntity(this);
+		OnFreed?.Invoke(this);
+	}
 
-    private void HandleCollision(Node3D body)
-    {
-        GpuParticles3D particles = _bloodParticles;
-        _bloodParticles.Reparent(GetTree().CurrentScene);
-        _bloodParticles.Emitting = true;
-        _bloodParticles.Owner = GetTree().CurrentScene;
+	public new Vector3 GetPosition()
+	{
+		return GlobalPosition;
+	}
 
-        GetTree().CreateTimer(_bloodParticles.Lifetime).Timeout += particles.QueueFree;
-        
-        Decal decal = _bloodDecal;
-        _bloodDecal.Reparent(GetTree().CurrentScene);
-        _bloodDecal.Owner = GetTree().CurrentScene;
-        _bloodDecal.Visible = true;
-        Tween tween = GetTree().CurrentScene.CreateTween();
-        tween.TweenProperty(decal, "modulate:a", 0.0f, 3).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut);
-        tween.TweenCallback(Callable.From(() => decal.QueueFree()));
-        
-        QueueFree();
-    }
+	public new Transform3D GetGlobalTransform()
+	{
+		return GlobalTransform;
+	}
 
-    public override void _PhysicsProcess(double delta)
-    {
-        float dt = (float)delta;
-        
-        Vector3 directionToTarget = Vector3.Zero;
-        if (Target != null)
-        {
-            directionToTarget = Target.GlobalPosition - GlobalPosition;
-            directionToTarget.Y = 0;
-            
-            if (directionToTarget != Vector3.Zero)
-            {
-                directionToTarget = directionToTarget.Normalized();
-            }
-        }
+	private void HandleCollision(Node3D body)
+	{
+		GpuParticles3D particles = _bloodParticles;
+		_bloodParticles.Reparent(GetTree().CurrentScene);
+		_bloodParticles.Emitting = true;
+		_bloodParticles.Owner = GetTree().CurrentScene;
 
-        Vector3 separationVector = Vector3.Zero;
-        if (Swarm != null)
-        {
-            separationVector = Swarm.GetSeparationDirection(this);
-        }
+		GetTree().CreateTimer(_bloodParticles.Lifetime).Timeout += particles.QueueFree;
 
-        Vector3 seeking = directionToTarget * SeekingForce;
-        Vector3 separation = separationVector * SeparationForce;
-        Vector3 final = (seeking * SeekingWeight) + (separation * SeparationWeight);
+		Decal decal = _bloodDecal;
+		_bloodDecal.Reparent(GetTree().CurrentScene);
+		_bloodDecal.Owner = GetTree().CurrentScene;
+		_bloodDecal.Visible = true;
+		Tween tween = GetTree().CurrentScene.CreateTween();
+		tween.TweenProperty(decal, "modulate:a", 0.0f, 3).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut);
+		tween.TweenCallback(Callable.From(() => decal.QueueFree()));
 
-        // Keep the current Y velocity so we don't lerp gravity away
-        float currentY = _velocity.Y;
-        _velocity = _velocity.Lerp(final, VelocityLerpSpeed * dt);
-        _velocity.Y = currentY;
+		QueueFree();
+	}
 
-        _velocity.Y -= GravityForce * dt;
+	public override void _PhysicsProcess(double delta)
+	{
+		float dt = (float)delta;
 
-        PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-        // Use GlobalPosition and cast further down to catch slopes/falls
-        PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(GroundFrom.GlobalPosition, GroundTo.GlobalPosition + (Vector3.Down * 2.0f));
-        query.CollisionMask = GroundMask;
-        Dictionary result = spaceState.IntersectRay(query);
+		Vector3 directionToTarget = Vector3.Zero;
+		if (Target != null)
+		{
+			directionToTarget = Target.GlobalPosition - GlobalPosition;
+			directionToTarget.Y = 0;
 
-        GlobalPosition += _velocity * dt;
-        if (result.Count > 0)
-        {
-            _velocity.Y = 0; // Reset downward momentum when grounded
-            GlobalPosition = new Vector3(GlobalPosition.X, ((Vector3)result["position"]).Y + GroundOffset, GlobalPosition.Z);
-        }
+			if (directionToTarget != Vector3.Zero)
+			{
+				directionToTarget = directionToTarget.Normalized();
+			}
+		}
 
-        // Draw debug vectors
-        Vector3 zPos = GlobalPosition + Vector3.Up * 1.5f; 
-        VectorRenderer.DrawVector(zPos, seeking * SeekingWeight, Colors.Red, 1.0f); 
-        VectorRenderer.DrawVector(zPos, separation * SeparationWeight, Colors.Yellow, 1.0f); 
-        VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f);
-    }
+		Vector3 separationVector = Vector3.Zero;
+		if (Swarm != null)
+		{
+			separationVector = Swarm.GetSeparationDirection(this);
+		}
+
+		Vector3 seeking = directionToTarget * SeekingForce;
+		Vector3 separation = separationVector * SeparationForce;
+		Vector3 final = (seeking * SeekingWeight) + (separation * SeparationWeight);
+
+		// Keep the current Y velocity so we don't lerp gravity away
+		float currentY = _velocity.Y;
+		_velocity = _velocity.Lerp(final, VelocityLerpSpeed * dt);
+		_velocity.Y = currentY;
+
+		_velocity.Y -= GravityForce * dt;
+
+		PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
+		// Use GlobalPosition and cast further down to catch slopes/falls
+		PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(GroundFrom.GlobalPosition, GroundTo.GlobalPosition + (Vector3.Down * 2.0f));
+		query.CollisionMask = GroundMask;
+		Dictionary result = spaceState.IntersectRay(query);
+
+		GlobalPosition += _velocity * dt;
+		if (result.Count > 0)
+		{
+			_velocity.Y = 0; // Reset downward momentum when grounded
+			GlobalPosition = new Vector3(GlobalPosition.X, ((Vector3)result["position"]).Y + GroundOffset, GlobalPosition.Z);
+		}
+
+		// Draw debug vectors
+		Vector3 zPos = GlobalPosition + Vector3.Up * 1.5f;
+		VectorRenderer.DrawVector(zPos, seeking * SeekingWeight, Colors.Red, 1.0f);
+		VectorRenderer.DrawVector(zPos, separation * SeparationWeight, Colors.Yellow, 1.0f);
+		VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f);
+	}
+
+	public Vector3 GetVelocity()
+	{
+		return _velocity;
+	}
 }

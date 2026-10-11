@@ -1,5 +1,7 @@
 using Godot;
 
+namespace CarGame.Entities.Player.Weapons;
+
 public partial class GattlingGun : WeaponBase
 {
 	private Tween scaleTween;

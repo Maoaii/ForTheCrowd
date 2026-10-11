@@ -1,53 +1,58 @@
-using System;
+using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
+
+namespace CarGame.Entities.Player.Weapons;
 
 public abstract partial class BulletBase : Area3D
 {
-    private BulletConfig _config;
-    private Vector3 _direction;
-    private Vector3 _targetPosition;
-    private float _speed;
+	private BulletConfig _config;
+	private Vector3 _aimPoint;
 
-    public override void _Ready()
-    {
-        base._Ready();
-        AreaEntered += area => QueueFree();
-        BodyEntered += body => QueueFree();
-    }
+	private ProjectileState _state;
 
-    public override void _PhysicsProcess(double delta)
-    {
-        base._PhysicsProcess(delta);
-        MoveBullet(delta);
-        OrientTowardsDirection();
-    }
+	public override void _Ready()
+	{
+		base._Ready();
 
-    public void Setup(BulletConfig config, Vector3 direction, Vector3 position, Vector3 targetPosition)
-    {
-        _config = config;
-        _direction = direction;
-        _speed = config.InitialSpeed;
+		AreaEntered += area => QueueFree();
+		BodyEntered += body => QueueFree();
+	}
 
-        GlobalPosition = position;
-        _targetPosition = targetPosition;
+	public override void _PhysicsProcess(double delta)
+	{
+		base._PhysicsProcess(delta);
+		_state.Age += (float)delta;
 
-        SetLifetime(config.BulletLifetime);
-        OrientTowardsDirection();
-    }
+		_config.FiringSolver.Step(ref _state, (float)delta);
+		GlobalPosition = _state.Position;
+		OrientTowardsDirection();
 
-    private void SetLifetime(float lifetime)
-    {
-        GetTree().CreateTimer(lifetime).Timeout += () => QueueFree();
-    }
+	}
 
-    public virtual void OrientTowardsDirection()
-    {
-        LookAt(GlobalPosition + _direction);
-    }
+	public void Setup(BulletConfig config, Vector3 position, in FiringSolution solution)
+	{
+		_config = config;
 
+		GlobalPosition = position;
+		_aimPoint = solution.AimPoint;
 
-    public virtual void MoveBullet(double delta)
-    {
-        GlobalPosition += _direction * _speed * (float)delta;
-    }
+		_state = new() { Position = position, Velocity = solution.LaunchVelocity, };
+
+		SetLifetime(config.BulletLifetime);
+		OrientTowardsDirection();
+	}
+
+	private void SetLifetime(float lifetime)
+	{
+		GetTree().CreateTimer(lifetime).Timeout += QueueFree;
+	}
+
+	public virtual void OrientTowardsDirection()
+	{
+		if (_state.Velocity.LengthSquared() < 0.0001f)
+			return;
+
+		LookAt(GlobalPosition + _state.Velocity);
+	}
+
 }

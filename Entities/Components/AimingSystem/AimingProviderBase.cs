@@ -1,8 +1,8 @@
-using System;
-using CarGame.Entities.Components.AimingSystem;
 using Godot;
+
+namespace CarGame.Entities.Components.AimingSystem;
 
 public abstract partial class AimingProviderBase : Resource, IAimingProvider
 {
-    public abstract (Vector3 direction, Vector3 targetPosition) GetAimingDirection(Node3D fromNode, Vector3 ownerVelocity);
+	public abstract bool TryGetTarget(Node3D fromNode, out TargetInfo target);
 }

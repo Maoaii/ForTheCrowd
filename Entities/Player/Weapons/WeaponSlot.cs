@@ -1,5 +1,8 @@
-using System;
+using CarGame.Entities.Components.AimingSystem;
+using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
+
+namespace CarGame.Entities.Player.Weapons;
 
 [GlobalClass]
 public partial class WeaponSlot : Node3D
@@ -25,15 +28,15 @@ public partial class WeaponSlot : Node3D
 		_weapon.SetInitialPosition(GlobalPosition);
 	}
 
-	public bool TryActivate(Vector3 direction, Vector3 targetPosition)
+	public bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
 	{
 		if (_weapon == null)
 			return false;
 
-		bool activated = _weapon.TryActivate(direction, targetPosition);
+		bool activated = _weapon.TryActivate(targetInfo, ownerVelocity, out FiringSolution solution);
 
 		if (activated)
-			LookAt(GlobalPosition + direction);
+			LookAt(solution.AimPoint);
 
 		return activated;
 	}

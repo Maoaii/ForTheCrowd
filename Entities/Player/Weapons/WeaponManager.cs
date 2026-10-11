@@ -1,8 +1,10 @@
-using System;
 using System.Collections.Generic;
+using System;
 using CarGame.Entities.Components.AimingSystem;
 using CarGame.Systems.Blackboards;
 using Godot;
+
+namespace CarGame.Entities.Player.Weapons;
 
 [Tool]
 [GlobalClass]
@@ -43,10 +45,10 @@ public partial class WeaponManager : Node3D
 
 		foreach (WeaponSlot weaponSlot in _slots)
 		{
-			var (direction, targetPosition) = _aimingProvider.GetAimingDirection(weaponSlot, _blackboard.Kinematics.Velocity);
-			if (direction == Vector3.Zero)
+			if (!_aimingProvider.TryGetTarget(weaponSlot, out TargetInfo target))
 				continue;
-			weaponSlot.TryActivate(direction, targetPosition);
+
+			weaponSlot.TryActivate(target, _blackboard.Kinematics.Velocity);
 		}
 	}
 

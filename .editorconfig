@@ -2,3 +2,48 @@ root = true
 
 [*]
 charset = utf-8
+
+[*.cs]
+indent_style = tab
+indent_size = 4
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# Sort usings, System.* first
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = false
+
+# Every style rule is a warning, so "fix all" on save applies all of them.
+dotnet_analyzer_diagnostic.category-Style.severity = warning
+
+# --- Preferences (match the existing code) ---
+csharp_style_namespace_declarations = file_scoped
+csharp_prefer_braces = false
+csharp_style_implicit_object_creation_when_type_is_apparent = true
+dotnet_style_prefer_collection_expression = true
+dotnet_style_qualification_for_field = false
+dotnet_style_qualification_for_property = false
+dotnet_style_qualification_for_method = false
+dotnet_style_qualification_for_event = false
+dotnet_style_require_accessibility_modifiers = for_non_interface_members
+
+# --- Off: unsafe with Godot (engine sets/uses these via [Export] and signals) ---
+dotnet_diagnostic.IDE0044.severity = none # make field readonly
+dotnet_diagnostic.IDE0051.severity = none # remove unused private member
+dotnet_diagnostic.IDE0052.severity = none # remove unread private member
+dotnet_diagnostic.IDE0060.severity = none # remove unused parameter
+
+# --- Off: big rewrites or noise rather than fixes ---
+dotnet_diagnostic.IDE0007.severity = none # var vs explicit type (you mix both)
+dotnet_diagnostic.IDE0008.severity = none
+dotnet_diagnostic.IDE0010.severity = none # add missing switch cases
+dotnet_diagnostic.IDE0072.severity = none
+dotnet_diagnostic.IDE0021.severity = none # expression-bodied members
+dotnet_diagnostic.IDE0022.severity = none
+dotnet_diagnostic.IDE0023.severity = none
+dotnet_diagnostic.IDE0024.severity = none
+dotnet_diagnostic.IDE0045.severity = none # if -> ternary
+dotnet_diagnostic.IDE0046.severity = none
+dotnet_diagnostic.IDE0058.severity = none # discard unused expression values
+dotnet_diagnostic.IDE0130.severity = none # namespace must match folder
+dotnet_diagnostic.IDE0290.severity = none # primary constructors

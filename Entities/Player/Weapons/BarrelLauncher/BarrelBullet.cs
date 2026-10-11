@@ -1,10 +1,9 @@
 using System;
 using Godot;
 
+namespace CarGame.Entities.Player.Weapons;
+
 public partial class BarrelBullet : BulletBase
 {
-    public override void MoveBullet(double delta)
-    {
-        // Custom movement logic for BarrelBullet
-    }
+
 }

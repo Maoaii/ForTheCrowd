@@ -1,5 +1,7 @@
-using Godot;
 using System;
+using Godot;
+
+namespace CarGame.Entities.Player.Weapons;
 
 public interface IBullet
 {

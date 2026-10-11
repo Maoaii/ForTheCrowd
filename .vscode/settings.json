@@ -1,9 +1,18 @@
 {
-    "godotTools.editorPath.godot4": "/var/home/girotto/.var/app/io.github.MakovWait.Godots/data/godot/app_userdata/Godots/versions/Godot_v4_7_2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64",
+    "godotTools.editorPath.godot4": "/Applications/Godot Mono 4.7.2.app",
     "godot.csharp.executablePath": "/var/home/girotto/.var/app/io.github.MakovWait.Godots/data/godot/app_userdata/Godots/versions/Godot_v4_7_2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux_x86_64/Godot_v4.7.2-stable_mono_linux.x86_64",
     "[csharp]": {
         "editor.formatOnSave": true,
-        "editor.defaultFormatter": "ms-dotnettools.csharp"
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        // VS Code passes these to the formatter, overriding .editorconfig,
+        // so pin them to tabs instead of guessing per file.
+        "editor.detectIndentation": false,
+        "editor.insertSpaces": false,
+        "editor.tabSize": 4,
+        "editor.codeActionsOnSave": {
+            "source.organizeImports": "explicit",
+            "source.fixAll": "explicit"
+        }
     },
     "dotnet.formatting.organizeImportsOnFormat": true
 }
