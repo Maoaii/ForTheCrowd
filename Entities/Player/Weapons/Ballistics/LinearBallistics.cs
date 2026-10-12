@@ -6,6 +6,7 @@ namespace CarGame.Entities.Player.Weapons.Ballistics;
 [GlobalClass]
 public partial class LinearBallistics : BallisticsBase
 {
+	[Export] public float Speed = 100.0f;
 	[Export] public float MaxFlightTime = 2.0f;
 	[Export(PropertyHint.Range, "1,8")] public int Iterations = 3;
 

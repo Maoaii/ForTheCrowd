@@ -8,4 +8,5 @@
 script = ExtResource("1_j02l5")
 BulletPackedScene = ExtResource("1_m45fb")
 FiringSolver = ExtResource("2_sctla")
+BulletLifetime = 50.0
 metadata/_custom_type_script = "uid://q8f12lil0xdo"

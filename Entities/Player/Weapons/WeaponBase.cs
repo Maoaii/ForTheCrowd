@@ -39,11 +39,9 @@ public abstract partial class WeaponBase : Node3D
 
 	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity, out FiringSolution solution)
 	{
+		solution = default;
 		if (!_cooldownTimer.IsStopped())
-		{
-			solution = default;
 			return false;
-		}
 
 		ShooterState shooter = new ShooterState(BulletSpawnPoint.GlobalPosition, ownerVelocity);
 		if (!WeaponConfig.BulletConfig.FiringSolver.TrySolve(shooter, targetInfo, out solution))

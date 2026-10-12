@@ -10,6 +10,7 @@ size = Vector3(1, 1, 2.0089111)
 size = Vector3(3.6669922, 1, 0.90966797)
 
 [node name="BarrelLauncher" type="Node3D" unique_id=1393748732 node_paths=PackedStringArray("BulletSpawnPoint")]
+transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_vbqvf")
 WeaponConfig = ExtResource("2_lsem6")
 BulletSpawnPoint = NodePath("Marker3D")
