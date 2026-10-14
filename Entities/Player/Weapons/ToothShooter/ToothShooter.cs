@@ -2,7 +2,7 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public partial class GattlingGun : WeaponBase
+public partial class ToothShooter : WeaponBase
 {
 	private Tween scaleTween;
 	private Tween recoilTween;

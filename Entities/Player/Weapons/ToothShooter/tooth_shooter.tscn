@@ -1,13 +1,13 @@
 [gd_scene format=3 uid="uid://drkrwjplhpn0h"]
 
-[ext_resource type="Script" uid="uid://b7tywwbfodjxf" path="res://Entities/Player/Weapons/Gattling/GattlingGun.cs" id="1_gp2re"]
-[ext_resource type="Resource" uid="uid://e6v5w7bhtq46" path="res://Entities/Player/Weapons/Gattling/Configs/gattling_gun.tres" id="2_15cus"]
+[ext_resource type="Script" uid="uid://b7tywwbfodjxf" path="res://Entities/Player/Weapons/ToothShooter/ToothShooter.cs" id="1_olm24"]
+[ext_resource type="Resource" uid="uid://e6v5w7bhtq46" path="res://Entities/Player/Weapons/ToothShooter/Configs/tooth_shooter.tres" id="2_olm24"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
 
-[node name="GattlingGun" type="Node3D" unique_id=302018876 node_paths=PackedStringArray("BulletSpawnPoint")]
-script = ExtResource("1_gp2re")
-WeaponConfig = ExtResource("2_15cus")
+[node name="ToothShooter" type="Node3D" unique_id=302018876 node_paths=PackedStringArray("BulletSpawnPoint")]
+script = ExtResource("1_olm24")
+WeaponConfig = ExtResource("2_olm24")
 BulletSpawnPoint = NodePath("Marker3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=581557477]

@@ -3,7 +3,7 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public partial class GattlingBullet : BulletBase
+public partial class ToothBullet : BulletBase
 {
 
 }
