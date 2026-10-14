@@ -9,13 +9,14 @@ public abstract partial class BulletBase : Area3D
 	private Vector3 _aimPoint;
 
 	private ProjectileState _state;
+	private bool _hasCollided = false;
 
 	public override void _Ready()
 	{
 		base._Ready();
 
-		AreaEntered += area => QueueFree();
-		BodyEntered += body => QueueFree();
+		AreaEntered += area => Collided();
+		BodyEntered += body => Collided();
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -55,4 +56,20 @@ public abstract partial class BulletBase : Area3D
 		LookAt(GlobalPosition + _state.Velocity);
 	}
 
+	public virtual void Collided()
+	{
+		if (_hasCollided)
+			return;
+
+		_hasCollided = true;
+
+		if (_config.AfterCollisionConfig != null)
+		{
+			Node3D afterCollisionScene = _config.AfterCollisionConfig.AfterCollisionPackedScene.Instantiate<Node3D>();
+			afterCollisionScene.GlobalPosition = GlobalPosition;
+			GetTree().Root.AddChild(afterCollisionScene);
+		}
+
+		GetTree().CreateTimer(_config.TimeToFreeAfterCollision).Timeout += QueueFree;
+	}
 }

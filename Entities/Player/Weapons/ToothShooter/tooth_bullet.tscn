@@ -1,7 +1,5 @@
 [gd_scene format=3 uid="uid://dsc75goyekxjs"]
 
-[ext_resource type="Script" uid="uid://cp7glxmlu8dob" path="res://Entities/Player/Weapons/ToothShooter/ToothBullet.cs" id="1_76p8s"]
-
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y1ixq"]
 radius = 0.72753906
 height = 1.4550781
@@ -13,7 +11,6 @@ height = 0.6308594
 [node name="ToothBullet" type="Area3D" unique_id=1366855782]
 collision_layer = 8
 collision_mask = 4
-script = ExtResource("1_76p8s")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1124764650]
 transform = Transform3D(0.22396688, 0, 0, -1.264611e-23, -1.4290657e-08, -0.23616135, 0, 0.32693204, -1.0322943e-08, 0, 0, 0)

@@ -2,11 +2,19 @@
 
 [ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="1_j02l5"]
 [ext_resource type="PackedScene" uid="uid://d1y6vo7sr2688" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_bullet.tscn" id="1_m45fb"]
+[ext_resource type="PackedScene" uid="uid://dq0676i7a266e" path="res://Entities/Player/Weapons/BarrelLauncher/BarrelExplosion/barrel_explosion.tscn" id="1_xc8ol"]
+[ext_resource type="Script" uid="uid://dyevs3tgkmkr4" path="res://Entities/Player/Weapons/AfterCollision/AfterCollisionConfig.cs" id="2_3npdl"]
 [ext_resource type="Resource" uid="uid://us0g272dsjva" path="res://Entities/Player/Weapons/Ballistics/lobbed_ballistics.tres" id="2_sctla"]
+
+[sub_resource type="Resource" id="Resource_xkg2i"]
+script = ExtResource("2_3npdl")
+AfterCollisionPackedScene = ExtResource("1_xc8ol")
+metadata/_custom_type_script = "uid://dyevs3tgkmkr4"
 
 [resource]
 script = ExtResource("1_j02l5")
 BulletPackedScene = ExtResource("1_m45fb")
 FiringSolver = ExtResource("2_sctla")
 BulletLifetime = 50.0
+AfterCollisionConfig = SubResource("Resource_xkg2i")
 metadata/_custom_type_script = "uid://q8f12lil0xdo"

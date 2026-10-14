@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dq0676i7a266e"]
+
+[ext_resource type="Script" uid="uid://bfwa17v3ncgw2" path="res://Entities/Player/Weapons/BarrelLauncher/BarrelExplosion/BarrelExplosion.cs" id="1_52hgf"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_52hgf"]
+albedo_color = Color(1, 0.35000002, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_52hgf"]
+material = SubResource("StandardMaterial3D_52hgf")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_52hgf"]
+radius = 4.0159397
+
+[node name="BarrelExplosion" type="Area3D" unique_id=780548591]
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_52hgf")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1883104188]
+transform = Transform3D(8, 0, 0, 0, 8, 0, 0, 0, 8, 0, 0, 0)
+mesh = SubResource("SphereMesh_52hgf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1847729223]
+shape = SubResource("SphereShape3D_52hgf")
