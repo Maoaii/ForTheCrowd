@@ -37,19 +37,21 @@ public abstract partial class WeaponBase : Node3D
 		GlobalPosition = position;
 	}
 
-	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity, out FiringSolution solution)
+	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
 	{
-		solution = default;
 		if (!_cooldownTimer.IsStopped())
 			return false;
 
 		ShooterState shooter = new ShooterState(BulletSpawnPoint.GlobalPosition, ownerVelocity);
-		if (!WeaponConfig.BulletConfig.FiringSolver.TrySolve(shooter, targetInfo, out solution))
+		if (!WeaponConfig.BulletConfig.FiringSolver.TrySolve(shooter, targetInfo, out FiringSolution solution))
 			return false;
 
+		LookAt(GlobalPosition + solution.MuzzleDirection, Vector3.Up, useModelFront: true);
 		SpawnBullet(solution);
 		ShootAnimation();
 		_cooldownTimer.Start();
+
+
 		return true;
 	}
 

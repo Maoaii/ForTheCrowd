@@ -37,17 +37,17 @@ public partial class GattlingGun : WeaponBase
 
 		recoilTween = CreateTween();
 
-		recoilTween.TweenProperty(this, "position", Position + new Vector3(0, 0, -WeaponConfig.RecoilDistance), WeaponConfig.RecoilUpTime)
+		recoilTween.TweenProperty(this, "position", Position + new Vector3(0.0f, 0.0f, -WeaponConfig.RecoilDistance).Rotated(Vector3.Up, Rotation.Y), WeaponConfig.RecoilUpTime)
 			.SetTrans(WeaponConfig.RecoilUpTweenTransition)
 			.SetEase(WeaponConfig.RecoilUpTweenEase);
-		recoilTween.Parallel().TweenProperty(this, "rotation", Rotation + new Vector3(Mathf.DegToRad(WeaponConfig.RecoilRotationAmount), 0, 0), WeaponConfig.RecoilUpTime)
+		recoilTween.Parallel().TweenProperty(this, "rotation", Rotation + new Vector3(-Mathf.DegToRad(WeaponConfig.RecoilRotationAmount), 0, 0), WeaponConfig.RecoilUpTime)
 			.SetTrans(WeaponConfig.RecoilUpTweenTransition)
 			.SetEase(WeaponConfig.RecoilUpTweenEase);
 
 		recoilTween.TweenProperty(this, "position", Vector3.Zero, WeaponConfig.RecoilDownTime)
 			.SetTrans(WeaponConfig.RecoilDownTweenTransition)
 			.SetEase(WeaponConfig.RecoilDownTweenEase);
-		recoilTween.Parallel().TweenProperty(this, "rotation", Vector3.Zero, WeaponConfig.RecoilDownTime)
+		recoilTween.Parallel().TweenProperty(this, "rotation", new Vector3(0, Rotation.Y, Rotation.Z), WeaponConfig.RecoilDownTime)
 			.SetTrans(WeaponConfig.RecoilDownTweenTransition)
 			.SetEase(WeaponConfig.RecoilDownTweenEase);
 	}

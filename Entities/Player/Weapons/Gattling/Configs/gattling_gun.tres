@@ -7,5 +7,6 @@
 script = ExtResource("2_gcydg")
 Cooldown = 0.2
 BulletConfig = ExtResource("1_b3o5n")
-RecoilRotationAmount = 10.0
+RecoilDistance = 0.2
+RecoilRotationAmount = 0.0
 metadata/_custom_type_script = "uid://cidioslow8fcp"

@@ -36,10 +36,7 @@ public partial class WeaponSlot : Node3D
 		if (_weapon == null)
 			return false;
 
-		bool activated = _weapon.TryActivate(targetInfo, ownerVelocity, out FiringSolution solution);
-
-		if (activated)
-			LookAt(GlobalPosition + solution.MuzzleDirection, Vector3.Up, useModelFront: true);   // weapon models face +Z
+		bool activated = _weapon.TryActivate(targetInfo, ownerVelocity);
 
 		return activated;
 	}
