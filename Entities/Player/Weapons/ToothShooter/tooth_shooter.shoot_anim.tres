@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="ShootAnimationConfig" format=3 uid="uid://cecny8mk5tpf0"]
+
+[ext_resource type="Script" uid="uid://1yotda4d43q" path="res://Entities/Player/Weapons/ShootAnimationConfig.cs" id="1_anim"]
+
+[resource]
+script = ExtResource("1_anim")
+RecoilDistance = 0.2
+RecoilRotationAmount = 0.0

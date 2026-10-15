@@ -1,4 +1,5 @@
 using Godot;
+using CarGame.Entities.Player;
 using CarGame.Systems.Blackboards;
 using System.Collections.Generic;
 
@@ -188,6 +189,7 @@ public class TrailSegment
 public partial class TireMarks : Node3D
 {
     [Export] public BlackboardComponent Blackboard;
+    [Export] public TireMarkConfig Config;
     [ExportGroup("Mesh Properties")]
     [Export(PropertyHint.Layers3DPhysics)] public uint CollisionMask = 1;
     [Export] public float GroundOffset = 0.01f;
@@ -245,7 +247,7 @@ public partial class TireMarks : Node3D
         
         float dt = (float)delta;
         
-        bool isDrifting = Blackboard.Kinematics.DriftFactor > Blackboard.MovementConfig.TrailDriftThreshold && Blackboard.Input.MoveInput.X != 0f;
+        bool isDrifting = Blackboard.Kinematics.DriftFactor > Config.TrailDriftThreshold && Blackboard.Input.MoveInput.X != 0f;
 
         if (_bloodTimer > 0f)
         {
@@ -292,7 +294,7 @@ public partial class TireMarks : Node3D
             {
                 if (!_wasEmitting)
                 {
-                    _activeSegment = new TrailSegment(GetTree().CurrentScene as Node3D ?? this, Blackboard.MovementConfig.TrailWidth, Blackboard.MovementConfig.TrailMaxLifetime, _trailMaterial, GroundOffset, TextureWorldLength);
+                    _activeSegment = new TrailSegment(GetTree().CurrentScene as Node3D ?? this, Config.TrailWidth, Config.TrailMaxLifetime, _trailMaterial, GroundOffset, TextureWorldLength);
                     _segments.Add(_activeSegment);
 
                     _activeSegment.AddPoint(new WheelGroundContact
@@ -308,7 +310,7 @@ public partial class TireMarks : Node3D
                     _wasEmitting = true;
                 }
                 
-                _noDriftCooldown = Blackboard.MovementConfig.TrailCooldown; 
+                _noDriftCooldown = Config.TrailCooldown; 
             }
             else if (_wasEmitting)
             {
@@ -324,7 +326,7 @@ public partial class TireMarks : Node3D
         if (_activeSegment != null
             && isGrounded
             && shouldEmitTrail
-            && _lastSampledPos.DistanceTo(groundPoint) >= Blackboard.MovementConfig.TrailSampleDistance)
+            && _lastSampledPos.DistanceTo(groundPoint) >= Config.TrailSampleDistance)
         {
             _activeSegment.AddPoint(new WheelGroundContact
             {

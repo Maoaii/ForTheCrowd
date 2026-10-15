@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="BulletConfig" format=3 uid="uid://bt777nxuyfjbl"]
 
 [ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="2_c3vr1"]
-[ext_resource type="Resource" uid="uid://dehikt4hxi6dr" path="res://Entities/Player/Weapons/Ballistics/linear_ballistics.tres" id="3_hailx"]
+[ext_resource type="Resource" uid="uid://dehikt4hxi6dr" path="res://Entities/Player/Weapons/Ballistics/Presets/linear.ballistics.tres" id="3_hailx"]
 [ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="4_pdd0y"]
 
 [resource]

@@ -10,6 +10,7 @@ public partial class PlayerAnimatorComponent : Node
 {
     [Export] public BlackboardComponent Blackboard;
     [Export] public Node3D VisualsRoot;
+    [Export] public PlayerAnimationConfig Config;
 
     public void PlayShoveItAnimation()
     {
@@ -47,29 +48,27 @@ public partial class PlayerAnimatorComponent : Node
 
     public void PlayJumpAnimation()
     {
-        if (VisualsRoot == null || Blackboard == null) return;
-        var _animConfig = Blackboard.AnimationConfig;
+        if (VisualsRoot == null || Config == null) return;
         Tween tween = VisualsRoot.CreateTween();
-        tween.TweenProperty(VisualsRoot, "scale", _animConfig.StretchScale, _animConfig.LaunchStretchTweenDuration)
-            .SetTrans(_animConfig.LaunchStretchTweenTrans)
-            .SetEase(_animConfig.LaunchStretchTweenEase);
+        tween.TweenProperty(VisualsRoot, "scale", Config.StretchScale, Config.LaunchStretchTweenDuration)
+            .SetTrans(Config.LaunchStretchTweenTrans)
+            .SetEase(Config.LaunchStretchTweenEase);
             
-        tween.TweenProperty(VisualsRoot, "scale", _animConfig.DefaultScale, _animConfig.AirTweenDuration)
-            .SetTrans(_animConfig.AirTweenTrans)
-            .SetEase(_animConfig.AirTweenEase);
+        tween.TweenProperty(VisualsRoot, "scale", Config.DefaultScale, Config.AirTweenDuration)
+            .SetTrans(Config.AirTweenTrans)
+            .SetEase(Config.AirTweenEase);
     }
 
     public void PlayLandingAnimation()
     {
-        if (VisualsRoot == null || Blackboard == null) return;
-        var _animConfig = Blackboard.AnimationConfig;
+        if (VisualsRoot == null || Config == null) return;
         Tween tween = VisualsRoot.CreateTween();
-        tween.TweenProperty(VisualsRoot, "scale", _animConfig.SquashScale, _animConfig.LandingSquashTweenDuration)
-            .SetTrans(_animConfig.LandingSquashTweenTrans)
-            .SetEase(_animConfig.LandingSquashTweenEase);
+        tween.TweenProperty(VisualsRoot, "scale", Config.SquashScale, Config.LandingSquashTweenDuration)
+            .SetTrans(Config.LandingSquashTweenTrans)
+            .SetEase(Config.LandingSquashTweenEase);
             
-        tween.TweenProperty(VisualsRoot, "scale", _animConfig.DefaultScale, _animConfig.RecoveryTweenDuration)
-            .SetTrans(_animConfig.RecoveryTweenTrans)
-            .SetEase(_animConfig.RecoveryTweenEase);
+        tween.TweenProperty(VisualsRoot, "scale", Config.DefaultScale, Config.RecoveryTweenDuration)
+            .SetTrans(Config.RecoveryTweenTrans)
+            .SetEase(Config.RecoveryTweenEase);
     }
 }

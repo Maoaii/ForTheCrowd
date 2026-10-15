@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="TireMarkConfig" format=3 uid="uid://b38g0o32wdo1f"]
+
+[ext_resource type="Script" uid="uid://c3yk5plda65ol" path="res://Entities/Player/Config/TireMarkConfig.cs" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")

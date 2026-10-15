@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="DriftConfig" format=3 uid="uid://bk7lnanm36wnq"]
+
+[ext_resource type="Script" uid="uid://drp44k1nt7fql" path="res://Entities/Player/Config/DriftConfig.cs" id="1_script"]
+
+[resource]
+script = ExtResource("1_script")
+LowGripRate = 4.0
+MaxSlipAngleDegrees = 70.0

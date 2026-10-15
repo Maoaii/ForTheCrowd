@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BoostConfig" format=3 uid="uid://c4yxa6spimrlj"]
+
+[ext_resource type="Script" uid="uid://bd455ahs64cde" path="res://Entities/Player/Config/BoostConfig.cs" id="1_script"]
+
+[sub_resource type="Curve" id="Curve_dwh8u"]
+_data = [Vector2(0, 0), 0.0, 1.4, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+metadata/_snap_count = 2
+
+[resource]
+script = ExtResource("1_script")
+BoostAttackTime = 0.25
+RampCurve = SubResource("Curve_dwh8u")

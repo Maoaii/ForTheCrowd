@@ -9,6 +9,7 @@ public partial class CameraRig : Node3D
 {
     [Export] public Node3D Target { get; set; }
     [Export] public BlackboardComponent Blackboard;
+    [Export] public MovementConfig MovementConfig;
     
     [ExportGroup("Distance & Feel")]
     [Export] public float DistanceFromTarget { get; set; } = 35.0f;
@@ -152,7 +153,7 @@ public partial class CameraRig : Node3D
 
     private float CalculateSpeedTerm()
     {
-        return SpeedFovDegrees * Mathf.Clamp(Mathf.Abs(Blackboard.Kinematics.Speed) / Blackboard.MovementConfig.MaxSpeedForward, 0, 1);
+        return SpeedFovDegrees * Mathf.Clamp(Mathf.Abs(Blackboard.Kinematics.Speed) / MovementConfig.MaxSpeedForward, 0, 1);
     }
 
     private float CalculateBoostTerm()

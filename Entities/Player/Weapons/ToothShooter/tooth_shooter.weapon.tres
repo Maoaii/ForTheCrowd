@@ -1,12 +1,10 @@
 [gd_resource type="Resource" script_class="WeaponConfig" format=3 uid="uid://e6v5w7bhtq46"]
 
-[ext_resource type="Resource" uid="uid://bt777nxuyfjbl" path="res://Entities/Player/Weapons/ToothShooter/Configs/tooth_bullet.tres" id="1_b3o5n"]
+[ext_resource type="Resource" uid="uid://bt777nxuyfjbl" path="res://Entities/Player/Weapons/ToothShooter/tooth.bullet.tres" id="1_b3o5n"]
 [ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Weapons/WeaponConfig.cs" id="2_gcydg"]
 
 [resource]
 script = ExtResource("2_gcydg")
 Cooldown = 0.2
 BulletConfig = ExtResource("1_b3o5n")
-RecoilDistance = 0.2
-RecoilRotationAmount = 0.0
 metadata/_custom_type_script = "uid://cidioslow8fcp"

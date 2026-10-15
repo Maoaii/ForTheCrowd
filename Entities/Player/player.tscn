@@ -16,9 +16,9 @@
 [ext_resource type="Script" uid="uid://bt34mvhjuuyo2" path="res://Entities/Player/States/Tricks/KickflipState.cs" id="14_kickflip"]
 [ext_resource type="Script" uid="uid://rnhwm540cak2" path="res://Entities/Player/States/Tricks/ShoveItState.cs" id="15_shoveit"]
 [ext_resource type="Script" uid="uid://djd7c3tcyn1vv" path="res://Entities/Player/States/Tricks/BackManualState.cs" id="16_backmanual"]
-[ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://Entities/Player/Config/default_movement_config.tres" id="17_movement_config"]
+[ext_resource type="Resource" uid="uid://b6k4y3m2l1p0" path="res://Entities/Player/Config/player.movement.tres" id="17_movement_config"]
 [ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="17_ppdlg"]
-[ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://Entities/Player/Config/default_animation_config.tres" id="18_animation_config"]
+[ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://Entities/Player/Config/player.animation.tres" id="18_animation_config"]
 [ext_resource type="QuadMesh" uid="uid://bwyevkeub83kw" path="res://Entities/Assets/dust_material_quad.tres" id="18_avsg8"]
 [ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
@@ -29,6 +29,9 @@
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="26_ui1ln"]
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="27_og23y"]
 [ext_resource type="PackedScene" uid="uid://cynej27r3h80u" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.tscn" id="28_80ryp"]
+[ext_resource type="Resource" path="res://Entities/Player/Config/player.drift.tres" id="30_drift_config"]
+[ext_resource type="Resource" uid="uid://c4yxa6spimrlj" path="res://Entities/Player/Config/player.boost.tres" id="31_boost_config"]
+[ext_resource type="Resource" path="res://Entities/Player/Config/player.tire_marks.tres" id="32_tire_marks_config"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
 radius = 1.1661224
@@ -47,21 +50,21 @@ albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_we0b7"]
 size = Vector3(2.0090332, 2.1328735, 1.9874268)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_80ryp"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_w51ui"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v27kq"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slvv8"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_80ryp")
+albedo_texture = SubResource("ViewportTexture_w51ui")
 billboard_keep_scale = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_kx1i7"]
+[sub_resource type="QuadMesh" id="QuadMesh_l3oqu"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_v27kq")
+material = SubResource("StandardMaterial3D_slvv8")
 
 [sub_resource type="Resource" id="Resource_og23y"]
 script = ExtResource("26_u86q5")
@@ -107,6 +110,7 @@ StateId = 1
 
 [node name="AirState" type="Node" parent="Components/PlayerStateMachine" unique_id=16902210]
 script = ExtResource("12_air")
+MovementConfig = ExtResource("17_movement_config")
 StateId = 2
 
 [node name="OllieState" type="Node" parent="Components/PlayerStateMachine" unique_id=889456271]
@@ -137,8 +141,6 @@ StateId = 6
 script = ExtResource("3_blackboard")
 Owner = NodePath("../..")
 Animator = NodePath("../PlayerAnimatorComponent")
-MovementConfig = ExtResource("17_movement_config")
-AnimationConfig = ExtResource("18_animation_config")
 
 [node name="PlayerInputComponent" type="Node" parent="Components" unique_id=2080471671 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("4_input")
@@ -148,11 +150,14 @@ Blackboard = NodePath("../BlackboardComponent")
 script = ExtResource("5_physics")
 Blackboard = NodePath("../BlackboardComponent")
 Body = NodePath("../..")
+MovementConfig = ExtResource("17_movement_config")
+DriftConfig = ExtResource("30_drift_config")
 
 [node name="PlayerAnimatorComponent" type="Node" parent="Components" unique_id=651404184 node_paths=PackedStringArray("Blackboard", "VisualsRoot")]
 script = ExtResource("6_animator")
 Blackboard = NodePath("../BlackboardComponent")
 VisualsRoot = NodePath("../../Visuals/MeshInstance3D")
+Config = ExtResource("18_animation_config")
 
 [node name="PlayerVFXComponent" type="Node" parent="Components" unique_id=1239692573 node_paths=PackedStringArray("Blackboard", "LandDustFL", "LandDustFR", "LandDustRL", "LandDustRR", "DriftDustRL", "DriftDustRR")]
 script = ExtResource("7_vfx")
@@ -167,6 +172,7 @@ DriftDustRR = NodePath("../VFX/DriftDustRR")
 [node name="BoostComponent" type="Node" parent="Components" unique_id=1984693079 node_paths=PackedStringArray("Blackboard")]
 script = ExtResource("23_avsg8")
 Blackboard = NodePath("../BlackboardComponent")
+Config = ExtResource("31_boost_config")
 metadata/_custom_type_script = "uid://7e1w2abt42wl"
 
 [node name="VFX" type="Node3D" parent="Components" unique_id=1045225062]
@@ -226,6 +232,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.84, 0)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8945165, 0, 0.77451515)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
+Config = ExtResource("32_tire_marks_config")
 GroundOffset = 0.3
 TextureWorldLength = 1.0
 
@@ -233,11 +240,13 @@ TextureWorldLength = 1.0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895, 0, 0.775)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
+Config = ExtResource("32_tire_marks_config")
 GroundOffset = 0.3
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
 Target = NodePath("../..")
 Blackboard = NodePath("../BlackboardComponent")
+MovementConfig = ExtResource("17_movement_config")
 Sensitivity = 0.01
 MinYaw = 0.159
 BaseFov = 0.7853982
@@ -261,7 +270,7 @@ cull_mask = 5
 [node name="FuelProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
 transform = Transform3D(1.6219957, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 0.5765978, 0.8626491)
 cast_shadow = 0
-mesh = SubResource("QuadMesh_kx1i7")
+mesh = SubResource("QuadMesh_l3oqu")
 _blackboard = NodePath("../BlackboardComponent")
 
 [node name="WeaponManager" type="Node3D" parent="Components" unique_id=986360104 node_paths=PackedStringArray("_blackboard")]

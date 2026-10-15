@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://cynej27r3h80u"]
 
 [ext_resource type="Script" uid="uid://b7hnw868xxh6i" path="res://Entities/Player/Weapons/BarrelLauncher/BarrelLauncher.cs" id="1_vbqvf"]
-[ext_resource type="Resource" uid="uid://bahsyu085r078" path="res://Entities/Player/Weapons/BarrelLauncher/Configs/barrel_launcher.tres" id="2_lsem6"]
+[ext_resource type="Resource" uid="uid://bahsyu085r078" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.weapon.tres" id="2_lsem6"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_flswb"]
 size = Vector3(1, 1, 2.0089111)

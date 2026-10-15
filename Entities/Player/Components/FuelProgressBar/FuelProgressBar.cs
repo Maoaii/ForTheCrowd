@@ -14,7 +14,6 @@ public partial class FuelProgressBar : MeshInstance3D
 	[Export] private BlackboardComponent _blackboard;
 	[Export] private TextureProgressBar _progressBar;
 
-	private bool _depleted = false;
 	public override void _Ready()
 	{
 		_progressBar.Value = _progressBar.MaxValue;
@@ -24,13 +23,7 @@ public partial class FuelProgressBar : MeshInstance3D
 	{
 		float fuelFraction = _blackboard.Kinematics.BoostFuelFraction;
 
-		if (!_depleted)
-			_depleted = fuelFraction <= 0;
-
-		if (_depleted && fuelFraction > _blackboard.MovementConfig.BoostRestartThreshold)
-			_depleted = false;
-
-		if (_depleted)
+		if (_blackboard.State.IsBoostDepleted)
 			_progressBar.TintProgress = Colors.DimGray;
 		else 
 			if (fuelFraction < _redThreshold)

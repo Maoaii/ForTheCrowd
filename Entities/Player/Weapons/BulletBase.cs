@@ -3,7 +3,7 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public abstract partial class BulletBase : Area3D
+public partial class BulletBase : Area3D
 {
 	private BulletConfig _config;
 	private Vector3 _aimPoint;
@@ -63,11 +63,13 @@ public abstract partial class BulletBase : Area3D
 
 		_hasCollided = true;
 
-		if (_config.AfterCollisionConfig != null)
+		if (_config.ImpactScene != null)
 		{
-			Node3D afterCollisionScene = _config.AfterCollisionConfig.AfterCollisionPackedScene.Instantiate<Node3D>();
-			afterCollisionScene.GlobalPosition = GlobalPosition;
-			GetTree().Root.AddChild(afterCollisionScene);
+			// Root has an identity transform, so a local position is a global one. Deferred because
+			// adding a physics body inside an Area3D signal happens while physics queries are flushing.
+			Node3D impact = _config.ImpactScene.Instantiate<Node3D>();
+			impact.Position = GlobalPosition;
+			GetTree().Root.CallDeferred(Node.MethodName.AddChild, impact);
 		}
 
 		GetTree().CreateTimer(_config.TimeToFreeAfterCollision).Timeout += QueueFree;

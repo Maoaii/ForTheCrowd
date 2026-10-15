@@ -11,5 +11,6 @@ public partial class BulletConfig : Resource
 	[Export] public BallisticsBase FiringSolver;
 	[Export] public float BulletLifetime = 5.0f;
 	[Export] public float TimeToFreeAfterCollision = 0.0f;
-	[Export] public AfterCollisionConfig AfterCollisionConfig;
+	/// <summary>Spawned where the bullet hits. Its own tuning lives on the scene's root node.</summary>
+	[Export] public PackedScene ImpactScene;
 }

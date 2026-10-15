@@ -1,5 +1,6 @@
 using System;
 using Godot;
+using CarGame.Entities.Player;
 using CarGame.Systems.Blackboards;
 using CarGame.Utils.Debug;
 
@@ -9,6 +10,8 @@ public partial class PlayerPhysicsComponent : Node
 {
     [Export] public BlackboardComponent Blackboard;
     [Export] public CharacterBody3D Body;
+    [Export] public MovementConfig MovementConfig;
+    [Export] public DriftConfig DriftConfig;
 
     public override void _PhysicsProcess(double delta)
     {
@@ -39,7 +42,7 @@ public partial class PlayerPhysicsComponent : Node
     {
         if (!Blackboard.State.CanMove) return;
 
-        float yawRate = Blackboard.Kinematics.Speed / Blackboard.MovementConfig.Wheelbase * Mathf.Tan(Mathf.DegToRad(Blackboard.Kinematics.SteerAngle));
+        float yawRate = Blackboard.Kinematics.Speed / MovementConfig.Wheelbase * Mathf.Tan(Mathf.DegToRad(Blackboard.Kinematics.SteerAngle));
         Body.Rotation = new Vector3(Body.Rotation.X, Body.Rotation.Y + yawRate * dt, Body.Rotation.Z);
         
         Blackboard.Visuals.VisualDirection = Vector3.Forward.Rotated(Vector3.Up, Body.GlobalRotation.Y);
@@ -52,8 +55,8 @@ public partial class PlayerPhysicsComponent : Node
     private Vector3 UpdateMovementDirection(float dt)
     {
         Vector3 facing = -Body.Transform.Basis.Z;
-        float catchUpRate = Mathf.Lerp(Blackboard.MovementConfig.HighGripRate, Blackboard.MovementConfig.LowGripRate, Blackboard.Kinematics.DriftFactor);
-        catchUpRate *= Mathf.Lerp(1.0f, Blackboard.MovementConfig.BoostGripMult, Blackboard.Kinematics.BoostIntensity);
+        float catchUpRate = Mathf.Lerp(DriftConfig.HighGripRate, DriftConfig.LowGripRate, Blackboard.Kinematics.DriftFactor);
+        catchUpRate *= Mathf.Lerp(1.0f, MovementConfig.BoostGripMult, Blackboard.Kinematics.BoostIntensity);
 
         if (Blackboard.Kinematics.MovementDirection == Vector3.Zero)
             Blackboard.Kinematics.MovementDirection = facing;
@@ -61,7 +64,7 @@ public partial class PlayerPhysicsComponent : Node
         Vector3 direction = Blackboard.Kinematics.MovementDirection.Lerp(facing, catchUpRate * dt).Normalized();
 
         float slipAngle = direction.AngleTo(facing);
-        float maxSlipAngle = Mathf.DegToRad(Blackboard.MovementConfig.MaxSlipAngleDegrees);
+        float maxSlipAngle = Mathf.DegToRad(DriftConfig.MaxSlipAngleDegrees);
         if (slipAngle > maxSlipAngle)
             direction = direction.Slerp(facing, 1.0f - maxSlipAngle / slipAngle);
 
@@ -73,7 +76,7 @@ public partial class PlayerPhysicsComponent : Node
     {
         float verticalSpeed = Blackboard.Kinematics.Velocity.Y;
         if (!Blackboard.State.IsOnGround)
-            verticalSpeed -= Blackboard.MovementConfig.GravityForce * Blackboard.MovementConfig.FallMultiplier * dt;
+            verticalSpeed -= MovementConfig.GravityForce * MovementConfig.FallMultiplier * dt;
 
         Vector3 velocity = Blackboard.Kinematics.MovementDirection * Blackboard.Kinematics.Speed;
         velocity.Y = verticalSpeed * Blackboard.Kinematics.GravityToggler;
@@ -103,7 +106,7 @@ public partial class PlayerPhysicsComponent : Node
     private void ApplyDrift(BlackboardComponent blackboard, float dt)
     {
         float speedFactor = Mathf.Clamp(
-            (Math.Abs(blackboard.Kinematics.Speed) - blackboard.MovementConfig.MinDriftSpeed) / (blackboard.MovementConfig.MaxSpeedForward - blackboard.MovementConfig.MinDriftSpeed), 
+            (Math.Abs(blackboard.Kinematics.Speed) - DriftConfig.MinDriftSpeed) / (MovementConfig.MaxSpeedForward - DriftConfig.MinDriftSpeed), 
             0f, 
             1f
         );
@@ -111,7 +114,7 @@ public partial class PlayerPhysicsComponent : Node
         bool wantsDrift = blackboard.Input.MoveInput != Vector2.Zero && speedFactor > 0f;
 
         float targetDriftFactor = wantsDrift ? speedFactor : 0.0f;
-        float rate = wantsDrift ? blackboard.MovementConfig.DriftBuildRate : blackboard.MovementConfig.DriftDecayRate;
+        float rate = wantsDrift ? DriftConfig.DriftBuildRate : DriftConfig.DriftDecayRate;
         blackboard.Kinematics.DriftFactor = Mathf.Lerp(blackboard.Kinematics.DriftFactor, targetDriftFactor, 1.0f - Mathf.Exp(-rate * dt));
         
         if (blackboard.Kinematics.DriftFactor > 0.33f && blackboard.Kinematics.SteerAngle != 0f)
@@ -128,22 +131,22 @@ public partial class PlayerPhysicsComponent : Node
 
         if (throttlingForward)
         {
-            float acceleration = blackboard.MovementConfig.Acceleration * Mathf.Lerp(1.0f, blackboard.MovementConfig.BoostAccelerationMult, blackboard.Kinematics.BoostIntensity);
+            float acceleration = MovementConfig.Acceleration * Mathf.Lerp(1.0f, MovementConfig.BoostAccelerationMult, blackboard.Kinematics.BoostIntensity);
             blackboard.Kinematics.Speed += acceleration * dt;
         }
         else if (throttlingBackwards)
-            blackboard.Kinematics.Speed -= blackboard.MovementConfig.Acceleration * dt;
+            blackboard.Kinematics.Speed -= MovementConfig.Acceleration * dt;
 
         bool movingForward = blackboard.Kinematics.Speed > 0;
         if (movingForward)
         {
-            float maxSpeed = blackboard.MovementConfig.MaxSpeedForward * Mathf.Lerp(1.0f, blackboard.MovementConfig.BoostSpeedMult, blackboard.Kinematics.BoostIntensity);
+            float maxSpeed = MovementConfig.MaxSpeedForward * Mathf.Lerp(1.0f, MovementConfig.BoostSpeedMult, blackboard.Kinematics.BoostIntensity);
             blackboard.Kinematics.Speed = Mathf.Clamp(blackboard.Kinematics.Speed, 0, maxSpeed);
         }
         else
-            blackboard.Kinematics.Speed = Mathf.Clamp(blackboard.Kinematics.Speed, -blackboard.MovementConfig.MaxSpeedBackwards, 0);
+            blackboard.Kinematics.Speed = Mathf.Clamp(blackboard.Kinematics.Speed, -MovementConfig.MaxSpeedBackwards, 0);
 
-        bool speedCloseZero = Math.Abs(blackboard.Kinematics.Speed) < blackboard.MovementConfig.SpeedLowerThreshold;
+        bool speedCloseZero = Math.Abs(blackboard.Kinematics.Speed) < MovementConfig.SpeedLowerThreshold;
         if (speedCloseZero)
             blackboard.Kinematics.Speed = 0;
     }
@@ -152,7 +155,7 @@ public partial class PlayerPhysicsComponent : Node
     {
         bool throttling = blackboard.Input.MoveInput.Y != 0 || blackboard.State.IsBoosting;
 
-        float friction = throttling ? blackboard.MovementConfig.AirFriction : blackboard.MovementConfig.CoastingFriction;
+        float friction = throttling ? MovementConfig.AirFriction : MovementConfig.CoastingFriction;
         blackboard.Kinematics.Speed *= Mathf.Pow(1 - friction, dt);
     }
 
@@ -165,14 +168,14 @@ public partial class PlayerPhysicsComponent : Node
         }
 
         float absSpeed = Mathf.Abs(blackboard.Kinematics.Speed);
-        float speedNorm = absSpeed / blackboard.MovementConfig.MaxSpeedForward;
-        float steerLimit = blackboard.MovementConfig.MaxSteerAngleDegrees * Mathf.Pow(blackboard.MovementConfig.HighSpeedSteerScale, speedNorm);
+        float speedNorm = absSpeed / MovementConfig.MaxSpeedForward;
+        float steerLimit = MovementConfig.MaxSteerAngleDegrees * Mathf.Pow(MovementConfig.HighSpeedSteerScale, speedNorm);
 
-        float yawCapAngle = Mathf.RadToDeg(Mathf.Atan(blackboard.MovementConfig.MaxYawRate * blackboard.MovementConfig.Wheelbase / absSpeed));
+        float yawCapAngle = Mathf.RadToDeg(Mathf.Atan(MovementConfig.MaxYawRate * MovementConfig.Wheelbase / absSpeed));
         steerLimit = Mathf.Min(steerLimit, yawCapAngle);
 
-        float steerTime = blackboard.MovementConfig.SteerRate * Mathf.Lerp(1f, blackboard.MovementConfig.BoostSteerTimeMult, blackboard.Kinematics.BoostIntensity);
-        float steerStep = blackboard.MovementConfig.MaxSteerAngleDegrees / steerTime * dt;
+        float steerTime = MovementConfig.SteerRate * Mathf.Lerp(1f, MovementConfig.BoostSteerTimeMult, blackboard.Kinematics.BoostIntensity);
+        float steerStep = MovementConfig.MaxSteerAngleDegrees / steerTime * dt;
 
         bool turningLeft = blackboard.Input.MoveInput.X < 0;
         bool turningRight = blackboard.Input.MoveInput.X > 0;

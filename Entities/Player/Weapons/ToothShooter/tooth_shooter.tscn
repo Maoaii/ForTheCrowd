@@ -1,12 +1,14 @@
 [gd_scene format=3 uid="uid://drkrwjplhpn0h"]
 
 [ext_resource type="Script" uid="uid://b7tywwbfodjxf" path="res://Entities/Player/Weapons/ToothShooter/ToothShooter.cs" id="1_olm24"]
-[ext_resource type="Resource" uid="uid://e6v5w7bhtq46" path="res://Entities/Player/Weapons/ToothShooter/Configs/tooth_shooter.tres" id="2_olm24"]
+[ext_resource type="Resource" uid="uid://e6v5w7bhtq46" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.weapon.tres" id="2_olm24"]
+[ext_resource type="Resource" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.shoot_anim.tres" id="3_anim"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_nlf5b"]
 
 [node name="ToothShooter" type="Node3D" unique_id=302018876 node_paths=PackedStringArray("BulletSpawnPoint")]
 script = ExtResource("1_olm24")
+ShootAnimationConfig = ExtResource("3_anim")
 WeaponConfig = ExtResource("2_olm24")
 BulletSpawnPoint = NodePath("Marker3D")
 

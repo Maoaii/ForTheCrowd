@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="WeaponConfig" format=3 uid="uid://bahsyu085r078"]
 
-[ext_resource type="Resource" uid="uid://dhpmeeyws6jud" path="res://Entities/Player/Weapons/BarrelLauncher/Configs/barrel_bullet.tres" id="1_cion2"]
+[ext_resource type="Resource" uid="uid://dhpmeeyws6jud" path="res://Entities/Player/Weapons/BarrelLauncher/barrel.bullet.tres" id="1_cion2"]
 [ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Weapons/WeaponConfig.cs" id="2_ua8ph"]
 
 [resource]

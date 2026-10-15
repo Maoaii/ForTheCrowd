@@ -5,6 +5,8 @@ namespace CarGame.Entities.Player;
 
 public partial class AirState : PlayerState
 {
+    [Export] public MovementConfig MovementConfig;
+
     public override void Enter(double delta = 0)
     {
         base.Enter(delta);
@@ -55,7 +57,7 @@ public partial class AirState : PlayerState
     private void ApplyJump()
     {
         Godot.Vector3 vel = _blackboard.Kinematics.Velocity;
-        vel.Y = _blackboard.MovementConfig.JumpForce;
+        vel.Y = MovementConfig.JumpForce;
         
         if (!_blackboard.Input.IsHoldingJump)
         {
@@ -67,6 +69,6 @@ public partial class AirState : PlayerState
 
     private bool CanJumpBuffer(float currentTime)
     {
-        return currentTime - _blackboard.Input.LastJumpInputTime < _blackboard.MovementConfig.JumpBufferThreshold;
+        return currentTime - _blackboard.Input.LastJumpInputTime < MovementConfig.JumpBufferThreshold;
     }
 }

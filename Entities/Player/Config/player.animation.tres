@@ -7,7 +7,3 @@ script = ExtResource("1_script")
 DefaultScale = Vector3(1.7, 1.7, 1.7)
 StretchScale = Vector3(1.5, 2, 1.5)
 SquashScale = Vector3(2, 1.5, 2)
-LaunchStretchTweenDuration = 0.12
-AirTweenDuration = 0.08
-LandingSquashTweenDuration = 0.1
-RecoveryTweenDuration = 0.08

@@ -49,20 +49,8 @@ public partial class MovementConfig : Resource
     /// <summary>Maximum rotation speed of the car in rad/s. Caps the steer limit at high speed so the car can't spin faster than this.</summary>
     [Export] public float MaxYawRate { get; set; } = 3.4f;
 
-    /// <summary>Boost tank size, in seconds of continuous boosting.</summary>
-    [ExportGroup("Boost")]
-    [Export] public float BoostFuel { get; set; } = 5.0f;
-
-    /// <summary>Fuel (seconds of boost) regained per second while not boosting. 1 = refills in as long as it takes to empty.</summary>
-    [Export] public float BoostFuelRegenRate { get; set; } = 0.5f;
-
-    /// <summary>Seconds after boosting stops before the tank starts refilling.</summary>
-    [Export] public float BoostRegenDelay { get; set; } = 1.0f;
-
-    /// <summary>Fraction of the tank (0-1) that must refill after running dry before boost can be used again. Prevents flickering on an empty tank.</summary>
-    [Export] public float BoostRestartThreshold { get; set; } = 0.4f;
-
     /// <summary>Multiplies MaxSpeedForward at full boost.</summary>
+    [ExportGroup("Boost Handling")]
     [Export] public float BoostSpeedMult { get; set; } = 2.0f;
 
     /// <summary>Multiplies Acceleration at full boost. Higher = harder kick when boost starts.</summary>
@@ -74,37 +62,6 @@ public partial class MovementConfig : Resource
     /// <summary>Multiplies grip at full boost. Lower = longer, wider slides.</summary>
     [Export] public float BoostGripMult { get; set; } = 0.85f;
 
-    /// <summary>Seconds for boost to ramp from off to full when boost is pressed. Lower = punchier start.</summary>
-    [Export] public float BoostAttackTime { get; set; } = 0.4f;
-
-    /// <summary>Seconds for boost to fade from full to off after it's released. Higher = longer, gentler slowdown.</summary>
-    [Export] public float BoostReleaseTime { get; set; } = 0.8f;
-
-    /// <summary>
-    /// Shapes the boost ramp. X is progress (0-1) over the attack/release time, Y is boost intensity (0-1).
-    /// Uses smoothstep when unset.
-    /// </summary>
-    [Export] public Curve RampCurve { get; set; }
-
-    /// <summary>Drift starts building above this speed (units/s) and is full at MaxSpeedForward.</summary>
-    [ExportGroup("Drift")]
-    [Export] public float MinDriftSpeed { get; set; } = 30.0f;
-
-    /// <summary>Per second. How fast the drift factor rises toward its target. Higher = drift kicks in sooner.</summary>
-    [Export] public float DriftBuildRate { get; set; } = 40.0f;
-
-    /// <summary>Per second. How fast the drift factor falls when not drifting (6.3 is about 0.16s).</summary>
-    [Export] public float DriftDecayRate { get; set; } = 6.3f;
-
-    /// <summary>Per second. How fast travel direction catches up to facing with no drift. Higher = tighter grip.</summary>
-    [Export] public float HighGripRate { get; set; } = 20.0f;
-
-    /// <summary>Per second. Same catch-up rate at full drift. Lower = longer slides.</summary>
-    [Export] public float LowGripRate { get; set; } = 6.0f;
-
-    /// <summary>Hard cap on the angle between where the car faces and where it travels, in degrees.</summary>
-    [Export] public float MaxSlipAngleDegrees { get; set; } = 50.0f;
-
     /// <summary>Seconds to reach maximum steer angle.</summary>
     [ExportGroup("Vehicle Dimensions")]
     [Export] public float SteerRate { get; set; } = 0.25f;
@@ -114,30 +71,4 @@ public partial class MovementConfig : Resource
 
     /// <summary>Currently unused.</summary>
     [Export] public float GroundHeight { get; set; } = 1.0f;
-
-    /// <summary>Milliseconds the shove-it trick lasts.</summary>
-    [ExportGroup("Trick Timings")]
-    [Export] public float ShoveItTrickDuration { get; set; } = 200.0f;
-
-    /// <summary>Milliseconds the kickflip trick lasts.</summary>
-    [Export] public float KickflipTrickDuration { get; set; } = 200.0f;
-
-    /// <summary>Currently unused.</summary>
-    [Export] public float BackManualTrickDuration { get; set; } = 1000.0f;
-
-    /// <summary>Distance the car must move before another tire-mark point is added.</summary>
-    [ExportGroup("Trails/Tire marks")]
-    [Export] public float TrailSampleDistance { get; set; } = 0.15f;
-
-    /// <summary>Width of each tire mark, in world units.</summary>
-    [Export] public float TrailWidth { get; set; } = 0.4f;
-
-    /// <summary>Seconds before tire marks fade out.</summary>
-    [Export] public float TrailMaxLifetime { get; set; } = 4.0f;
-
-    /// <summary>Drift factor (0-1) above which tire marks are drawn while steering.</summary>
-    [Export] public float TrailDriftThreshold { get; set; } = 0.15f;
-
-    /// <summary>Seconds the current tire mark keeps going after drifting stops before it ends, so brief gaps don't split it.</summary>
-    [Export] public float TrailCooldown { get; set; } = 0.05f;
 }

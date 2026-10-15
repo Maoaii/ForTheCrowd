@@ -6,6 +6,9 @@ namespace CarGame.Entities.Player;
 
 public partial class KickflipState : TrickState
 {
+    /// <summary>Milliseconds the trick lasts.</summary>
+    [Export] public float DurationMs = 200.0f;
+
     private float _timeEnteredTrick;
 
     public override void _Ready()
@@ -32,7 +35,7 @@ public partial class KickflipState : TrickState
         vel.Y = 0.0f;
         _blackboard.Kinematics.Velocity = vel;
         float currentTime = Time.GetTicksMsec();
-        if (currentTime - _timeEnteredTrick > _blackboard.MovementConfig.KickflipTrickDuration)
+        if (currentTime - _timeEnteredTrick > DurationMs)
             _stateMachine.TransitionState(PlayerStates.Air, delta);
     }
 

@@ -33,6 +33,7 @@ public class BlackboardState
     public bool WantsGroundPhysics = false;
     public bool CanMove = true;
     public bool IsBoosting = false;
+    public bool IsBoostDepleted = false;
 }
 
 public class BlackboardInput
@@ -102,9 +103,6 @@ public partial class BlackboardComponent : Node
     // Core references
     [Export] public new CharacterBody3D Owner;
     [Export] public PlayerAnimatorComponent Animator;
-    
-    [Export] public MovementConfig MovementConfig;
-    [Export] public PlayerAnimationConfig AnimationConfig;
 
     // Segmented states
     public BlackboardEvents Events = new();
