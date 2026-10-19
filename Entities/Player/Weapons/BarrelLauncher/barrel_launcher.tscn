@@ -2,6 +2,12 @@
 
 [ext_resource type="Script" uid="uid://b7hnw868xxh6i" path="res://Entities/Player/Weapons/BarrelLauncher/BarrelLauncher.cs" id="1_vbqvf"]
 [ext_resource type="Resource" uid="uid://bahsyu085r078" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.weapon.tres" id="2_lsem6"]
+[ext_resource type="Script" uid="uid://cesltu8x7fn8f" path="res://Entities/Player/Weapons/BarrelLauncher/BarrelLauncherAnimationConfig.cs" id="2_vbqvf"]
+
+[sub_resource type="Resource" id="Resource_rl7tv"]
+script = ExtResource("2_vbqvf")
+UseModelFront = false
+metadata/_custom_type_script = "uid://cesltu8x7fn8f"
 
 [sub_resource type="BoxMesh" id="BoxMesh_flswb"]
 size = Vector3(1, 1, 2.0089111)
@@ -9,14 +15,21 @@ size = Vector3(1, 1, 2.0089111)
 [sub_resource type="BoxMesh" id="BoxMesh_rl7tv"]
 size = Vector3(3.6669922, 1, 0.90966797)
 
-[node name="BarrelLauncher" type="Node3D" unique_id=1393748732 node_paths=PackedStringArray("BulletSpawnPoint")]
+[sub_resource type="CylinderMesh" id="CylinderMesh_lsem6"]
+top_radius = 0.2524414
+bottom_radius = 0.2524414
+height = 0.9736328
+
+[node name="BarrelLauncher" type="Node3D" unique_id=1393748732 node_paths=PackedStringArray("BulletDecoy", "BulletSpawnPoint")]
 transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_vbqvf")
+BulletDecoy = NodePath("MeshInstance3D/BulletDecoy")
+ShootAnimationConfig = SubResource("Resource_rl7tv")
 WeaponConfig = ExtResource("2_lsem6")
 BulletSpawnPoint = NodePath("Marker3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1952222712]
-transform = Transform3D(0.4404564, 0, 0, 0, 0.23620246, 0, 0, 0, 1.5329239, 0, 0, 0.773292)
+transform = Transform3D(0.4404564, 0, 0, 0, 0.23620246, 0, 0, 0, 1.5329239, -6.813962e-08, 0, 1.5527184)
 layers = 2
 mesh = SubResource("BoxMesh_flswb")
 
@@ -24,5 +37,9 @@ mesh = SubResource("BoxMesh_flswb")
 transform = Transform3D(1, 0, 0, 0, 0.9999994, 0, 0, 0, 0.99998033, 0, 0, 0.96021694)
 mesh = SubResource("BoxMesh_rl7tv")
 
+[node name="BulletDecoy" type="MeshInstance3D" parent="MeshInstance3D" unique_id=26172793]
+transform = Transform3D(-9.924113e-08, 2.2703724, 9.924113e-08, 0, -1.8505898e-07, 4.233656, 0.65234804, 2.851504e-08, 1.246432e-15, -4.5380222e-07, 1.536846, 0.98704803)
+mesh = SubResource("CylinderMesh_lsem6")
+
 [node name="Marker3D" type="Marker3D" parent="." unique_id=428944922]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.26599288, 2.2696862)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -7.714809e-08, 0.26599288, 3.1521573)

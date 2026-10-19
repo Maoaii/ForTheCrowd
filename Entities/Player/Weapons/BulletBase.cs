@@ -5,6 +5,8 @@ namespace CarGame.Entities.Player.Weapons;
 
 public partial class BulletBase : Area3D
 {
+	[Export] public float TurnSmoothing = 20.0f;
+
 	private BulletConfig _config;
 	private Vector3 _aimPoint;
 
@@ -26,8 +28,7 @@ public partial class BulletBase : Area3D
 
 		_config.FiringSolver.Step(ref _state, (float)delta);
 		GlobalPosition = _state.Position;
-		OrientTowardsDirection();
-
+		OrientTowardsDirection((float)delta);
 	}
 
 	public void Setup(BulletConfig config, Vector3 position, in FiringSolution solution)
@@ -40,20 +41,24 @@ public partial class BulletBase : Area3D
 		_state = new() { Position = position, Velocity = solution.LaunchVelocity, };
 
 		SetLifetime(config.BulletLifetime);
-		OrientTowardsDirection();
+		SnapToDirection();
 	}
 
-	private void SetLifetime(float lifetime)
-	{
-		GetTree().CreateTimer(lifetime).Timeout += QueueFree;
-	}
-
-	public virtual void OrientTowardsDirection()
+	public virtual void OrientTowardsDirection(float delta)
 	{
 		if (_state.Velocity.LengthSquared() < 0.0001f)
 			return;
 
-		LookAt(GlobalPosition + _state.Velocity);
+		float weight = 1.0f - Mathf.Exp(-TurnSmoothing * delta);
+		GlobalBasis = GlobalBasis.Orthonormalized().Slerp(Basis.LookingAt(_state.Velocity), weight);
+	}
+
+	public virtual void SnapToDirection()
+	{
+		if (_state.Velocity.LengthSquared() < 0.0001f)
+			return;
+
+		GlobalBasis = Basis.LookingAt(_state.Velocity);
 	}
 
 	public virtual void Collided()
@@ -73,5 +78,10 @@ public partial class BulletBase : Area3D
 		}
 
 		GetTree().CreateTimer(_config.TimeToFreeAfterCollision).Timeout += QueueFree;
+	}
+
+	private void SetLifetime(float lifetime)
+	{
+		GetTree().CreateTimer(lifetime).Timeout += QueueFree;
 	}
 }

@@ -1,11 +1,11 @@
+using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
 public partial class ToothShooter : WeaponBase
 {
-	[Export] public ShootAnimationConfig ShootAnimationConfig;
-
+	private ToothShooterAnimationConfig ToothShooterConfig => ShootAnimationConfig as ToothShooterAnimationConfig;
 	private Tween scaleTween;
 	private Tween recoilTween;
 
@@ -13,13 +13,13 @@ public partial class ToothShooter : WeaponBase
 	{
 		base._Ready();
 
-		if (ShootAnimationConfig == null)
-			GD.PushWarning("ShootAnimationConfig is not assigned in the inspector.");
+		if (ToothShooterConfig == null)
+			GD.PushWarning("ShootAnimationConfig must be a ToothShooterAnimationConfig.");
 	}
 
-	public override void ShootAnimation()
+	public override void ShootAnimation(FiringSolution solution)
 	{
-		if (ShootAnimationConfig == null)
+		if (ToothShooterConfig == null)
 			return;
 
 		ScaleAnimation();
@@ -33,12 +33,12 @@ public partial class ToothShooter : WeaponBase
 			scaleTween.Kill();
 		}
 		scaleTween = CreateTween();
-		scaleTween.TweenProperty(this, "scale", ShootAnimationConfig.ScaleUpAmount, ShootAnimationConfig.ScaleUpTime)
-			.SetTrans(ShootAnimationConfig.ScaleUpTweenTransition)
-			.SetEase(ShootAnimationConfig.ScaleUpTweenEase);
-		scaleTween.TweenProperty(this, "scale", new Vector3(1f, 1f, 1f), ShootAnimationConfig.ScaleDownTime)
-			.SetTrans(ShootAnimationConfig.ScaleDownTweenTransition)
-			.SetEase(ShootAnimationConfig.ScaleDownTweenEase);
+		scaleTween.TweenProperty(this, "scale", ToothShooterConfig.ScaleUpAmount, ToothShooterConfig.ScaleUpTime)
+			.SetTrans(ToothShooterConfig.ScaleUpTweenTransition)
+			.SetEase(ToothShooterConfig.ScaleUpTweenEase);
+		scaleTween.TweenProperty(this, "scale", new Vector3(1f, 1f, 1f), ToothShooterConfig.ScaleDownTime)
+			.SetTrans(ToothShooterConfig.ScaleDownTweenTransition)
+			.SetEase(ToothShooterConfig.ScaleDownTweenEase);
 	}
 
 	private void RecoilAnimation()
@@ -50,18 +50,18 @@ public partial class ToothShooter : WeaponBase
 
 		recoilTween = CreateTween();
 
-		recoilTween.TweenProperty(this, "position", Position + new Vector3(0.0f, 0.0f, -ShootAnimationConfig.RecoilDistance).Rotated(Vector3.Up, Rotation.Y), ShootAnimationConfig.RecoilUpTime)
-			.SetTrans(ShootAnimationConfig.RecoilUpTweenTransition)
-			.SetEase(ShootAnimationConfig.RecoilUpTweenEase);
-		recoilTween.Parallel().TweenProperty(this, "rotation", Rotation + new Vector3(-Mathf.DegToRad(ShootAnimationConfig.RecoilRotationAmount), 0, 0), ShootAnimationConfig.RecoilUpTime)
-			.SetTrans(ShootAnimationConfig.RecoilUpTweenTransition)
-			.SetEase(ShootAnimationConfig.RecoilUpTweenEase);
+		recoilTween.TweenProperty(this, "position", Position + new Vector3(0.0f, 0.0f, -ToothShooterConfig.RecoilDistance).Rotated(Vector3.Up, Rotation.Y), ToothShooterConfig.RecoilUpTime)
+			.SetTrans(ToothShooterConfig.RecoilUpTweenTransition)
+			.SetEase(ToothShooterConfig.RecoilUpTweenEase);
+		recoilTween.Parallel().TweenProperty(this, "rotation:x", Rotation.X - Mathf.DegToRad(ToothShooterConfig.RecoilRotationAmount), ToothShooterConfig.RecoilUpTime)
+			.SetTrans(ToothShooterConfig.RecoilUpTweenTransition)
+			.SetEase(ToothShooterConfig.RecoilUpTweenEase);
 
-		recoilTween.TweenProperty(this, "position", Vector3.Zero, ShootAnimationConfig.RecoilDownTime)
-			.SetTrans(ShootAnimationConfig.RecoilDownTweenTransition)
-			.SetEase(ShootAnimationConfig.RecoilDownTweenEase);
-		recoilTween.Parallel().TweenProperty(this, "rotation", new Vector3(0, Rotation.Y, Rotation.Z), ShootAnimationConfig.RecoilDownTime)
-			.SetTrans(ShootAnimationConfig.RecoilDownTweenTransition)
-			.SetEase(ShootAnimationConfig.RecoilDownTweenEase);
+		recoilTween.TweenProperty(this, "position", Vector3.Zero, ToothShooterConfig.RecoilDownTime)
+			.SetTrans(ToothShooterConfig.RecoilDownTweenTransition)
+			.SetEase(ToothShooterConfig.RecoilDownTweenEase);
+		recoilTween.Parallel().TweenProperty(this, "rotation:x", 0.0f, ToothShooterConfig.RecoilDownTime)
+			.SetTrans(ToothShooterConfig.RecoilDownTweenTransition)
+			.SetEase(ToothShooterConfig.RecoilDownTweenEase);
 	}
 }

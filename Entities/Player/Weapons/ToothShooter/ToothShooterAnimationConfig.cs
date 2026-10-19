@@ -1,10 +1,9 @@
 using System;
+using CarGame.Entities.Player.Weapons;
 using Godot;
 
-namespace CarGame.Entities.Player.Weapons;
-
 [GlobalClass]
-public partial class ShootAnimationConfig : Resource
+public partial class ToothShooterAnimationConfig : ShootAnimationConfig
 {
 	[ExportGroup("Scale Animation")]
 	[Export] public float ScaleUpTime = 0.1f;
