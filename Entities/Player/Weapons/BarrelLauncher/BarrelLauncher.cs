@@ -1,3 +1,4 @@
+using System;
 using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
 
@@ -16,10 +17,13 @@ public partial class BarrelLauncher : WeaponBase
 			GD.PushWarning("ShootAnimationConfig must be a BarrelLauncherAnimationConfig.");
 	}
 
-	public override void ShootAnimation(FiringSolution solution)
+	public override void ShootAnimation(FiringSolution solution, Action fire)
 	{
 		if (BarrelLauncherConfig == null)
+		{
+			fire();
 			return;
+		}
 
 		// Show barrel bullet decoy
 		BulletDecoy.Visible = true;
@@ -31,8 +35,12 @@ public partial class BarrelLauncher : WeaponBase
 
 		tween.TweenProperty(this, "rotation_degrees:x", BarrelLauncherConfig.TiltAngle, BarrelLauncherConfig.TiltTime);
 
-		// Hide barrel bullet decoy
-		tween.TweenCallback(Callable.From(() => BulletDecoy.Visible = false));
+		// Swap barrel bullet decoy for the real bullet
+		tween.TweenCallback(Callable.From(() =>
+		{
+			BulletDecoy.Visible = false;
+			fire();
+		}));
 
 		// Tween rotate back to original position
 		tween.TweenProperty(this, "rotation_degrees:x", 0.0f, BarrelLauncherConfig.ReturnTime);

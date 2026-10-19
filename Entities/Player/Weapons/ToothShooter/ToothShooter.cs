@@ -1,3 +1,4 @@
+using System;
 using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
 
@@ -17,8 +18,10 @@ public partial class ToothShooter : WeaponBase
 			GD.PushWarning("ShootAnimationConfig must be a ToothShooterAnimationConfig.");
 	}
 
-	public override void ShootAnimation(FiringSolution solution)
+	public override void ShootAnimation(FiringSolution solution, Action fire)
 	{
+		fire();
+
 		if (ToothShooterConfig == null)
 			return;
 

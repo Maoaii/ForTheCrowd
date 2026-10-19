@@ -1,3 +1,4 @@
+using System;
 using CarGame.Entities.Components.AimingSystem;
 using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
@@ -63,14 +64,22 @@ public abstract partial class WeaponBase : Node3D
 		if (!_cooldownTimer.IsStopped())
 			return false;
 
-		ShootAnimation(solution);
-		SpawnBullet(solution);
+		bool fired = false;
+		void Fire()
+		{
+			if (fired)
+				return;
+			fired = true;
+			SpawnBullet(solution);
+		}
+
+		ShootAnimation(solution, Fire);
 		_cooldownTimer.Start();
 
 		return true;
 	}
 
-	public abstract void ShootAnimation(FiringSolution solution);
+	public abstract void ShootAnimation(FiringSolution solution, Action fire);
 
 	protected void SmoothLookAt(Vector3 targetPosition, bool useModelFront)
 	{
