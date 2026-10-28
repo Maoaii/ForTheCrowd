@@ -9,6 +9,9 @@ namespace CarGame.Entities.Enemies;
 
 public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
 {
+	[ExportGroup("Health")]
+	[Export] public HealthComponent HealthComponent;
+
 	// --- Physics Properties ---
 	[ExportGroup("Movement")]
 	[Export] public float SeekingForce = 5.0f;
@@ -40,6 +43,7 @@ public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
 		AddToGroup("TerrainTrackable");
 		BodyEntered += HandleCollision;
 		AreaEntered += HandleCollision;
+		HealthComponent.HealthDepleted += Die;
 		Swarm?.RegisterEntity(this);
 	}
 
@@ -61,22 +65,38 @@ public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
 
 	private void HandleCollision(Node3D body)
 	{
-		GpuParticles3D particles = _bloodParticles;
-		_bloodParticles.Reparent(GetTree().CurrentScene);
-		_bloodParticles.Emitting = true;
-		_bloodParticles.Owner = GetTree().CurrentScene;
+		HealthComponent.TakeDamage(1); // TODO: don't hardcode this
+		SpawnBloodParticles();
+	}
 
-		GetTree().CreateTimer(_bloodParticles.Lifetime).Timeout += particles.QueueFree;
+	private void Die()
+	{
+		SpawnBloodParticles();
+		SpawnBloodDecal();
+		QueueFree();
+	}
 
+	private void SpawnBloodParticles()
+	{
+		GpuParticles3D particles = _bloodParticles.Duplicate() as GpuParticles3D;
+		GetTree().CurrentScene.AddChild(particles);
+		particles.Owner = GetTree().CurrentScene;
+		particles.GlobalPosition = _bloodParticles.GlobalPosition;
+		particles.Emitting = true;
+
+		GetTree().CreateTimer(particles.Lifetime).Timeout += particles.QueueFree;
+	}
+
+	private void SpawnBloodDecal()
+	{
 		Decal decal = _bloodDecal;
 		_bloodDecal.Reparent(GetTree().CurrentScene);
 		_bloodDecal.Owner = GetTree().CurrentScene;
 		_bloodDecal.Visible = true;
 		Tween tween = GetTree().CurrentScene.CreateTween();
 		tween.TweenProperty(decal, "modulate:a", 0.0f, 3).SetTrans(Tween.TransitionType.Linear).SetEase(Tween.EaseType.InOut);
-		tween.TweenCallback(Callable.From(() => decal.QueueFree()));
 
-		QueueFree();
+		tween.TweenCallback(Callable.From(decal.QueueFree));
 	}
 
 	public override void _PhysicsProcess(double delta)

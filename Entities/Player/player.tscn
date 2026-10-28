@@ -50,21 +50,21 @@ albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 [sub_resource type="BoxShape3D" id="BoxShape3D_we0b7"]
 size = Vector3(2.0090332, 2.1328735, 1.9874268)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_w51ui"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_l3oqu"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_slvv8"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53w1c"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_w51ui")
+albedo_texture = SubResource("ViewportTexture_l3oqu")
 billboard_keep_scale = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_l3oqu"]
+[sub_resource type="QuadMesh" id="QuadMesh_siu7b"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_slvv8")
+material = SubResource("StandardMaterial3D_53w1c")
 
 [sub_resource type="Resource" id="Resource_og23y"]
 script = ExtResource("26_u86q5")
@@ -270,7 +270,7 @@ cull_mask = 5
 [node name="FuelProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
 transform = Transform3D(1.6219957, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 0.5765978, 0.8626491)
 cast_shadow = 0
-mesh = SubResource("QuadMesh_l3oqu")
+mesh = SubResource("QuadMesh_siu7b")
 _blackboard = NodePath("../BlackboardComponent")
 
 [node name="WeaponManager" type="Node3D" parent="Components" unique_id=986360104 node_paths=PackedStringArray("_blackboard")]
@@ -282,6 +282,7 @@ metadata/_custom_type_script = "uid://t2sf7rx63ucr"
 [node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=164653709]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
 script = ExtResource("26_ui1ln")
+Enabled = false
 WeaponScene = ExtResource("28_80ryp")
 
 [node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1327966020]

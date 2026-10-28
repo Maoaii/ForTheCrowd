@@ -1,115 +1,115 @@
 using System;
-using Godot;
-using CarGame.Entities.Player;
 using CarGame.Entities.Components;
+using CarGame.Entities.Player;
+using Godot;
 
 namespace CarGame.Systems.Blackboards;
 
 public class BlackboardEvents
 {
-    public Action<float> OnLanded;
-    public Action<float> OnDrifting;
-    public Action OnZombieRunOver;
-    public Action OnStartedBoosting;
-    public Action OnStoppedBoosting;
+	public Action<float> OnLanded;
+	public Action<float> OnDrifting;
+	public Action OnZombieRunOver;
+	public Action OnStartedBoosting;
+	public Action OnStoppedBoosting;
 }
 
 public class BlackboardKinematics
 {
-    public float DriftFactor = 0.0f; // 0-1
-    public Vector3 MovementDirection = Vector3.Forward;
-    public Vector3 Velocity = Vector3.Zero;
-    public float SteerAngle = 0.0f;
-    public float Speed = 0.0f;
-    public float GravityToggler = 1.0f;
-    public float BoostIntensity = 0.0f;
-    public float BoostFuelFraction = 1.0f;
+	public float DriftFactor = 0.0f; // 0-1
+	public Vector3 MovementDirection = Vector3.Forward;
+	public Vector3 Velocity = Vector3.Zero;
+	public float SteerAngle = 0.0f;
+	public float Speed = 0.0f;
+	public float GravityToggler = 1.0f;
+	public float BoostIntensity = 0.0f;
+	public float BoostFuelFraction = 1.0f;
 }
 
 public class BlackboardState
 {
-    public bool WasOnGround = false;
-    public bool IsOnGround = false;
-    public bool WantsGroundPhysics = false;
-    public bool CanMove = true;
-    public bool IsBoosting = false;
-    public bool IsBoostDepleted = false;
+	public bool WasOnGround = false;
+	public bool IsOnGround = false;
+	public bool WantsGroundPhysics = false;
+	public bool CanMove = true;
+	public bool IsBoosting = false;
+	public bool IsBoostDepleted = false;
 }
 
 public class BlackboardInput
 {
-    public Vector2 MoveInput = Vector2.Zero;
-    public float LastJumpInputTime = -1.0f;
-    public bool WantsJump = false;
-    public bool IsHoldingJump = false;
-    public bool ReleasedJump = false;
-    public bool WantsBoost = false;
-    
-    public bool WantsActivateSlot1 = false;
-    public bool WantsActivateSlot2 = false;
-    public bool WantsActivateSlot3 = false;
-    public bool WantsActivateSlot4 = false;
-    public bool WantsActivateWeapon(out int slot)
-    {
-        slot = -1;
-        if (WantsActivateSlot1)
-            slot = 1;
-        if (WantsActivateSlot2)
-            slot = 2;
-        if (WantsActivateSlot3)
-            slot = 3;
-        if (WantsActivateSlot4)
-            slot = 4;
-        
-        
-        return WantsActivateSlot1 || WantsActivateSlot2 || WantsActivateSlot3 || WantsActivateSlot4;
-    }
+	public Vector2 MoveInput = Vector2.Zero;
+	public float LastJumpInputTime = -1.0f;
+	public bool WantsJump = false;
+	public bool IsHoldingJump = false;
+	public bool ReleasedJump = false;
+	public bool WantsBoost = false;
+
+	public bool WantsActivateSlot1 = false;
+	public bool WantsActivateSlot2 = false;
+	public bool WantsActivateSlot3 = false;
+	public bool WantsActivateSlot4 = false;
+	public bool WantsActivateWeapon(out int slot)
+	{
+		slot = -1;
+		if (WantsActivateSlot1)
+			slot = 1;
+		if (WantsActivateSlot2)
+			slot = 2;
+		if (WantsActivateSlot3)
+			slot = 3;
+		if (WantsActivateSlot4)
+			slot = 4;
+
+
+		return WantsActivateSlot1 || WantsActivateSlot2 || WantsActivateSlot3 || WantsActivateSlot4;
+	}
 }
 
 public class BlackboardCamera
 {
-    public bool WantsFOVKick = false;
-    public float FOVKick;
-    public float FOVKickUpTime;
-    public float FOVKickDownTime;
-    public void SetFOVKick(float fovKick, float fovKickUpTime, float fovKickDownTime)
-    {
-        WantsFOVKick = true;
-        FOVKick = fovKick;
-        FOVKickUpTime = fovKickUpTime;
-        FOVKickDownTime = fovKickDownTime;
-    }
-    public bool WantsCameraShake = false;
-    public float CameraShakeTime = 0.0f;
+	public bool WantsFOVKick = false;
+	public float FOVKick;
+	public float FOVKickUpTime;
+	public float FOVKickDownTime;
+	public void SetFOVKick(float fovKick, float fovKickUpTime, float fovKickDownTime)
+	{
+		WantsFOVKick = true;
+		FOVKick = fovKick;
+		FOVKickUpTime = fovKickUpTime;
+		FOVKickDownTime = fovKickDownTime;
+	}
+	public bool WantsCameraShake = false;
+	public float CameraShakeTime = 0.0f;
 }
 
 public class BlackboardTricks
 {
-    public bool WantsShoveIt = false;
-    public bool WantsKickflip = false;
-    public bool WantsBackManual = false;
-    public bool WantsStopBackManual = false;
+	public bool WantsShoveIt = false;
+	public bool WantsKickflip = false;
+	public bool WantsBackManual = false;
+	public bool WantsStopBackManual = false;
 }
 
 public class BlackboardVisuals
 {
-    public Vector3 VisualDirection = Vector3.Forward;
+	public Vector3 VisualDirection = Vector3.Forward;
 }
 
 [Tool]
 [GlobalClass]
 public partial class BlackboardComponent : Node
 {
-    // Core references
-    [Export] public new CharacterBody3D Owner;
-    [Export] public PlayerAnimatorComponent Animator;
+	// Core references
+	[Export] public new CharacterBody3D Owner;
+	[Export] public PlayerAnimatorComponent Animator;
 
-    // Segmented states
-    public BlackboardEvents Events = new();
-    public BlackboardKinematics Kinematics = new();
-    public BlackboardState State = new();
-    public BlackboardInput Input = new();
-    public BlackboardCamera Camera = new();
-    public BlackboardTricks Tricks = new();
-    public BlackboardVisuals Visuals = new();
+	// Segmented states
+	public BlackboardEvents Events = new();
+	public BlackboardKinematics Kinematics = new();
+	public BlackboardState State = new();
+	public BlackboardInput Input = new();
+	public BlackboardCamera Camera = new();
+	public BlackboardTricks Tricks = new();
+	public BlackboardVisuals Visuals = new();
 }

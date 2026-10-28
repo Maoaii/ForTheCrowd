@@ -4,6 +4,7 @@
 [ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="2_g07s8"]
 [ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="3_g07s8"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="4_eg0v1"]
+[ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="5_lcltw"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_zmb"]
 radius = 1.1167445
@@ -26,10 +27,11 @@ scale_max = 0.59999996
 [sub_resource type="QuadMesh" id="QuadMesh_eg0v1"]
 material = ExtResource("2_g07s8")
 
-[node name="Zombie" type="Area3D" unique_id=453756859 node_paths=PackedStringArray("GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
+[node name="Zombie" type="Area3D" unique_id=453756859 node_paths=PackedStringArray("HealthComponent", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
 collision_layer = 4
 collision_mask = 10
 script = ExtResource("1_zmb")
+HealthComponent = NodePath("HealthComponent")
 VelocityLerpSpeed = 20.0
 GroundOffset = 1.0
 GroundFrom = NodePath("GroundDetection/GroundFrom")
@@ -44,6 +46,11 @@ shape = SubResource("SphereShape3D_zmb")
 layers = 4
 mesh = SubResource("BoxMesh_zmb")
 surface_material_override/0 = SubResource("StandardMaterial3D_zmb")
+
+[node name="HealthComponent" type="Node" parent="." unique_id=30456630]
+script = ExtResource("5_lcltw")
+MaxHealth = 2
+metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
 [node name="BloodParticles" type="GPUParticles3D" parent="." unique_id=502201512]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
