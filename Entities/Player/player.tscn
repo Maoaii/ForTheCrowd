@@ -36,32 +36,33 @@
 [ext_resource type="Resource" uid="uid://dt1wb4cb8foqe" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher_config.tres" id="36_c0fwy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
-radius = 0.706
+radius = 0.921
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ppdlg"]
 albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_symyc"]
 material = SubResource("StandardMaterial3D_ppdlg")
+size = Vector3(1.4160156, 1.2879639, 1.8822632)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_gds62"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_l3oqu"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qv8uv"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53w1c"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_gds62")
+albedo_texture = SubResource("ViewportTexture_l3oqu")
 billboard_keep_scale = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_1ii4q"]
+[sub_resource type="QuadMesh" id="QuadMesh_siu7b"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_qv8uv")
+material = SubResource("StandardMaterial3D_53w1c")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_slvv8"]
-radius = 0.843
+radius = 1.2153578
 
 [sub_resource type="Resource" id="Resource_og23y"]
 script = ExtResource("26_u86q5")
@@ -78,12 +79,13 @@ HealthComponent = NodePath("Components/HealthComponent")
 HurtBox = NodePath("Components/HurtBox")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1337208391]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18224621, 0.673257)
 shape = SubResource("SphereShape3D_a8wow")
 
 [node name="Visuals" type="Node3D" parent="." unique_id=388810045]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals" unique_id=1186658863]
-transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0.24476929, 0.7499237)
 layers = 2
 mesh = SubResource("BoxMesh_symyc")
 skeleton = NodePath("../..")
@@ -188,7 +190,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=621981973]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.8447373)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 2.0453906)
 emitting = false
 one_shot = true
 explosiveness = 1.0
@@ -196,7 +198,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=2101392995]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.84136426)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 2.0520873)
 emitting = false
 one_shot = true
 explosiveness = 1.0
@@ -204,7 +206,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2037112779]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.8608966)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 2.0505924)
 emitting = false
 amount = 64
 lifetime = 2.0
@@ -212,7 +214,7 @@ process_material = ExtResource("17_ppdlg")
 draw_pass_1 = ExtResource("18_avsg8")
 
 [node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=823369358]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.84009135)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 2.113288)
 emitting = false
 amount = 64
 lifetime = 2.0
@@ -223,7 +225,7 @@ draw_pass_1 = ExtResource("18_avsg8")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.84, 0)
 
 [node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1218171051 node_paths=PackedStringArray("Blackboard")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8945165, 0, 0.77451515)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.895, 0, 2.137)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
 Config = ExtResource("32_tire_marks_config")
@@ -231,13 +233,14 @@ GroundOffset = 0.3
 TextureWorldLength = 1.0
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=2058111243 node_paths=PackedStringArray("Blackboard")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895, 0, 0.775)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.895, 0, 2.1369467)
 script = ExtResource("8_tiremarks")
 Blackboard = NodePath("../../BlackboardComponent")
 Config = ExtResource("32_tire_marks_config")
 GroundOffset = 0.3
 
 [node name="CameraRig" parent="Components" unique_id=1669618986 node_paths=PackedStringArray("Target", "Blackboard") instance=ExtResource("2_rig")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.8000767)
 Target = NodePath("../..")
 Blackboard = NodePath("../BlackboardComponent")
 MovementConfig = ExtResource("17_movement_config")
@@ -247,13 +250,13 @@ BaseFov = 0.7853982
 SpeedFovDegrees = 5.0
 
 [node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("21_v7p16")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.4882665, 0)
-size = Vector3(3, 12.39377, 3)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.1777735, 0.73114014)
+size = Vector3(3, 13.014756, 3.0738525)
 
 [node name="FuelProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
-transform = Transform3D(1.6219957, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 0.5765978, 0.8626491)
+transform = Transform3D(2.208307, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 1.0273352, 2.3584752)
 cast_shadow = 0
-mesh = SubResource("QuadMesh_1ii4q")
+mesh = SubResource("QuadMesh_siu7b")
 _blackboard = NodePath("../BlackboardComponent")
 
 [node name="HealthComponent" type="Node" parent="Components" unique_id=248601887]
@@ -262,6 +265,7 @@ MaxHealth = 5
 metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
 [node name="HurtBox" type="Area3D" parent="Components" unique_id=335346406]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7369946)
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("33_slvv8")
@@ -282,15 +286,15 @@ _slot3Config = ExtResource("36_c0fwy")
 metadata/_custom_type_script = "uid://t2sf7rx63ucr"
 
 [node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=543798456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49251974, -1.249431)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34229252, -1.281972)
 script = ExtResource("26_ui1ln")
 
 [node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1036105547]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0617789, -0.9785934)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6546934, -0.9785934)
 script = ExtResource("26_ui1ln")
 
 [node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=1980715230]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9856094, 0.6165155)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6991491, 1.9801832)
 script = ExtResource("26_ui1ln")
 
 [node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1701359267]
