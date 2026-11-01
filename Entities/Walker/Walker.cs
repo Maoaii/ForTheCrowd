@@ -7,7 +7,7 @@ using Godot.Collections;
 
 namespace CarGame.Entities.Enemies;
 
-public partial class Zombie : Node3D, ISwarmable, IVelocityHolder
+public partial class Walker : Node3D, ISwarmable, IVelocityHolder
 {
 
 	[ExportGroup("Health")]
