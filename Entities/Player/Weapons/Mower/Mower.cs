@@ -28,12 +28,7 @@ public partial class Mower : Area3D, IDamageProvider, IWeapon
 			Amount = WeaponConfig.Damage
 		};
 
-		return true;
-	}
-
-
-	private void OnAreaEntered(Area3D area)
-	{
 		Blackboard?.Events.OnEnemyRunOver?.Invoke();
+		return true;
 	}
 }
