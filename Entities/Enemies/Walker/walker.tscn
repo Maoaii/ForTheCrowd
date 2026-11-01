@@ -8,6 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="6_1t2e5"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="7_bk0l2"]
 [ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="8_6v5tk"]
+[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="9_5xvs7"]
+[ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="9_bhqgr"]
+[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="10_thdv8"]
+[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="11_bk0l2"]
+[ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="11_thdv8"]
+[ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="12_kscjw"]
+[ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="13_bk0l2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_zmb"]
 size = Vector3(1, 2, 1)
@@ -33,6 +40,31 @@ scale_max = 0.59999996
 [sub_resource type="QuadMesh" id="QuadMesh_eg0v1"]
 material = ExtResource("5_gixyv")
 
+[sub_resource type="Resource" id="Resource_bhqgr"]
+script = ExtResource("9_bhqgr")
+AimRange = 100.0
+TargetLayers = 2
+metadata/_custom_type_script = "uid://bnai5q2few736"
+
+[sub_resource type="Resource" id="Resource_w5fwr"]
+script = ExtResource("11_thdv8")
+metadata/_custom_type_script = "uid://bpvv2e7pts1uc"
+
+[sub_resource type="Resource" id="Resource_kscjw"]
+script = ExtResource("12_kscjw")
+BulletPackedScene = ExtResource("10_thdv8")
+FiringSolver = SubResource("Resource_w5fwr")
+CollisionLayer = 16
+CollisionMask = 2
+metadata/_custom_type_script = "uid://q8f12lil0xdo"
+
+[sub_resource type="Resource" id="Resource_e56qi"]
+script = ExtResource("9_5xvs7")
+Cooldown = 3.0
+BulletConfig = SubResource("Resource_kscjw")
+WeaponScene = ExtResource("11_bk0l2")
+metadata/_custom_type_script = "uid://hflcgj2usade"
+
 [node name="Walker" type="Node3D" unique_id=824982067 node_paths=PackedStringArray("HealthComponent", "HurtBox", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
 script = ExtResource("1_0piso")
 HealthComponent = NodePath("HealthComponent")
@@ -55,7 +87,7 @@ metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
 [node name="HurtBox" type="Area3D" parent="." unique_id=1560796277]
 collision_layer = 4
-collision_mask = 10
+collision_mask = 8
 script = ExtResource("3_5xvs7")
 metadata/_custom_type_script = "uid://b7ebpohlpxfto"
 
@@ -100,7 +132,12 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9124379, 0)
 [node name="GroundTo" type="Marker3D" parent="GroundDetection" unique_id=677864403]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5075989, 0)
 
-[node name="EnemyWeaponManager" type="Node3D" parent="." unique_id=1631881182]
+[node name="EnemyWeaponManager2" type="Node3D" parent="." unique_id=192445761]
 script = ExtResource("8_6v5tk")
-WeaponConfigs = []
+AimingProvider = SubResource("Resource_bhqgr")
+WeaponConfigs = Array[Object]([SubResource("Resource_e56qi")])
 metadata/_custom_type_script = "uid://b061b0ftes16v"
+
+[node name="Slot 1" type="Node3D" parent="EnemyWeaponManager2" unique_id=421832320]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5543345, -1.0585454)
+script = ExtResource("13_bk0l2")

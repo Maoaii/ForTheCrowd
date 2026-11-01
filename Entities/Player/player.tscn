@@ -110,14 +110,17 @@ metadata/_custom_type_script = "uid://bw08170e62bu5"
 [node name="Slot 1" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=316542048]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.516341, 2.2847867)
 script = ExtResource("26_ui1ln")
+Enabled = false
 
 [node name="Slot 2" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=1488171962]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5405626, 0)
 script = ExtResource("26_ui1ln")
+Enabled = false
 
 [node name="Slot 3" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=808033207]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25321823, -1.3368908)
 script = ExtResource("26_ui1ln")
+Enabled = false
 
 [node name="Components" type="Node3D" parent="." unique_id=252611481]
 
@@ -290,7 +293,7 @@ metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 [node name="HurtBox" type="Area3D" parent="Components" unique_id=335346406]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7369946)
 collision_layer = 2
-collision_mask = 4
+collision_mask = 20
 script = ExtResource("33_slvv8")
 InvincibleTimeMs = 200.0
 metadata/_custom_type_script = "uid://b7ebpohlpxfto"

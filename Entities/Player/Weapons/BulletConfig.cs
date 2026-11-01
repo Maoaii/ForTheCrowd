@@ -14,5 +14,7 @@ public partial class BulletConfig : Resource
 	[Export] public float BulletLifetime = 5.0f;
 	[Export] public float TimeToFreeAfterCollision = 0.0f;
 	[Export] public int MaxHits = 1;
+	[Export(PropertyHint.Layers3DPhysics)] public uint CollisionLayer = 0;
+	[Export(PropertyHint.Layers3DPhysics)] public uint CollisionMask = 0;
 	[Export] public PackedScene ImpactScene;
 }

@@ -41,6 +41,9 @@ public partial class BulletBase : Area3D, IDamageProvider
 
 		_state = new() { Position = position, Velocity = solution.LaunchVelocity, };
 
+		CollisionLayer = _config.CollisionLayer;
+		CollisionMask = _config.CollisionMask;
+
 		SetLifetime(config.BulletLifetime);
 		SnapToDirection();
 	}

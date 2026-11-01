@@ -12,8 +12,7 @@ public partial class WeaponSlot : Node3D
 
 	private Node3D _weapon;
 
-
-	public void Equip(WeaponConfig config, BlackboardComponent blackboard)
+	public void Equip(WeaponConfig config, BlackboardComponent blackboard = null)
 	{
 		Unequip();
 		if (config?.WeaponScene == null)
