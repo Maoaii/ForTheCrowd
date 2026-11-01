@@ -33,10 +33,12 @@ mesh = SubResource("BoxMesh_flswb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="MeshInstance3D" unique_id=1544449804]
 transform = Transform3D(1, 0, 0, 0, 0.9999994, 0, 0, 0, 0.99998033, 0, 0, 0.96021694)
+layers = 2
 mesh = SubResource("BoxMesh_rl7tv")
 
 [node name="BulletDecoy" type="MeshInstance3D" parent="MeshInstance3D" unique_id=26172793]
 transform = Transform3D(-9.924113e-08, 2.2703724, 9.924113e-08, 0, -1.8505898e-07, 4.233656, 0.65234804, 2.851504e-08, 1.246432e-15, -4.5380222e-07, 1.536846, 0.98704803)
+layers = 2
 mesh = SubResource("CylinderMesh_lsem6")
 
 [node name="Marker3D" type="Marker3D" parent="." unique_id=428944922]

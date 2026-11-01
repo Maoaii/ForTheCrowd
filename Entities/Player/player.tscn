@@ -249,7 +249,6 @@ SpeedFovDegrees = 5.0
 [node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("21_v7p16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.4882665, 0)
 size = Vector3(3, 12.39377, 3)
-cull_mask = 5
 
 [node name="FuelProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
 transform = Transform3D(1.6219957, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 0.5765978, 0.8626491)
@@ -266,7 +265,7 @@ metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("33_slvv8")
-InvincibleTimeMs = 1000.0
+InvincibleTimeMs = 200.0
 metadata/_custom_type_script = "uid://b7ebpohlpxfto"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Components/HurtBox" unique_id=151946756]
@@ -285,7 +284,6 @@ metadata/_custom_type_script = "uid://t2sf7rx63ucr"
 [node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=543798456]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49251974, -1.249431)
 script = ExtResource("26_ui1ln")
-Enabled = false
 
 [node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1036105547]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0617789, -0.9785934)
@@ -294,7 +292,6 @@ script = ExtResource("26_ui1ln")
 [node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=1980715230]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9856094, 0.6165155)
 script = ExtResource("26_ui1ln")
-Enabled = false
 
 [node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1701359267]
 script = ExtResource("26_ui1ln")

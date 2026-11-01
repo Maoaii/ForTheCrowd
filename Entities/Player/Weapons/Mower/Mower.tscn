@@ -15,6 +15,7 @@ collision_mask = 4
 script = ExtResource("1_1odsc")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=911046957]
+layers = 2
 mesh = SubResource("BoxMesh_hcohw")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2135013413]
