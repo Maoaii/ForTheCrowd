@@ -4,10 +4,15 @@
 [ext_resource type="PackedScene" uid="uid://c6u7k6rdr7x0" path="res://Entities/Player/camera_rig.tscn" id="2_rig"]
 [ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://Systems/Blackboard/BlackboardComponent.cs" id="3_blackboard"]
 [ext_resource type="Script" uid="uid://upcwv1lan6pk" path="res://Entities/Player/Components/PlayerInputComponent.cs" id="4_input"]
+[ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="4_l3oqu"]
+[ext_resource type="Resource" uid="uid://bahsyu085r078" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.weapon.tres" id="4_w51ui"]
 [ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Player/Components/PlayerPhysicsComponent.cs" id="5_physics"]
+[ext_resource type="Resource" uid="uid://e6v5w7bhtq46" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.weapon.tres" id="5_slvv8"]
 [ext_resource type="Script" uid="uid://be4lcbuabo0j1" path="res://Entities/Player/Components/PlayerAnimatorComponent.cs" id="6_animator"]
+[ext_resource type="Resource" uid="uid://vg0ra8xp0631" path="res://Entities/Player/Weapons/Mower/mower.weapon.tres" id="6_slvv8"]
 [ext_resource type="Script" uid="uid://k7hp4ufs8p3s" path="res://Entities/Player/Components/PlayerVFXComponent.cs" id="7_vfx"]
 [ext_resource type="Script" uid="uid://dg6cl2rbd23yw" path="res://Entities/Player/Components/TireMarks.cs" id="8_tiremarks"]
+[ext_resource type="Script" uid="uid://bw08170e62bu5" path="res://Entities/Player/Weapons/PlayerWeaponManager.cs" id="9_53w1c"]
 [ext_resource type="Script" uid="uid://dcodybfoa2fdw" path="res://Systems/StateMachine/StateMachine.cs" id="9_statemachine"]
 [ext_resource type="Script" uid="uid://cp61tjntayhkk" path="res://Entities/Player/States/IdleState.cs" id="10_idle"]
 [ext_resource type="Script" uid="uid://dky0gqx806rsi" path="res://Entities/Player/States/MovingState.cs" id="11_moving"]
@@ -23,17 +28,12 @@
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
 [ext_resource type="Script" uid="uid://7e1w2abt42wl" path="res://Entities/Player/Components/BoostComponent.cs" id="23_avsg8"]
 [ext_resource type="PackedScene" uid="uid://di7aaxxg3hhxy" path="res://Entities/Player/Components/FuelProgressBar/fuel_progress_bar.tscn" id="24_dv6dp"]
-[ext_resource type="Script" uid="uid://t2sf7rx63ucr" path="res://Entities/Player/Weapons/WeaponManager.cs" id="25_01ng6"]
-[ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="26_u86q5"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="26_ui1ln"]
 [ext_resource type="Resource" uid="uid://bk7lnanm36wnq" path="res://Entities/Player/Config/player.drift.tres" id="30_drift_config"]
 [ext_resource type="Resource" uid="uid://c4yxa6spimrlj" path="res://Entities/Player/Config/player.boost.tres" id="31_boost_config"]
-[ext_resource type="Resource" uid="uid://bkn5ot4awyn7c" path="res://Entities/Player/Weapons/Mower/mower_config.tres" id="31_l3oqu"]
 [ext_resource type="Resource" uid="uid://b38g0o32wdo1f" path="res://Entities/Player/Config/player.tire_marks.tres" id="32_tire_marks_config"]
-[ext_resource type="Resource" uid="uid://cpjs572dvhaf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter_config.tres" id="33_53w1c"]
 [ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="33_l3oqu"]
 [ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="33_slvv8"]
-[ext_resource type="Resource" uid="uid://dt1wb4cb8foqe" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher_config.tres" id="36_c0fwy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
 radius = 0.921
@@ -45,24 +45,24 @@ albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 material = SubResource("StandardMaterial3D_ppdlg")
 size = Vector3(1.4160156, 1.2879639, 1.8822632)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_l3oqu"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_slvv8"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53w1c"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l3oqu"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_l3oqu")
+albedo_texture = SubResource("ViewportTexture_slvv8")
 billboard_keep_scale = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_siu7b"]
+[sub_resource type="QuadMesh" id="QuadMesh_53w1c"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_53w1c")
+material = SubResource("StandardMaterial3D_l3oqu")
 
-[sub_resource type="Resource" id="Resource_og23y"]
-script = ExtResource("26_u86q5")
+[sub_resource type="Resource" id="Resource_80ryp"]
+script = ExtResource("4_l3oqu")
 AimRange = 100.0
 TargetLayers = 4
 metadata/_custom_type_script = "uid://bnai5q2few736"
@@ -97,31 +97,26 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.24476929, -0.7499237)
 [node name="FuelProgressBar" parent="Visuals/Sockets" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
 transform = Transform3D(2.208307, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 1.0273352, 2.45)
 cast_shadow = 0
-mesh = SubResource("QuadMesh_siu7b")
+mesh = SubResource("QuadMesh_53w1c")
 _blackboard = NodePath("../../../Components/BlackboardComponent")
 
-[node name="WeaponManager" type="Node3D" parent="Visuals/Sockets" unique_id=986360104 node_paths=PackedStringArray("_blackboard")]
-script = ExtResource("25_01ng6")
-_blackboard = NodePath("../../../Components/BlackboardComponent")
-_aimingProvider = SubResource("Resource_og23y")
-_slot1Config = ExtResource("31_l3oqu")
-_slot2Config = ExtResource("33_53w1c")
-_slot3Config = ExtResource("36_c0fwy")
-metadata/_custom_type_script = "uid://t2sf7rx63ucr"
+[node name="PlayerWeaponManager" type="Node3D" parent="Visuals/Sockets" unique_id=1125632965 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("9_53w1c")
+Blackboard = NodePath("../../../Components/BlackboardComponent")
+AimingProvider = SubResource("Resource_80ryp")
+WeaponConfigs = Array[Object]([ExtResource("5_slvv8"), ExtResource("4_w51ui"), ExtResource("6_slvv8")])
+metadata/_custom_type_script = "uid://bw08170e62bu5"
 
-[node name="Slot 1" type="Node3D" parent="Visuals/Sockets/WeaponManager" unique_id=543798456]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.34229252, -1.281972)
+[node name="Slot 1" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=316542048]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.516341, 2.2847867)
 script = ExtResource("26_ui1ln")
 
-[node name="Slot 2" type="Node3D" parent="Visuals/Sockets/WeaponManager" unique_id=1036105547]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6546934, -0.9785934)
+[node name="Slot 2" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=1488171962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5405626, 0)
 script = ExtResource("26_ui1ln")
 
-[node name="Slot 3" type="Node3D" parent="Visuals/Sockets/WeaponManager" unique_id=1980715230]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6991491, 1.9801832)
-script = ExtResource("26_ui1ln")
-
-[node name="Slot 4" type="Node3D" parent="Visuals/Sockets/WeaponManager" unique_id=1701359267]
+[node name="Slot 3" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=808033207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25321823, -1.3368908)
 script = ExtResource("26_ui1ln")
 
 [node name="Components" type="Node3D" parent="." unique_id=252611481]

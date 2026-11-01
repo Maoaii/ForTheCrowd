@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="5_gixyv"]
 [ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="6_1t2e5"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="7_bk0l2"]
+[ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="8_6v5tk"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_zmb"]
 size = Vector3(1, 2, 1)
@@ -98,3 +99,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9124379, 0)
 
 [node name="GroundTo" type="Marker3D" parent="GroundDetection" unique_id=677864403]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.5075989, 0)
+
+[node name="EnemyWeaponManager" type="Node3D" parent="." unique_id=1631881182]
+script = ExtResource("8_6v5tk")
+WeaponConfigs = []
+metadata/_custom_type_script = "uid://b061b0ftes16v"
