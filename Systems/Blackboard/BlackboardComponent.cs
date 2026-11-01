@@ -9,7 +9,7 @@ public class BlackboardEvents
 {
 	public Action<float> OnLanded;
 	public Action<float> OnDrifting;
-	public Action OnZombieRunOver;
+	public Action OnEnemyRunOver;
 	public Action OnStartedBoosting;
 	public Action OnStoppedBoosting;
 }

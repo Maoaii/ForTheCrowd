@@ -3,6 +3,7 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons.Ballistics;
 
+[Tool]
 [GlobalClass]
 public abstract partial class BallisticsBase : Resource
 {

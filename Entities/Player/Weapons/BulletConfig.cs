@@ -4,13 +4,15 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
+[Tool]
 [GlobalClass]
 public partial class BulletConfig : Resource
 {
 	[Export] public PackedScene BulletPackedScene;
 	[Export] public BallisticsBase FiringSolver;
+	[Export] public int Damage = 1;
 	[Export] public float BulletLifetime = 5.0f;
 	[Export] public float TimeToFreeAfterCollision = 0.0f;
-	/// <summary>Spawned where the bullet hits. Its own tuning lives on the scene's root node.</summary>
+	[Export] public int MaxHits = 1;
 	[Export] public PackedScene ImpactScene;
 }

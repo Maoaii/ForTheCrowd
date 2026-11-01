@@ -4,7 +4,7 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public partial class BarrelLauncher : WeaponBase
+public partial class BarrelLauncher : ShooterWeaponBase
 {
 	[Export] public MeshInstance3D BulletDecoy;
 	private BarrelLauncherAnimationConfig BarrelLauncherConfig => ShootAnimationConfig as BarrelLauncherAnimationConfig;

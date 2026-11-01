@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cpb16bmvny6u7"]
+
+[ext_resource type="Script" uid="uid://bkdiy85cocx6k" path="res://Entities/Player/Weapons/Mower/Mower.cs" id="1_1odsc"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_hcohw"]
+size = Vector3(1.6748047, 0.6970215, 1.0192871)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_1odsc"]
+size = Vector3(1.6738281, 0.7229004, 1)
+
+[node name="Mower" type="Area3D" unique_id=274595267]
+transform = Transform3D(0.8, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+collision_layer = 8
+collision_mask = 4
+script = ExtResource("1_1odsc")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=911046957]
+mesh = SubResource("BoxMesh_hcohw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=2135013413]
+shape = SubResource("BoxShape3D_1odsc")

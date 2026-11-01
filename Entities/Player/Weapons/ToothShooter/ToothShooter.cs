@@ -4,7 +4,7 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public partial class ToothShooter : WeaponBase
+public partial class ToothShooter : ShooterWeaponBase
 {
 	private ToothShooterAnimationConfig ToothShooterConfig => ShootAnimationConfig as ToothShooterAnimationConfig;
 	private Tween scaleTween;

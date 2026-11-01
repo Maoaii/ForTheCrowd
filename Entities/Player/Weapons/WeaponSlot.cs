@@ -1,43 +1,61 @@
 using CarGame.Entities.Components.AimingSystem;
-using CarGame.Entities.Player.Weapons.Ballistics;
+using CarGame.Systems.Blackboards;
 using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
+[Tool]
 [GlobalClass]
 public partial class WeaponSlot : Node3D
 {
 	[Export] public bool Enabled = true;
-	[Export] public PackedScene WeaponScene { get; set; }
 
-	private WeaponBase _weapon;
+	private Node3D _weapon;
 
 
-	public override void _Ready()
+	public void Equip(WeaponConfig config, BlackboardComponent blackboard)
 	{
-		if (WeaponScene == null)
+		Unequip();
+		if (config?.WeaponScene == null)
 			return;
 
-		InstantiateWeapon();
+		_weapon = config.WeaponScene.Instantiate<Node3D>();
+		if (_weapon is IWeapon weapon)
+			weapon.Setup(config, blackboard, Enabled);
+		else
+			GD.PushWarning($"{config.WeaponScene.ResourcePath} root does not implement IWeapon.");
+
+		AddChild(_weapon);
+		_weapon.GlobalPosition = GlobalPosition;
 	}
 
-	private void InstantiateWeapon()
+	public void ShowPreview(WeaponConfig config)
 	{
-		_weapon = WeaponScene.Instantiate<WeaponBase>();
+		Unequip();
+		if (config?.WeaponScene == null)
+			return;
+
+		_weapon = config.WeaponScene.Instantiate<Node3D>();
 		AddChild(_weapon);
-		_weapon.Owner = this;
-		_weapon.SetInitialPosition(GlobalPosition);
+	}
+
+	public void Unequip()
+	{
+		if (_weapon == null)
+			return;
+
+		RemoveChild(_weapon);
+		_weapon.QueueFree();
+		_weapon = null;
 	}
 
 	public bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
 	{
 		if (!Enabled)
 			return false;
-		if (_weapon == null)
+		if (_weapon is not ShooterWeaponBase shooter)
 			return false;
 
-		bool activated = _weapon.TryActivate(targetInfo, ownerVelocity);
-
-		return activated;
+		return shooter.TryActivate(targetInfo, ownerVelocity);
 	}
 }

@@ -1,26 +1,33 @@
 using System;
 using CarGame.Entities.Components.AimingSystem;
 using CarGame.Entities.Player.Weapons.Ballistics;
+using CarGame.Systems.Blackboards;
 using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public abstract partial class WeaponBase : Node3D
+public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 {
 	[Export] public ShootAnimationConfig ShootAnimationConfig;
-
-	[Export] public WeaponConfig WeaponConfig;
 	[Export] public Marker3D BulletSpawnPoint;
 
+	public ShooterWeaponConfig WeaponConfig { get; private set; }
+	protected BlackboardComponent _blackboard;
 	protected Timer _cooldownTimer;
 
 	private float? _targetYaw;
 
 
+	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled)
+	{
+		WeaponConfig = config as ShooterWeaponConfig;
+		_blackboard = blackboard;
+	}
+
 	public override void _Ready()
 	{
 		if (WeaponConfig == null)
-			GD.PushWarning("WeaponConfig is not assigned in the inspector.");
+			GD.PushWarning("WeaponConfig is missing or not a ShooterWeaponConfig. Was Setup called?");
 		if (BulletSpawnPoint == null)
 			GD.PushWarning("BulletSpawnPoint is not assigned in the inspector.");
 		if (WeaponConfig?.BulletConfig?.FiringSolver == null)
@@ -46,11 +53,6 @@ public abstract partial class WeaponBase : Node3D
 			GlobalRotation.X,
 			Mathf.LerpAngle(GlobalRotation.Y, targetYaw, weight),
 			GlobalRotation.Z);
-	}
-
-	public void SetInitialPosition(Vector3 position)
-	{
-		GlobalPosition = position;
 	}
 
 	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)

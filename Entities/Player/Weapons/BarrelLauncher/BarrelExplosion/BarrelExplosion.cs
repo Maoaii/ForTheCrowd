@@ -2,12 +2,23 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public partial class BarrelExplosion : Area3D
+public partial class BarrelExplosion : Area3D, IDamageProvider
 {
+	[Export] public int Damage = 3;
 	[Export(PropertyHint.Range, "0.0,5.0,0.05")] public float PeakScaleLifetime;
 	[Export(PropertyHint.Range, "0.0,5.0,0.05")] public float LowestAlphaLifetime;
 	[Export] public MeshInstance3D mesh;
 	[Export] public CollisionShape3D collisionShape;
+
+	public bool TryGetDamage(out DamageInfo damageInfo)
+	{
+		damageInfo = new DamageInfo()
+		{
+			Amount = Damage
+		};
+
+		return true;
+	}
 
 	public override void _Ready()
 	{

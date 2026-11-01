@@ -3,7 +3,7 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
-public partial class BulletBase : Area3D
+public partial class BulletBase : Area3D, IDamageProvider
 {
 	[Export] public float TurnSmoothing = 20.0f;
 
@@ -12,6 +12,7 @@ public partial class BulletBase : Area3D
 
 	private ProjectileState _state;
 	private bool _hasCollided = false;
+	private int _collisionCount = 0;
 
 	public override void _Ready()
 	{
@@ -70,8 +71,6 @@ public partial class BulletBase : Area3D
 
 		if (_config.ImpactScene != null)
 		{
-			// Root has an identity transform, so a local position is a global one. Deferred because
-			// adding a physics body inside an Area3D signal happens while physics queries are flushing.
 			Node3D impact = _config.ImpactScene.Instantiate<Node3D>();
 			impact.Position = GlobalPosition;
 			GetTree().Root.CallDeferred(Node.MethodName.AddChild, impact);
@@ -83,5 +82,22 @@ public partial class BulletBase : Area3D
 	private void SetLifetime(float lifetime)
 	{
 		GetTree().CreateTimer(lifetime).Timeout += QueueFree;
+	}
+
+	public bool TryGetDamage(out DamageInfo damageInfo)
+	{
+		damageInfo = default;
+
+		if (_collisionCount >= _config.MaxHits)
+			return false;
+
+		_collisionCount++;
+
+		damageInfo = new DamageInfo()
+		{
+			Amount = _config.Damage
+		};
+
+		return true;
 	}
 }

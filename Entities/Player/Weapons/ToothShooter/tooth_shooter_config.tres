@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ShooterWeaponConfig" format=3 uid="uid://cpjs572dvhaf0"]
+
+[ext_resource type="Resource" uid="uid://bt777nxuyfjbl" path="res://Entities/Player/Weapons/ToothShooter/tooth.bullet.tres" id="1_rbpcs"]
+[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="2_jb002"]
+[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="3_rfo0w"]
+
+[resource]
+script = ExtResource("3_rfo0w")
+Cooldown = 0.2
+BulletConfig = ExtResource("1_rbpcs")
+WeaponScene = ExtResource("2_jb002")
+metadata/_custom_type_script = "uid://hflcgj2usade"

@@ -20,21 +20,23 @@
 [ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="17_ppdlg"]
 [ext_resource type="Resource" uid="uid://c7m504n3k2q1" path="res://Entities/Player/Config/player.animation.tres" id="18_animation_config"]
 [ext_resource type="QuadMesh" uid="uid://bwyevkeub83kw" path="res://Entities/Assets/dust_material_quad.tres" id="18_avsg8"]
-[ext_resource type="Script" uid="uid://ci4ovq8dq64i5" path="res://Entities/Player/Components/ZombieDetector.cs" id="19_we0b7"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="21_v7p16"]
 [ext_resource type="Script" uid="uid://7e1w2abt42wl" path="res://Entities/Player/Components/BoostComponent.cs" id="23_avsg8"]
 [ext_resource type="PackedScene" uid="uid://di7aaxxg3hhxy" path="res://Entities/Player/Components/FuelProgressBar/fuel_progress_bar.tscn" id="24_dv6dp"]
 [ext_resource type="Script" uid="uid://t2sf7rx63ucr" path="res://Entities/Player/Weapons/WeaponManager.cs" id="25_01ng6"]
 [ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="26_u86q5"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="26_ui1ln"]
-[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="27_og23y"]
-[ext_resource type="PackedScene" uid="uid://cynej27r3h80u" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.tscn" id="28_80ryp"]
 [ext_resource type="Resource" uid="uid://bk7lnanm36wnq" path="res://Entities/Player/Config/player.drift.tres" id="30_drift_config"]
 [ext_resource type="Resource" uid="uid://c4yxa6spimrlj" path="res://Entities/Player/Config/player.boost.tres" id="31_boost_config"]
+[ext_resource type="Resource" uid="uid://bkn5ot4awyn7c" path="res://Entities/Player/Weapons/Mower/mower_config.tres" id="31_l3oqu"]
 [ext_resource type="Resource" uid="uid://b38g0o32wdo1f" path="res://Entities/Player/Config/player.tire_marks.tres" id="32_tire_marks_config"]
+[ext_resource type="Resource" uid="uid://cpjs572dvhaf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter_config.tres" id="33_53w1c"]
+[ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="33_l3oqu"]
+[ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="33_slvv8"]
+[ext_resource type="Resource" uid="uid://dt1wb4cb8foqe" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher_config.tres" id="36_c0fwy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
-radius = 1.1661224
+radius = 0.706
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ppdlg"]
 albedo_color = Color(1, 0.49803922, 0.3137255, 1)
@@ -42,29 +44,24 @@ albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_symyc"]
 material = SubResource("StandardMaterial3D_ppdlg")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v7p16"]
-albedo_color = Color(1, 0.49803922, 0.3137255, 1)
-
-[sub_resource type="BoxMesh" id="BoxMesh_v7p16"]
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_we0b7"]
-size = Vector3(2.0090332, 2.1328735, 1.9874268)
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_l3oqu"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_gds62"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53w1c"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qv8uv"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_l3oqu")
+albedo_texture = SubResource("ViewportTexture_gds62")
 billboard_keep_scale = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_siu7b"]
+[sub_resource type="QuadMesh" id="QuadMesh_1ii4q"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_53w1c")
+material = SubResource("StandardMaterial3D_qv8uv")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_slvv8"]
+radius = 0.843
 
 [sub_resource type="Resource" id="Resource_og23y"]
 script = ExtResource("26_u86q5")
@@ -72,11 +69,13 @@ AimRange = 100.0
 TargetLayers = 4
 metadata/_custom_type_script = "uid://bnai5q2few736"
 
-[node name="Player" type="CharacterBody3D" unique_id=1669282 node_paths=PackedStringArray("Blackboard")]
+[node name="Player" type="CharacterBody3D" unique_id=1669282 node_paths=PackedStringArray("Blackboard", "HealthComponent", "HurtBox")]
 collision_layer = 2
 collision_mask = 5
 script = ExtResource("1_symyc")
 Blackboard = NodePath("Components/BlackboardComponent")
+HealthComponent = NodePath("Components/HealthComponent")
+HurtBox = NodePath("Components/HurtBox")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1337208391]
 shape = SubResource("SphereShape3D_a8wow")
@@ -88,11 +87,6 @@ transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
 layers = 2
 mesh = SubResource("BoxMesh_symyc")
 skeleton = NodePath("../..")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visuals/MeshInstance3D" unique_id=666584122]
-transform = Transform3D(-0.00818371, 3.796341e-08, -0.4981415, 0.48585305, -3.7329333e-08, -0.008390698, -2.1598051e-08, -0.8541168, -2.1774458e-08, 0, 0, -0.5520001)
-material_override = SubResource("StandardMaterial3D_v7p16")
-mesh = SubResource("BoxMesh_v7p16")
 
 [node name="Components" type="Node3D" parent="." unique_id=252611481]
 
@@ -252,16 +246,6 @@ MinYaw = 0.159
 BaseFov = 0.7853982
 SpeedFovDegrees = 5.0
 
-[node name="ZombieDetector" type="Area3D" parent="Components" unique_id=196591601 node_paths=PackedStringArray("Blackboard")]
-collision_layer = 0
-collision_mask = 4
-script = ExtResource("19_we0b7")
-Blackboard = NodePath("../BlackboardComponent")
-metadata/_custom_type_script = "uid://ci4ovq8dq64i5"
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Components/ZombieDetector" unique_id=556856829]
-shape = SubResource("BoxShape3D_we0b7")
-
 [node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("21_v7p16")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.4882665, 0)
 size = Vector3(3, 12.39377, 3)
@@ -270,30 +254,44 @@ cull_mask = 5
 [node name="FuelProgressBar" parent="Components" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
 transform = Transform3D(1.6219957, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 0.5765978, 0.8626491)
 cast_shadow = 0
-mesh = SubResource("QuadMesh_siu7b")
+mesh = SubResource("QuadMesh_1ii4q")
 _blackboard = NodePath("../BlackboardComponent")
+
+[node name="HealthComponent" type="Node" parent="Components" unique_id=248601887]
+script = ExtResource("33_l3oqu")
+MaxHealth = 5
+metadata/_custom_type_script = "uid://dkqyr0dole0lp"
+
+[node name="HurtBox" type="Area3D" parent="Components" unique_id=335346406]
+script = ExtResource("33_slvv8")
+metadata/_custom_type_script = "uid://b7ebpohlpxfto"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Components/HurtBox" unique_id=151946756]
+shape = SubResource("SphereShape3D_slvv8")
+debug_color = Color(0.99999994, 0, 0.10539623, 0.41960785)
 
 [node name="WeaponManager" type="Node3D" parent="Components" unique_id=986360104 node_paths=PackedStringArray("_blackboard")]
 script = ExtResource("25_01ng6")
 _blackboard = NodePath("../BlackboardComponent")
 _aimingProvider = SubResource("Resource_og23y")
+_slot1Config = ExtResource("31_l3oqu")
+_slot2Config = ExtResource("33_53w1c")
+_slot3Config = ExtResource("36_c0fwy")
 metadata/_custom_type_script = "uid://t2sf7rx63ucr"
 
-[node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=164653709]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1)
+[node name="Slot 1" type="Node3D" parent="Components/WeaponManager" unique_id=543798456]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.49251974, -1.249431)
 script = ExtResource("26_ui1ln")
 Enabled = false
-WeaponScene = ExtResource("28_80ryp")
 
-[node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1327966020]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, 1)
-script = ExtResource("26_ui1ln")
-WeaponScene = ExtResource("27_og23y")
-
-[node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=82123927]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, -1)
+[node name="Slot 2" type="Node3D" parent="Components/WeaponManager" unique_id=1036105547]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0617789, -0.9785934)
 script = ExtResource("26_ui1ln")
 
-[node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1381613442]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 1, -1)
+[node name="Slot 3" type="Node3D" parent="Components/WeaponManager" unique_id=1980715230]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9856094, 0.6165155)
+script = ExtResource("26_ui1ln")
+Enabled = false
+
+[node name="Slot 4" type="Node3D" parent="Components/WeaponManager" unique_id=1701359267]
 script = ExtResource("26_ui1ln")

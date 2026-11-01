@@ -3,11 +3,9 @@ using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
 
+[Tool]
 [GlobalClass]
 public partial class WeaponConfig : Resource
 {
-	[Export] public float Cooldown = 1.0f;
-
-	[ExportGroup("Bullet")]
-	[Export] public BulletConfig BulletConfig;
+	[Export] public PackedScene WeaponScene;
 }

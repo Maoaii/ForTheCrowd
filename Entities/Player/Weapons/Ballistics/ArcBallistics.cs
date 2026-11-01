@@ -2,6 +2,7 @@ using CarGame.Entities.Components.AimingSystem;
 using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
 
+[Tool]
 [GlobalClass]
 public partial class ArcBallistics : BallisticsBase
 {

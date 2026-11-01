@@ -1,9 +1,12 @@
-[gd_resource type="Resource" script_class="WeaponConfig" format=3 uid="uid://bahsyu085r078"]
+[gd_resource type="Resource" script_class="ShooterWeaponConfig" format=3 uid="uid://bahsyu085r078"]
 
 [ext_resource type="Resource" uid="uid://dhpmeeyws6jud" path="res://Entities/Player/Weapons/BarrelLauncher/barrel.bullet.tres" id="1_cion2"]
-[ext_resource type="Script" uid="uid://cidioslow8fcp" path="res://Entities/Player/Weapons/WeaponConfig.cs" id="2_ua8ph"]
+[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="2_ua8ph"]
+[ext_resource type="PackedScene" uid="uid://cynej27r3h80u" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.tscn" id="3_scene"]
 
 [resource]
 script = ExtResource("2_ua8ph")
+Cooldown = 2.0
 BulletConfig = ExtResource("1_cion2")
+WeaponScene = ExtResource("3_scene")
 metadata/_custom_type_script = "uid://cidioslow8fcp"

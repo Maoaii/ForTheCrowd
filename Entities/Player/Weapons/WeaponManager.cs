@@ -10,8 +10,10 @@ namespace CarGame.Entities.Player.Weapons;
 [GlobalClass]
 public partial class WeaponManager : Node3D
 {
-	[ExportToolButton("Generate slot positions")]
-	public Callable GenerateSlotPositionsButton => Callable.From(GenerateSlotPositions);
+	private const int SlotCount = 4;
+
+	[ExportToolButton("Generate weapon slots")]
+	public Callable GenerateSlotsButton => Callable.From(GenerateSlots);
 
 	[ExportCategory("References")]
 	[Export]
@@ -20,20 +22,31 @@ public partial class WeaponManager : Node3D
 	[Export]
 	private AimingProviderBase _aimingProvider;
 
+	[ExportCategory("Weapons")]
+	[Export] private WeaponConfig _slot1Config;
+	[Export] private WeaponConfig _slot2Config;
+	[Export] private WeaponConfig _slot3Config;
+	[Export] private WeaponConfig _slot4Config;
+
 
 	private readonly List<WeaponSlot> _slots = [];
-	private WeaponSlot _slot1Marker;
-	private WeaponSlot _slot2Marker;
-	private WeaponSlot _slot3Marker;
-	private WeaponSlot _slot4Marker;
+
+	private WeaponConfig[] Configs => [_slot1Config, _slot2Config, _slot3Config, _slot4Config];
 
 	public override void _Ready()
 	{
 		base._Ready();
-		if (Engine.IsEditorHint())
-			return;
+		CollectSlots();
 
-		CollectEditorSlots();
+		if (Engine.IsEditorHint())
+		{
+			ShowPreviews();
+			return;
+		}
+
+		WeaponConfig[] configs = Configs;
+		for (int i = 0; i < _slots.Count; i++)
+			_slots[i].Equip(configs[i], _blackboard);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -52,53 +65,47 @@ public partial class WeaponManager : Node3D
 		}
 	}
 
-	private void CollectEditorSlots()
-	{
-		foreach (Node child in GetChildren(true))
-		{
-			_slots.Add(child as WeaponSlot);
-		}
-	}
-
-	public void SetWeapon(int slot)
+	public void SetWeapon(int slot, WeaponConfig config)
 	{
 		if (Engine.IsEditorHint())
 			return;
-		throw new NotImplementedException();
+		if (slot < 0 || slot >= _slots.Count)
+			throw new ArgumentOutOfRangeException(nameof(slot));
+
+		_slots[slot].Equip(config, _blackboard);
 	}
 
-
-	private void GenerateSlotPositions()
+	private void CollectSlots()
 	{
 		_slots.Clear();
-		foreach (Node child in GetChildren(true))
+		foreach (Node child in GetChildren())
 		{
-			RemoveChild(child);
-			child.QueueFree();
+			if (child is WeaponSlot slot)
+				_slots.Add(slot);
+		}
+	}
+
+	private void ShowPreviews()
+	{
+		WeaponConfig[] configs = Configs;
+		for (int i = 0; i < _slots.Count && i < configs.Length; i++)
+			_slots[i].ShowPreview(configs[i]);
+	}
+
+	private void GenerateSlots()
+	{
+		for (int i = 1; i <= SlotCount; i++)
+		{
+			string slotName = $"Slot {i}";
+			if (HasNode(slotName))
+				continue;
+
+			WeaponSlot slot = new() { Name = slotName };
+			AddChild(slot, true);
+			slot.Owner = GetTree().EditedSceneRoot;
 		}
 
-		_slot1Marker = new WeaponSlot();
-		AddChild(_slot1Marker, true, InternalMode.Disabled);
-		_slot1Marker.Owner = GetTree().EditedSceneRoot;
-		_slot1Marker.Name = "Slot 1";
-		_slots.Add(_slot1Marker);
-
-		_slot2Marker = new WeaponSlot();
-		AddChild(_slot2Marker, true, InternalMode.Disabled);
-		_slot2Marker.Owner = GetTree().EditedSceneRoot;
-		_slot2Marker.Name = "Slot 2";
-		_slots.Add(_slot2Marker);
-
-		_slot3Marker = new WeaponSlot();
-		AddChild(_slot3Marker, true, InternalMode.Disabled);
-		_slot3Marker.Owner = GetTree().EditedSceneRoot;
-		_slot3Marker.Name = "Slot 3";
-		_slots.Add(_slot3Marker);
-
-		_slot4Marker = new WeaponSlot();
-		AddChild(_slot4Marker, true, InternalMode.Disabled);
-		_slot4Marker.Owner = GetTree().EditedSceneRoot;
-		_slot4Marker.Name = "Slot 4";
-		_slots.Add(_slot4Marker);
+		CollectSlots();
+		ShowPreviews();
 	}
 }

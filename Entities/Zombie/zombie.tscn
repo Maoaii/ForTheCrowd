@@ -2,18 +2,23 @@
 
 [ext_resource type="Script" uid="uid://br3pmwa6x1iwn" path="res://Entities/Zombie/Zombie.cs" id="1_zmb"]
 [ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="2_g07s8"]
+[ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="3_3j5bu"]
 [ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="3_g07s8"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="4_eg0v1"]
 [ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="5_lcltw"]
-
-[sub_resource type="SphereShape3D" id="SphereShape3D_zmb"]
-radius = 1.1167445
+[ext_resource type="Script" uid="uid://d153dmc287hfj" path="res://Entities/Components/HitBox.cs" id="7_ka7bn"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_zmb"]
 size = Vector3(1, 2, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_zmb"]
 albedo_color = Color(0, 0.8, 0.2, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3j5bu"]
+radius = 1.1167445
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ka7bn"]
+radius = 0.6285809
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_blood"]
 direction = Vector3(0, 1, 0)
@@ -27,20 +32,16 @@ scale_max = 0.59999996
 [sub_resource type="QuadMesh" id="QuadMesh_eg0v1"]
 material = ExtResource("2_g07s8")
 
-[node name="Zombie" type="Area3D" unique_id=453756859 node_paths=PackedStringArray("HealthComponent", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
-collision_layer = 4
-collision_mask = 10
+[node name="Zombie" type="Node3D" unique_id=824982067 node_paths=PackedStringArray("HealthComponent", "HurtBox", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
 script = ExtResource("1_zmb")
 HealthComponent = NodePath("HealthComponent")
+HurtBox = NodePath("HurtBox")
 VelocityLerpSpeed = 20.0
 GroundOffset = 1.0
 GroundFrom = NodePath("GroundDetection/GroundFrom")
 GroundTo = NodePath("GroundDetection/GroundTo")
 _bloodParticles = NodePath("BloodParticles")
 _bloodDecal = NodePath("BloodDecal")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=485121078]
-shape = SubResource("SphereShape3D_zmb")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=681532023]
 layers = 4
@@ -51,6 +52,26 @@ surface_material_override/0 = SubResource("StandardMaterial3D_zmb")
 script = ExtResource("5_lcltw")
 MaxHealth = 2
 metadata/_custom_type_script = "uid://dkqyr0dole0lp"
+
+[node name="HurtBox" type="Area3D" parent="." unique_id=1560796277]
+collision_layer = 4
+collision_mask = 10
+script = ExtResource("3_3j5bu")
+metadata/_custom_type_script = "uid://b7ebpohlpxfto"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=2141816227]
+shape = SubResource("SphereShape3D_3j5bu")
+debug_color = Color(0.9999997, 0.007887475, 0.072394185, 0.41960785)
+
+[node name="HitBox" type="Area3D" parent="." unique_id=1925093586]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("7_ka7bn")
+metadata/_custom_type_script = "uid://d153dmc287hfj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox" unique_id=32125737]
+shape = SubResource("SphereShape3D_ka7bn")
+debug_color = Color(5.7756904e-07, 0.6480701, 0.20179415, 0.41960785)
 
 [node name="BloodParticles" type="GPUParticles3D" parent="." unique_id=502201512]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)

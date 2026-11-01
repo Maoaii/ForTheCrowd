@@ -7,10 +7,11 @@ using Godot.Collections;
 
 namespace CarGame.Entities.Enemies;
 
-public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
+public partial class Zombie : Node3D, ISwarmable, IVelocityHolder
 {
 	[ExportGroup("Health")]
 	[Export] public HealthComponent HealthComponent;
+	[Export] public HurtBox HurtBox;
 
 	// --- Physics Properties ---
 	[ExportGroup("Movement")]
@@ -40,9 +41,9 @@ public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
 
 	public override void _Ready()
 	{
-		AddToGroup("TerrainTrackable");
-		BodyEntered += HandleCollision;
-		AreaEntered += HandleCollision;
+		HurtBox.AddToGroup("TerrainTrackable");
+		HurtBox.BodyEntered += HandleCollision;
+		HurtBox.AreaEntered += HandleCollision;
 		HealthComponent.HealthDepleted += Die;
 		Swarm?.RegisterEntity(this);
 	}
@@ -65,7 +66,12 @@ public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
 
 	private void HandleCollision(Node3D body)
 	{
-		HealthComponent.TakeDamage(1); // TODO: don't hardcode this
+		if (body is not IDamageProvider)
+			return;
+		if (!(body as IDamageProvider).TryGetDamage(out DamageInfo damageInfo))
+			return;
+
+		HealthComponent.TakeDamage(damageInfo.Amount);
 		SpawnBloodParticles();
 	}
 
@@ -133,7 +139,6 @@ public partial class Zombie : Area3D, ISwarmable, IVelocityHolder
 		_velocity.Y -= GravityForce * dt;
 
 		PhysicsDirectSpaceState3D spaceState = GetWorld3D().DirectSpaceState;
-		// Use GlobalPosition and cast further down to catch slopes/falls
 		PhysicsRayQueryParameters3D query = PhysicsRayQueryParameters3D.Create(GroundFrom.GlobalPosition, GroundTo.GlobalPosition + (Vector3.Down * 2.0f));
 		query.CollisionMask = GroundMask;
 		Dictionary result = spaceState.IntersectRay(query);

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="MowerWeaponConfig" format=3]
+
+[ext_resource type="Script" path="res://Entities/Player/Weapons/Mower/MowerWeaponConfig.cs" id="1_cfg"]
+[ext_resource type="PackedScene" uid="uid://cpb16bmvny6u7" path="res://Entities/Player/Weapons/Mower/Mower.tscn" id="2_scene"]
+
+[resource]
+script = ExtResource("1_cfg")
+WeaponScene = ExtResource("2_scene")
+MinSpeed = 0.0
+Damage = 10
