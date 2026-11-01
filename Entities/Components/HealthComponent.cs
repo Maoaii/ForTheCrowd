@@ -35,4 +35,9 @@ public partial class HealthComponent : Node
 
 		EmitSignal(SignalName.HealthChanged, previousHealth, _currentHealth);
 	}
+
+	public void Reset()
+	{
+		_currentHealth = MaxHealth;
+	}
 }

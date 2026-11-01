@@ -10,8 +10,11 @@ public partial class Player : CharacterBody3D
 	[Export] public HealthComponent HealthComponent;
 	[Export] public HurtBox HurtBox;
 
+	private Vector3 _spawnPosition;
+
 	public override void _Ready()
 	{
+		_spawnPosition = GlobalPosition;
 		Blackboard.Owner = this;
 
 		Blackboard.Events.OnEnemyRunOver += () => TrickPopupManager.Instance.PopupTrick("Roadkill", 2);
@@ -23,11 +26,18 @@ public partial class Player : CharacterBody3D
 		};
 
 		HurtBox.OnHit += damageInfo => HealthComponent.TakeDamage(damageInfo.Amount);
-		HealthComponent.HealthDepleted += () => GetTree().ReloadCurrentScene(); // TODO: Respawn
+		HealthComponent.HealthDepleted += ResetPlayer;
 	}
 
 	public override void _Process(double delta)
 	{
 		SpeedLines.Instance?.SetIntensity(Blackboard.Kinematics.BoostIntensity);
+	}
+
+	private void ResetPlayer()
+	{
+		HealthComponent.Reset();
+
+		GlobalPosition = _spawnPosition;
 	}
 }
