@@ -8,5 +8,6 @@
 script = ExtResource("4_pdd0y")
 BulletPackedScene = ExtResource("2_c3vr1")
 FiringSolver = ExtResource("3_hailx")
+CollisionLayer = 8
 CollisionMask = 4
 metadata/_custom_type_script = "uid://q8f12lil0xdo"

@@ -26,16 +26,12 @@ public partial class ArcBallistics : BallisticsBase
 		if (Gravity <= 0f)
 			return false;
 
-		Vector3 relativeVelocity = InheritOwnerVelocity
-			? target.Velocity - shooter.Velocity
-			: target.Velocity;
-
 		Vector3 launchVelocity = Vector3.Zero;
 		float t = 0f;
 
 		for (int i = 0; i < Iterations; i++)
 		{
-			Vector3 aimPoint = target.Position + relativeVelocity * t;
+			Vector3 aimPoint = target.Position + target.Velocity * t;
 			float arcHeight = GetArcHeight(shooter.MuzzlePosition, aimPoint);
 
 			SolveArcBallistics(shooter.MuzzlePosition, aimPoint, Gravity, arcHeight, out launchVelocity, out t);
@@ -44,10 +40,12 @@ public partial class ArcBallistics : BallisticsBase
 		if (!float.IsFinite(t) || t <= 0f)
 			return false;
 
-		Vector3 muzzleDirection = launchVelocity.Normalized();
-
-		if (InheritOwnerVelocity)
-			launchVelocity += shooter.Velocity;
+		// gravity acts in world space, so the arc is solved in world space. when inheriting, the projectile
+		// gets the shooter's full velocity (vertical included), so the muzzle aims at what's left to add
+		Vector3 muzzleVelocity = InheritOwnerVelocity ? launchVelocity - shooter.Velocity : launchVelocity;
+		if (muzzleVelocity.LengthSquared() < 0.0001f)
+			muzzleVelocity = launchVelocity;
+		Vector3 muzzleDirection = muzzleVelocity.Normalized();
 
 		Vector3 worldAimPoint = target.Position + target.Velocity * t;
 

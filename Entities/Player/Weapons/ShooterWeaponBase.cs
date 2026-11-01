@@ -67,12 +67,21 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			return false;
 
 		bool fired = false;
+		ulong activatedAtMs = Time.GetTicksMsec();
 		void Fire()
 		{
 			if (fired)
 				return;
 			fired = true;
-			SpawnBullet(solution);
+
+			// the shoot animation may delay firing and move the muzzle, so re-solve from the actual spawn state
+			float elapsed = (Time.GetTicksMsec() - activatedAtMs) / 1000.0f;
+			TargetInfo predictedTarget = targetInfo with { Position = targetInfo.Position + targetInfo.Velocity * elapsed };
+			ShooterState spawnShooter = new(BulletSpawnPoint.GlobalPosition, ownerVelocity);
+			if (WeaponConfig.BulletConfig.FiringSolver.TrySolve(spawnShooter, predictedTarget, out FiringSolution spawnSolution))
+				SpawnBullet(spawnSolution);
+			else
+				SpawnBullet(solution);
 		}
 
 		ShootAnimation(solution, Fire);

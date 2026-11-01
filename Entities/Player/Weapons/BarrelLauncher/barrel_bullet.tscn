@@ -6,7 +6,11 @@
 height = 1.0595703
 radius = 0.3461914
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_74k3a"]
+albedo_color = Color(0.92156863, 0, 0.14117648, 1)
+
 [sub_resource type="CylinderMesh" id="CylinderMesh_epne6"]
+material = SubResource("StandardMaterial3D_74k3a")
 top_radius = 0.2524414
 bottom_radius = 0.2524414
 height = 0.9736328

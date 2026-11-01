@@ -45,6 +45,10 @@ albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 material = SubResource("StandardMaterial3D_ppdlg")
 size = Vector3(1.4160156, 1.2879639, 1.8822632)
 
+[sub_resource type="BoxMesh" id="BoxMesh_l3oqu"]
+material = SubResource("StandardMaterial3D_ppdlg")
+size = Vector3(1.4160156, 0.30203247, 0.32774353)
+
 [sub_resource type="ViewportTexture" id="ViewportTexture_slvv8"]
 viewport_path = NodePath("SubViewport")
 
@@ -91,6 +95,12 @@ layers = 2
 mesh = SubResource("BoxMesh_symyc")
 skeleton = NodePath("../..")
 
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visuals" unique_id=2077094743]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 1.2794896, 1.3213418)
+layers = 2
+mesh = SubResource("BoxMesh_l3oqu")
+skeleton = NodePath("../..")
+
 [node name="Sockets" type="Node3D" parent="Visuals" unique_id=731552019]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.24476929, -0.7499237)
 
@@ -108,19 +118,16 @@ WeaponConfigs = Array[Object]([ExtResource("5_slvv8"), ExtResource("4_w51ui"), E
 metadata/_custom_type_script = "uid://bw08170e62bu5"
 
 [node name="Slot 1" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=316542048]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.516341, 2.2847867)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.516341, -0.909801)
 script = ExtResource("26_ui1ln")
-Enabled = false
 
 [node name="Slot 2" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=1488171962]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5405626, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.025809, 2.157125)
 script = ExtResource("26_ui1ln")
-Enabled = false
 
 [node name="Slot 3" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=808033207]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25321823, -1.3368908)
 script = ExtResource("26_ui1ln")
-Enabled = false
 
 [node name="Components" type="Node3D" parent="." unique_id=252611481]
 

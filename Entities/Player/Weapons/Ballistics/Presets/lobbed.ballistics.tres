@@ -6,4 +6,5 @@
 script = ExtResource("1_c6ces")
 Gravity = 100.0
 MaxArcHeight = 10.0
+InheritOwnerVelocity = false
 metadata/_custom_type_script = "uid://dw071ceq1101m"

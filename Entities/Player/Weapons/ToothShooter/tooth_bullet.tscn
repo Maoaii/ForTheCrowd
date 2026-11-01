@@ -2,7 +2,11 @@
 
 [ext_resource type="Script" uid="uid://bhcg87mwomk" path="res://Entities/Player/Weapons/BulletBase.cs" id="1_bullet"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_76p8s"]
+albedo_color = Color(0.92306095, 0, 0.14111939, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_y1ixq"]
+material = SubResource("StandardMaterial3D_76p8s")
 radius = 0.72753906
 height = 1.4550781
 
