@@ -9,6 +9,7 @@ namespace CarGame.Entities.Enemies;
 
 public partial class Zombie : Node3D, ISwarmable, IVelocityHolder
 {
+
 	[ExportGroup("Health")]
 	[Export] public HealthComponent HealthComponent;
 	[Export] public HurtBox HurtBox;
@@ -42,8 +43,7 @@ public partial class Zombie : Node3D, ISwarmable, IVelocityHolder
 	public override void _Ready()
 	{
 		HurtBox.AddToGroup("TerrainTrackable");
-		HurtBox.BodyEntered += HandleCollision;
-		HurtBox.AreaEntered += HandleCollision;
+		HurtBox.OnHit += HandleCollision;
 		HealthComponent.HealthDepleted += Die;
 		Swarm?.RegisterEntity(this);
 	}
@@ -64,13 +64,8 @@ public partial class Zombie : Node3D, ISwarmable, IVelocityHolder
 		return GlobalTransform;
 	}
 
-	private void HandleCollision(Node3D body)
+	private void HandleCollision(DamageInfo damageInfo)
 	{
-		if (body is not IDamageProvider)
-			return;
-		if (!(body as IDamageProvider).TryGetDamage(out DamageInfo damageInfo))
-			return;
-
 		HealthComponent.TakeDamage(damageInfo.Amount);
 		SpawnBloodParticles();
 	}
@@ -157,8 +152,5 @@ public partial class Zombie : Node3D, ISwarmable, IVelocityHolder
 		VectorRenderer.DrawVector(zPos, _velocity, Colors.Green, 0.5f);
 	}
 
-	public Vector3 GetVelocity()
-	{
-		return _velocity;
-	}
+	public Vector3 GetVelocity() => _velocity;
 }

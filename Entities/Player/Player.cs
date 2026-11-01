@@ -22,7 +22,8 @@ public partial class Player : CharacterBody3D
 			Blackboard.Camera.CameraShakeTime = 1.0f;
 		};
 
-		HurtBox.AreaEntered += (area) => HealthComponent.TakeDamage(1);
+		HurtBox.OnHit += damageInfo => HealthComponent.TakeDamage(damageInfo.Amount);
+		HealthComponent.HealthDepleted += () => GetTree().ReloadCurrentScene(); // TODO: Respawn
 	}
 
 	public override void _Process(double delta)
