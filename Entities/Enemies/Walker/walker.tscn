@@ -1,12 +1,12 @@
 [gd_scene format=3 uid="uid://dd0ombie"]
 
-[ext_resource type="Script" uid="uid://br3pmwa6x1iwn" path="res://Entities/Walker/Walker.cs" id="1_x5y3c"]
-[ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="2_psxkh"]
-[ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="3_44jcc"]
-[ext_resource type="Script" uid="uid://d153dmc287hfj" path="res://Entities/Components/HitBox.cs" id="4_pbfbh"]
-[ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="5_00r3o"]
-[ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="6_j6adw"]
-[ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="7_fav6q"]
+[ext_resource type="Script" uid="uid://br3pmwa6x1iwn" path="res://Entities/Enemies/Walker/Walker.cs" id="1_0piso"]
+[ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="2_6v5tk"]
+[ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="3_5xvs7"]
+[ext_resource type="Script" uid="uid://d153dmc287hfj" path="res://Entities/Components/HitBox.cs" id="4_bhqgr"]
+[ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="5_gixyv"]
+[ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="6_1t2e5"]
+[ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="7_bk0l2"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_zmb"]
 size = Vector3(1, 2, 1)
@@ -30,10 +30,10 @@ scale_min = 0.099999994
 scale_max = 0.59999996
 
 [sub_resource type="QuadMesh" id="QuadMesh_eg0v1"]
-material = ExtResource("5_00r3o")
+material = ExtResource("5_gixyv")
 
 [node name="Walker" type="Node3D" unique_id=824982067 node_paths=PackedStringArray("HealthComponent", "HurtBox", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
-script = ExtResource("1_x5y3c")
+script = ExtResource("1_0piso")
 HealthComponent = NodePath("HealthComponent")
 HurtBox = NodePath("HurtBox")
 GroundOffset = 1.0
@@ -48,14 +48,14 @@ mesh = SubResource("BoxMesh_zmb")
 surface_material_override/0 = SubResource("StandardMaterial3D_zmb")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=30456630]
-script = ExtResource("2_psxkh")
+script = ExtResource("2_6v5tk")
 MaxHealth = 2
 metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
 [node name="HurtBox" type="Area3D" parent="." unique_id=1560796277]
 collision_layer = 4
 collision_mask = 10
-script = ExtResource("3_44jcc")
+script = ExtResource("3_5xvs7")
 metadata/_custom_type_script = "uid://b7ebpohlpxfto"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox" unique_id=2141816227]
@@ -65,7 +65,7 @@ debug_color = Color(0.9999997, 0.007887475, 0.072394185, 0.41960785)
 [node name="HitBox" type="Area3D" parent="." unique_id=1925093586]
 collision_layer = 4
 collision_mask = 2
-script = ExtResource("4_pbfbh")
+script = ExtResource("4_bhqgr")
 Damage = 1
 metadata/_custom_type_script = "uid://d153dmc287hfj"
 
@@ -84,10 +84,10 @@ trail_enabled = true
 process_material = SubResource("ParticleProcessMaterial_blood")
 draw_pass_1 = SubResource("QuadMesh_eg0v1")
 
-[node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("6_j6adw")]
+[node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("6_1t2e5")]
 size = Vector3(3, 5, 3)
 
-[node name="ShadowDecal" parent="." unique_id=721473518 instance=ExtResource("7_fav6q")]
+[node name="ShadowDecal" parent="." unique_id=721473518 instance=ExtResource("7_bk0l2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.074204, 0)
 size = Vector3(3, 13.221895, 3)
 

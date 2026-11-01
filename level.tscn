@@ -2,8 +2,8 @@
 
 [ext_resource type="PackedScene" uid="uid://cotpk62rdr7x0" path="res://Entities/Player/player.tscn" id="1_oi3di"]
 [ext_resource type="Script" uid="uid://dcxy74cax762x" path="res://Entities/EnemySpawner/EnemySpawner.cs" id="2_0b4ue"]
-[ext_resource type="PackedScene" uid="uid://dd0ombie" path="res://Entities/Walker/walker.tscn" id="3_1ainy"]
-[ext_resource type="Script" uid="uid://cm7gmgxvliihg" path="res://Entities/Walker/Swarm/SwarmManager.cs" id="3_f2txt"]
+[ext_resource type="PackedScene" uid="uid://dd0ombie" path="res://Entities/Enemies/Walker/walker.tscn" id="3_1ainy"]
+[ext_resource type="Script" uid="uid://cm7gmgxvliihg" path="res://Entities/Enemies/Walker/Swarm/SwarmManager.cs" id="3_f2txt"]
 [ext_resource type="Script" uid="uid://ckpss4psgcjt4" path="res://addons/lite_terrain/map.gd" id="4_0b4ue"]
 
 [node name="SceneRoot" type="Node3D" unique_id=1291758080]
