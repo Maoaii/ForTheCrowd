@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://upcwv1lan6pk" path="res://Entities/Player/Components/PlayerInputComponent.cs" id="4_input"]
 [ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="4_l3oqu"]
 [ext_resource type="Resource" uid="uid://bahsyu085r078" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.weapon.tres" id="4_w51ui"]
-[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Player/Components/PlayerPhysicsComponent.cs" id="5_physics"]
+[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Components/CarPhysicsComponent.cs" id="5_physics"]
 [ext_resource type="Resource" uid="uid://e6v5w7bhtq46" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.weapon.tres" id="5_slvv8"]
 [ext_resource type="Script" uid="uid://be4lcbuabo0j1" path="res://Entities/Player/Components/PlayerAnimatorComponent.cs" id="6_animator"]
 [ext_resource type="Resource" uid="uid://vg0ra8xp0631" path="res://Entities/Player/Weapons/Mower/mower.weapon.tres" id="6_slvv8"]
@@ -49,21 +49,21 @@ size = Vector3(1.4160156, 1.2879639, 1.8822632)
 material = SubResource("StandardMaterial3D_ppdlg")
 size = Vector3(1.4160156, 0.30203247, 0.32774353)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_slvv8"]
+[sub_resource type="ViewportTexture" id="ViewportTexture_l3oqu"]
 viewport_path = NodePath("SubViewport")
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_l3oqu"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_53w1c"]
 resource_local_to_scene = true
 transparency = 2
 alpha_scissor_threshold = 0.5
 alpha_antialiasing_mode = 0
 shading_mode = 0
-albedo_texture = SubResource("ViewportTexture_slvv8")
+albedo_texture = SubResource("ViewportTexture_l3oqu")
 billboard_keep_scale = true
 
-[sub_resource type="QuadMesh" id="QuadMesh_53w1c"]
+[sub_resource type="QuadMesh" id="QuadMesh_siu7b"]
 resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_l3oqu")
+material = SubResource("StandardMaterial3D_53w1c")
 
 [sub_resource type="Resource" id="Resource_80ryp"]
 script = ExtResource("4_l3oqu")
@@ -107,7 +107,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.24476929, -0.7499237)
 [node name="FuelProgressBar" parent="Visuals/Sockets" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
 transform = Transform3D(2.208307, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 1.0273352, 2.45)
 cast_shadow = 0
-mesh = SubResource("QuadMesh_53w1c")
+mesh = SubResource("QuadMesh_siu7b")
 _blackboard = NodePath("../../../Components/BlackboardComponent")
 
 [node name="PlayerWeaponManager" type="Node3D" parent="Visuals/Sockets" unique_id=1125632965 node_paths=PackedStringArray("Blackboard")]
@@ -181,7 +181,7 @@ Animator = NodePath("../PlayerAnimatorComponent")
 script = ExtResource("4_input")
 Blackboard = NodePath("../BlackboardComponent")
 
-[node name="PlayerPhysicsComponent" type="Node" parent="Components" unique_id=562824719 node_paths=PackedStringArray("Blackboard", "Body")]
+[node name="CarPhysicsComponent" type="Node" parent="Components" unique_id=562824719 node_paths=PackedStringArray("Blackboard", "Body")]
 script = ExtResource("5_physics")
 Blackboard = NodePath("../BlackboardComponent")
 Body = NodePath("../..")

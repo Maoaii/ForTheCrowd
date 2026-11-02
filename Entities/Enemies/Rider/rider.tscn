@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://jkys6gjecib5"]
+
+[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Components/CarPhysicsComponent.cs" id="1_pa8es"]
+[ext_resource type="Script" uid="uid://vhwvkgdttlwx" path="res://Entities/Player/Config/MovementConfig.cs" id="2_3w8n4"]
+[ext_resource type="Script" uid="uid://drp44k1nt7fql" path="res://Entities/Player/Config/DriftConfig.cs" id="3_5ra5n"]
+[ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://Systems/Blackboard/BlackboardComponent.cs" id="4_5ra5n"]
+[ext_resource type="Script" uid="uid://dkp7k1fq2wpln" path="res://Entities/Enemies/Components/AIInputComponent.cs" id="5_aw0s5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aw0s5"]
+albedo_color = Color(1, 0.49803922, 0.3137255, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_fckf7"]
+material = SubResource("StandardMaterial3D_aw0s5")
+size = Vector3(1.4160156, 1.2879639, 1.8822632)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_aw0s5"]
+
+[sub_resource type="Resource" id="Resource_aw0s5"]
+script = ExtResource("2_3w8n4")
+GravityForce = 49.05
+BoostAccelerationMult = 6.0
+BoostGripMult = 0.7
+
+[sub_resource type="Resource" id="Resource_fckf7"]
+script = ExtResource("3_5ra5n")
+LowGripRate = 4.0
+MaxSlipAngleDegrees = 70.0
+
+[node name="Rider" type="CharacterBody3D" unique_id=1191236731]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2635165.5, 0)
+velocity = Vector3(0, -1719.2112, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=249269726]
+mesh = SubResource("BoxMesh_fckf7")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1418826363]
+shape = SubResource("BoxShape3D_aw0s5")
+
+[node name="Components" type="Node3D" parent="." unique_id=1643386563]
+
+[node name="CarPhysicsComponent" type="Node" parent="Components" unique_id=647750068 node_paths=PackedStringArray("Blackboard", "Body")]
+script = ExtResource("1_pa8es")
+Blackboard = NodePath("../BlackboardComponent")
+Body = NodePath("../..")
+MovementConfig = SubResource("Resource_aw0s5")
+DriftConfig = SubResource("Resource_fckf7")
+metadata/_custom_type_script = "uid://bhgfrxlfb80md"
+
+[node name="BlackboardComponent" type="Node" parent="Components" unique_id=187747962 node_paths=PackedStringArray("Owner")]
+script = ExtResource("4_5ra5n")
+Owner = NodePath("../..")
+metadata/_custom_type_script = "uid://cg3g858qg662l"
+
+[node name="AIInputComponent" type="Node" parent="Components" unique_id=362027234 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("5_aw0s5")
+Blackboard = NodePath("../BlackboardComponent")
+metadata/_custom_type_script = "uid://dkp7k1fq2wpln"
