@@ -7,13 +7,14 @@
 [ext_resource type="Script" uid="uid://dkp7k1fq2wpln" path="res://Entities/Enemies/Components/AIInputComponent.cs" id="5_aw0s5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aw0s5"]
-albedo_color = Color(1, 0.49803922, 0.3137255, 1)
+albedo_color = Color(0, 0.8, 0.2, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_fckf7"]
 material = SubResource("StandardMaterial3D_aw0s5")
 size = Vector3(1.4160156, 1.2879639, 1.8822632)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_aw0s5"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_aw0s5"]
+radius = 0.71647877
 
 [sub_resource type="Resource" id="Resource_aw0s5"]
 script = ExtResource("2_3w8n4")
@@ -27,14 +28,13 @@ LowGripRate = 4.0
 MaxSlipAngleDegrees = 70.0
 
 [node name="Rider" type="CharacterBody3D" unique_id=1191236731]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2635165.5, 0)
 velocity = Vector3(0, -1719.2112, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=249269726]
 mesh = SubResource("BoxMesh_fckf7")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1418826363]
-shape = SubResource("BoxShape3D_aw0s5")
+shape = SubResource("SphereShape3D_aw0s5")
 
 [node name="Components" type="Node3D" parent="." unique_id=1643386563]
 
