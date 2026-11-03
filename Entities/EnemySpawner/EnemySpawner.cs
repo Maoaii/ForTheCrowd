@@ -25,7 +25,7 @@ public partial class EnemySpawner : Node3D
 
 	private void Spawn()
 	{
-		Walker walker = EnemyScene.Instantiate<Walker>();
+		EnemyBase walker = EnemyScene.Instantiate<EnemyBase>();
 		walker.Target = Target;
 		walker.Swarm = Swarm;
 

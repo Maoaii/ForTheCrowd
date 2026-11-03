@@ -7,7 +7,7 @@ using Godot.Collections;
 
 namespace CarGame.Entities.Enemies;
 
-public partial class Walker : Node3D, ISwarmable, IVelocityHolder
+public partial class Walker : EnemyBase, ISwarmable, IVelocityHolder
 {
 
 	[ExportGroup("Health")]
@@ -34,11 +34,8 @@ public partial class Walker : Node3D, ISwarmable, IVelocityHolder
 	[Export] private Decal _bloodDecal;
 
 	// --- Fields ---
-	public Node3D Target;
-	public SwarmManager Swarm;
-	private Vector3 _velocity = Vector3.Zero;
 
-	public event Action<Node3D> OnFreed;
+	private Vector3 _velocity = Vector3.Zero;
 
 	public override void _Ready()
 	{
@@ -51,7 +48,7 @@ public partial class Walker : Node3D, ISwarmable, IVelocityHolder
 	public override void _ExitTree()
 	{
 		Swarm?.RemoveEntity(this);
-		OnFreed?.Invoke(this);
+		RaiseFreed();
 	}
 
 	public new Vector3 GetPosition()

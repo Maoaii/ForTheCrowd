@@ -9,6 +9,7 @@ public partial class PlayerInputComponent : Node
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (Engine.IsEditorHint()) return;
 		if (Blackboard == null) return;
 
 		Vector2 moveInput = Input.GetVector("move_left", "move_right", "move_backward", "move_forward");

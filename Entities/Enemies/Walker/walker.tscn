@@ -65,7 +65,10 @@ BulletConfig = SubResource("Resource_kscjw")
 WeaponScene = ExtResource("11_bk0l2")
 metadata/_custom_type_script = "uid://hflcgj2usade"
 
-[node name="Walker" type="Node3D" unique_id=824982067 node_paths=PackedStringArray("HealthComponent", "HurtBox", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
+[node name="Walker" type="CharacterBody3D" unique_id=454732716 node_paths=PackedStringArray("HealthComponent", "HurtBox", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]
+collision_layer = 0
+collision_mask = 0
+motion_mode = 1
 script = ExtResource("1_0piso")
 HealthComponent = NodePath("HealthComponent")
 HurtBox = NodePath("HurtBox")

@@ -13,6 +13,7 @@ public partial class AIInputComponent : Node
 	private readonly record struct AttackInfo(bool WantsActivateSlot1, bool WantsActivateSlot2, bool WantsActivateSlot3, bool WantsActivateSlot4);
 	public override void _PhysicsProcess(double delta)
 	{
+		if (Engine.IsEditorHint()) return;
 		if (Blackboard == null) return;
 
 		CalculateMovementBehaviour(out MovementInfo movementInfo);
@@ -35,7 +36,7 @@ public partial class AIInputComponent : Node
 
 	private void CalculateMovementBehaviour(out MovementInfo movementInfo)
 	{
-		movementInfo = default;
+		movementInfo = new MovementInfo(Vector2.Up, false, false);
 	}
 
 	private void CalculateAttackBehaviour(out AttackInfo attackInfo)

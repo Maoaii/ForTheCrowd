@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://jkys6gjecib5"]
 
+[ext_resource type="Script" uid="uid://bs1cg4mx781hg" path="res://Entities/Enemies/Rider/Rider.cs" id="1_fckf7"]
 [ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Components/CarPhysicsComponent.cs" id="1_pa8es"]
 [ext_resource type="Script" uid="uid://vhwvkgdttlwx" path="res://Entities/Player/Config/MovementConfig.cs" id="2_3w8n4"]
 [ext_resource type="Script" uid="uid://drp44k1nt7fql" path="res://Entities/Player/Config/DriftConfig.cs" id="3_5ra5n"]
@@ -29,6 +30,7 @@ MaxSlipAngleDegrees = 70.0
 
 [node name="Rider" type="CharacterBody3D" unique_id=1191236731]
 velocity = Vector3(0, -1719.2112, 0)
+script = ExtResource("1_fckf7")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=249269726]
 mesh = SubResource("BoxMesh_fckf7")
