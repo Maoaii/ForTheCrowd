@@ -51,10 +51,6 @@ public partial class CarPhysicsComponent : Node
 		Blackboard.Visuals.VisualDirection = Vector3.Forward.Rotated(Vector3.Up, Body.GlobalRotation.Y);
 	}
 
-	/// <summary>
-	/// Eases the travel direction toward the direction the car is facing. Lower grip means a slower catch-up, which is the slide.
-	/// </summary>
-	/// <returns>The direction the car is facing.</returns>
 	private Vector3 UpdateMovementDirection(float dt)
 	{
 		Vector3 facing = -Body.Transform.Basis.Z;

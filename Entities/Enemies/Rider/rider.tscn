@@ -20,6 +20,7 @@ radius = 0.71647877
 [sub_resource type="Resource" id="Resource_aw0s5"]
 script = ExtResource("2_3w8n4")
 GravityForce = 49.05
+MaxSteerAngleDegrees = 34.635
 BoostAccelerationMult = 6.0
 BoostGripMult = 0.7
 
@@ -53,7 +54,8 @@ script = ExtResource("4_5ra5n")
 Owner = NodePath("../..")
 metadata/_custom_type_script = "uid://cg3g858qg662l"
 
-[node name="AIInputComponent" type="Node" parent="Components" unique_id=362027234 node_paths=PackedStringArray("Blackboard")]
+[node name="AIInputComponent" type="Node" parent="Components" unique_id=362027234 node_paths=PackedStringArray("Blackboard", "Owner")]
 script = ExtResource("5_aw0s5")
 Blackboard = NodePath("../BlackboardComponent")
+Owner = NodePath("../..")
 metadata/_custom_type_script = "uid://dkp7k1fq2wpln"

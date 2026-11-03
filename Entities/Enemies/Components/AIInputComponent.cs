@@ -8,6 +8,7 @@ namespace CarGame.Entities.Components;
 public partial class AIInputComponent : Node
 {
 	[Export] public BlackboardComponent Blackboard;
+	[Export] public EnemyBase Owner;
 
 	private readonly record struct MovementInfo(Vector2 Direction, bool WantsJump, bool WantsBoost);
 	private readonly record struct AttackInfo(bool WantsActivateSlot1, bool WantsActivateSlot2, bool WantsActivateSlot3, bool WantsActivateSlot4);
@@ -36,7 +37,26 @@ public partial class AIInputComponent : Node
 
 	private void CalculateMovementBehaviour(out MovementInfo movementInfo)
 	{
-		movementInfo = new MovementInfo(Vector2.Up, false, false);
+		movementInfo = default;
+
+		Vector3 directionToTarget = Vector3.Zero;
+		if (Owner.Target != null)
+		{
+			directionToTarget = Owner.GlobalPosition - Owner.Target.GlobalPosition;
+			directionToTarget.Y = 0;
+
+			if (directionToTarget != Vector3.Zero)
+			{
+				directionToTarget = directionToTarget.Normalized();
+			}
+		}
+
+		movementInfo = new MovementInfo()
+		{
+			Direction = new Vector2(directionToTarget.X, directionToTarget.Z),
+			WantsJump = false,
+			WantsBoost = false
+		};
 	}
 
 	private void CalculateAttackBehaviour(out AttackInfo attackInfo)
