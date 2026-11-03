@@ -18,6 +18,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11.246, 0)
 [node name="EnemySpawner1" type="Node3D" parent="." unique_id=1394872206 node_paths=PackedStringArray("Target", "Swarm")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2, 30)
 script = ExtResource("2_0b4ue")
+SpawnRate = 0.2
 Target = NodePath("../Player")
 Swarm = NodePath("../SwarmManager")
 EnemyScene = ExtResource("3_1ainy")

@@ -42,7 +42,7 @@ public partial class AIInputComponent : Node
 		Vector3 directionToTarget = Vector3.Zero;
 		if (Owner.Target != null)
 		{
-			directionToTarget = Owner.GlobalPosition - Owner.Target.GlobalPosition;
+			directionToTarget = Owner.Target.GlobalPosition - Owner.GlobalPosition;
 			directionToTarget.Y = 0;
 
 			if (directionToTarget != Vector3.Zero)
@@ -51,9 +51,14 @@ public partial class AIInputComponent : Node
 			}
 		}
 
+		float xDir = Owner.Basis.X.Dot(directionToTarget);
+		if (xDir >= 0.99)
+			xDir = 0;
+		float yDir = 1;
+
 		movementInfo = new MovementInfo()
 		{
-			Direction = new Vector2(directionToTarget.X, directionToTarget.Z),
+			Direction = new Vector2(xDir, yDir),
 			WantsJump = false,
 			WantsBoost = false
 		};
