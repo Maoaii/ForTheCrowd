@@ -1,4 +1,6 @@
+using System;
 using CarGame.Systems.Blackboards;
+using CarGame.Utils.Debug;
 using Godot;
 
 namespace CarGame.Entities.Components;
@@ -10,8 +12,23 @@ public partial class AIInputComponent : Node
 	[Export] public BlackboardComponent Blackboard;
 	[Export] public EnemyBase Owner;
 
+	[Export(PropertyHint.Range, "0, 100, 1, suffix:m")] public float MinFollowRange;
+	[Export(PropertyHint.Range, "0, 100, 1, suffix:m")] public float MaxFollowRange;
+	[Export(PropertyHint.Range, "0, 50, 0.1, suffix:m")] public float SeekReachedSensitivity;
+
+	private RandomNumberGenerator rng = new RandomNumberGenerator();
+	private bool reachedCurrentSeekTarget = false;
+	private Vector2 currentSeekOffset = Vector2.Zero;
+
 	private readonly record struct MovementInfo(Vector2 Direction, bool WantsJump, bool WantsBoost);
 	private readonly record struct AttackInfo(bool WantsActivateSlot1, bool WantsActivateSlot2, bool WantsActivateSlot3, bool WantsActivateSlot4);
+
+	public Vector3 GetSeekPosition => Owner.Target.GlobalPosition + new Vector3(currentSeekOffset.X, 0, currentSeekOffset.Y);
+
+	public override void _Ready()
+	{
+		base._Ready();
+	}
 	public override void _PhysicsProcess(double delta)
 	{
 		if (Engine.IsEditorHint()) return;
@@ -37,35 +54,66 @@ public partial class AIInputComponent : Node
 
 	private void CalculateMovementBehaviour(out MovementInfo movementInfo)
 	{
-		movementInfo = default;
+		rng.Randomize();
 
+		bool noSeekTarget = currentSeekOffset == Vector2.Zero;
+		if (noSeekTarget || HasReachedSeekTarget())
+			SetupNewSeekTarget();
+
+		movementInfo = new MovementInfo()
+		{
+			Direction = CalculateSeekDirection(),
+			WantsJump = false,
+			WantsBoost = false
+		};
+
+		DebugDrawGizmos();
+	}
+
+	private Vector2 CalculateSeekDirection()
+	{
 		Vector3 directionToTarget = Vector3.Zero;
 		if (Owner.Target != null)
 		{
-			directionToTarget = Owner.Target.GlobalPosition - Owner.GlobalPosition;
+			directionToTarget = GetSeekPosition - Owner.GlobalPosition;
 			directionToTarget.Y = 0;
 
 			if (directionToTarget != Vector3.Zero)
-			{
 				directionToTarget = directionToTarget.Normalized();
-			}
 		}
 
 		float xDir = Owner.Basis.X.Dot(directionToTarget);
 		if (xDir >= 0.99)
 			xDir = 0;
+
 		float yDir = 1;
 
-		movementInfo = new MovementInfo()
-		{
-			Direction = new Vector2(xDir, yDir),
-			WantsJump = false,
-			WantsBoost = false
-		};
+		return new Vector2(xDir, yDir);
+	}
+
+	private bool HasReachedSeekTarget()
+	{
+		return Owner.GlobalPosition.DistanceTo(GetSeekPosition) < SeekReachedSensitivity;
+	}
+
+	private void SetupNewSeekTarget()
+	{
+		float distance = (float)GD.RandRange(MinFollowRange, MaxFollowRange);
+		float angle = (float)GD.RandRange(0, Mathf.Tau);
+
+		currentSeekOffset = Vector2.Right.Rotated(angle) * distance;
 	}
 
 	private void CalculateAttackBehaviour(out AttackInfo attackInfo)
 	{
 		attackInfo = default;
+	}
+
+	private void DebugDrawGizmos()
+	{
+		Vector3 targetPos = Owner.Target.GlobalPosition;
+		VectorRenderer.DrawBand(targetPos, MinFollowRange, MaxFollowRange, Colors.Green, dashed: true);
+
+		VectorRenderer.DrawDisc(GetSeekPosition, SeekReachedSensitivity, Colors.Red);
 	}
 }

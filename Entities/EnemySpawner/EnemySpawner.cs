@@ -13,6 +13,13 @@ public partial class EnemySpawner : Node3D
 	[Export] public PackedScene EnemyScene;
 
 	private double _timer;
+
+	public override void _Ready()
+	{
+		base._Ready();
+		_timer = SpawnRate;
+	}
+
 	public override void _Process(double delta)
 	{
 		_timer += delta;

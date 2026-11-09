@@ -58,4 +58,7 @@ metadata/_custom_type_script = "uid://cg3g858qg662l"
 script = ExtResource("5_aw0s5")
 Blackboard = NodePath("../BlackboardComponent")
 Owner = NodePath("../..")
+MinFollowRange = 20.0
+MaxFollowRange = 30.0
+SeekReachedSensitivity = 2.0
 metadata/_custom_type_script = "uid://dkp7k1fq2wpln"
