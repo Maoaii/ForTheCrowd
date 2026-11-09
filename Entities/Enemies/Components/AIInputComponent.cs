@@ -16,7 +16,6 @@ public partial class AIInputComponent : Node
 	[Export(PropertyHint.Range, "0, 100, 1, suffix:m")] public float MaxFollowRange;
 	[Export(PropertyHint.Range, "0, 50, 0.1, suffix:m")] public float SeekReachedSensitivity;
 
-	private RandomNumberGenerator rng = new RandomNumberGenerator();
 	private bool reachedCurrentSeekTarget = false;
 	private Vector2 currentSeekOffset = Vector2.Zero;
 
@@ -54,8 +53,6 @@ public partial class AIInputComponent : Node
 
 	private void CalculateMovementBehaviour(out MovementInfo movementInfo)
 	{
-		rng.Randomize();
-
 		bool noSeekTarget = currentSeekOffset == Vector2.Zero;
 		if (noSeekTarget || HasReachedSeekTarget())
 			SetupNewSeekTarget();
