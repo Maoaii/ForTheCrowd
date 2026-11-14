@@ -6,6 +6,14 @@
 [ext_resource type="Script" uid="uid://drp44k1nt7fql" path="res://Entities/Player/Config/DriftConfig.cs" id="3_5ra5n"]
 [ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://Systems/Blackboard/BlackboardComponent.cs" id="4_5ra5n"]
 [ext_resource type="Script" uid="uid://dkp7k1fq2wpln" path="res://Entities/Enemies/Components/AIInputComponent.cs" id="5_aw0s5"]
+[ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="7_lpg7k"]
+[ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="8_mx0v3"]
+[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="9_k4icu"]
+[ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="10_cv0l5"]
+[ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="11_lqk86"]
+[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="12_wjslo"]
+[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="13_3143g"]
+[ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="14_cv0l5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aw0s5"]
 albedo_color = Color(0, 0.8, 0.2, 1)
@@ -28,6 +36,31 @@ BoostGripMult = 0.7
 script = ExtResource("3_5ra5n")
 LowGripRate = 4.0
 MaxSlipAngleDegrees = 70.0
+
+[sub_resource type="Resource" id="Resource_rl7tv"]
+script = ExtResource("8_mx0v3")
+AimRange = 100.0
+TargetLayers = 2
+metadata/_custom_type_script = "uid://bnai5q2few736"
+
+[sub_resource type="Resource" id="Resource_35mua"]
+script = ExtResource("10_cv0l5")
+metadata/_custom_type_script = "uid://bpvv2e7pts1uc"
+
+[sub_resource type="Resource" id="Resource_nfoim"]
+script = ExtResource("11_lqk86")
+BulletPackedScene = ExtResource("9_k4icu")
+FiringSolver = SubResource("Resource_35mua")
+CollisionLayer = 16
+CollisionMask = 2
+metadata/_custom_type_script = "uid://q8f12lil0xdo"
+
+[sub_resource type="Resource" id="Resource_3cehv"]
+script = ExtResource("13_3143g")
+Cooldown = 3.0
+BulletConfig = SubResource("Resource_nfoim")
+WeaponScene = ExtResource("12_wjslo")
+metadata/_custom_type_script = "uid://hflcgj2usade"
 
 [node name="Rider" type="CharacterBody3D" unique_id=1191236731]
 velocity = Vector3(0, -1719.2112, 0)
@@ -62,3 +95,13 @@ MinFollowRange = 20.0
 MaxFollowRange = 30.0
 SeekReachedSensitivity = 2.0
 metadata/_custom_type_script = "uid://dkp7k1fq2wpln"
+
+[node name="EnemyWeaponManager" type="Node3D" parent="." unique_id=1756554751]
+script = ExtResource("7_lpg7k")
+AimingProvider = SubResource("Resource_rl7tv")
+WeaponConfigs = Array[Object]([SubResource("Resource_3cehv")])
+metadata/_custom_type_script = "uid://b061b0ftes16v"
+
+[node name="Slot 1" type="Node3D" parent="EnemyWeaponManager" unique_id=1114023248]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9381467, 0)
+script = ExtResource("14_cv0l5")

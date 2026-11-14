@@ -45,6 +45,7 @@ public class BlackboardInput
 	public bool ReleasedJump = false;
 	public bool WantsBoost = false;
 
+	public Vector3 AttackDirection;
 	public bool WantsActivateSlot1 = false;
 	public bool WantsActivateSlot2 = false;
 	public bool WantsActivateSlot3 = false;

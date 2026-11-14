@@ -1,4 +1,5 @@
 using System;
+using CarGame.Entities.Components.AimingSystem;
 using CarGame.Systems.Blackboards;
 using CarGame.Utils.Debug;
 using Godot;
@@ -20,7 +21,6 @@ public partial class AIInputComponent : Node
 	private Vector2 currentSeekOffset = Vector2.Zero;
 
 	private readonly record struct MovementInfo(Vector2 Direction, bool WantsJump, bool WantsBoost);
-	private readonly record struct AttackInfo(bool WantsActivateSlot1, bool WantsActivateSlot2, bool WantsActivateSlot3, bool WantsActivateSlot4);
 
 	public Vector3 GetSeekPosition => Owner.Target.GlobalPosition + new Vector3(currentSeekOffset.X, 0, currentSeekOffset.Y);
 
@@ -34,18 +34,10 @@ public partial class AIInputComponent : Node
 		if (Blackboard == null) return;
 
 		CalculateMovementBehaviour(out MovementInfo movementInfo);
-		CalculateAttackBehaviour(out AttackInfo attackInfo);
 
 		Blackboard.Input.MoveInput = movementInfo.Direction;
 		Blackboard.Input.WantsJump = movementInfo.WantsJump;
 		Blackboard.Input.WantsBoost = movementInfo.WantsBoost;
-
-
-		Blackboard.Input.WantsActivateSlot1 = attackInfo.WantsActivateSlot1;
-		Blackboard.Input.WantsActivateSlot2 = attackInfo.WantsActivateSlot2;
-		Blackboard.Input.WantsActivateSlot3 = attackInfo.WantsActivateSlot3;
-		Blackboard.Input.WantsActivateSlot4 = attackInfo.WantsActivateSlot4;
-
 
 		if (Input.IsActionJustPressed("jump"))
 			Blackboard.Input.LastJumpInputTime = Time.GetTicksMsec() / 1000.0f;
@@ -99,11 +91,6 @@ public partial class AIInputComponent : Node
 		float angle = (float)GD.RandRange(0, Mathf.Tau);
 
 		currentSeekOffset = Vector2.Right.Rotated(angle) * distance;
-	}
-
-	private void CalculateAttackBehaviour(out AttackInfo attackInfo)
-	{
-		attackInfo = default;
 	}
 
 	private void DebugDrawGizmos()
