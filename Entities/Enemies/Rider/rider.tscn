@@ -6,13 +6,19 @@
 [ext_resource type="Script" uid="uid://drp44k1nt7fql" path="res://Entities/Player/Config/DriftConfig.cs" id="3_5ra5n"]
 [ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://Systems/Blackboard/BlackboardComponent.cs" id="4_5ra5n"]
 [ext_resource type="Script" uid="uid://dkp7k1fq2wpln" path="res://Entities/Enemies/Components/AIInputComponent.cs" id="5_aw0s5"]
+[ext_resource type="Script" uid="uid://k7hp4ufs8p3s" path="res://Entities/Player/Components/PlayerVFXComponent.cs" id="7_3cehv"]
 [ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="7_lpg7k"]
+[ext_resource type="Script" uid="uid://dg6cl2rbd23yw" path="res://Entities/Player/Components/TireMarks.cs" id="7_wjslo"]
 [ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="8_mx0v3"]
+[ext_resource type="Script" uid="uid://c3yk5plda65ol" path="res://Entities/Player/Config/TireMarkConfig.cs" id="8_wjslo"]
+[ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="9_35mua"]
 [ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="9_k4icu"]
 [ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="10_cv0l5"]
+[ext_resource type="QuadMesh" uid="uid://bwyevkeub83kw" path="res://Entities/Assets/dust_material_quad.tres" id="10_nfoim"]
 [ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="11_lqk86"]
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="12_wjslo"]
 [ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="13_3143g"]
+[ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="13_ytxda"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="14_cv0l5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aw0s5"]
@@ -27,15 +33,24 @@ radius = 0.71647877
 
 [sub_resource type="Resource" id="Resource_aw0s5"]
 script = ExtResource("2_3w8n4")
+MaxSpeedForward = 65.0
 GravityForce = 49.05
-MaxSteerAngleDegrees = 34.635
+MaxSteerAngleDegrees = 70.0
+HighSpeedSteerScale = 0.4
 BoostAccelerationMult = 6.0
 BoostGripMult = 0.7
 
 [sub_resource type="Resource" id="Resource_fckf7"]
 script = ExtResource("3_5ra5n")
+MinDriftSpeed = 45.0
 LowGripRate = 4.0
 MaxSlipAngleDegrees = 70.0
+
+[sub_resource type="Resource" id="Resource_3143g"]
+script = ExtResource("8_wjslo")
+
+[sub_resource type="Resource" id="Resource_ytxda"]
+script = ExtResource("8_wjslo")
 
 [sub_resource type="Resource" id="Resource_rl7tv"]
 script = ExtResource("8_mx0v3")
@@ -93,8 +108,92 @@ Blackboard = NodePath("../BlackboardComponent")
 Owner = NodePath("../..")
 MinFollowRange = 20.0
 MaxFollowRange = 30.0
-SeekReachedSensitivity = 2.0
+SeekReachedSensitivity = 10.0
+SeekLingerTime = 5000.0
+SeekMaxLifetime = 20000.0
 metadata/_custom_type_script = "uid://dkp7k1fq2wpln"
+
+[node name="PlayerVFXComponent" type="Node" parent="Components" unique_id=1085760340 node_paths=PackedStringArray("Blackboard", "LandDustFL", "LandDustFR", "LandDustRL", "LandDustRR", "DriftDustRL", "DriftDustRR")]
+script = ExtResource("7_3cehv")
+Blackboard = NodePath("../BlackboardComponent")
+LandDustFL = NodePath("../VFX/LandingDustFL")
+LandDustFR = NodePath("../VFX/LandingDustFR")
+LandDustRL = NodePath("../VFX/LandingDustRL")
+LandDustRR = NodePath("../VFX/LandingDustRR")
+DriftDustRL = NodePath("../VFX/DriftDustRL")
+DriftDustRR = NodePath("../VFX/DriftDustRR")
+
+[node name="TireMarks" type="Node3D" parent="Components" unique_id=1303042881]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5912218, -0.9973613)
+
+[node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1114829853 node_paths=PackedStringArray("Blackboard")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7323301, 0, 0.3175652)
+script = ExtResource("7_wjslo")
+Blackboard = NodePath("../../BlackboardComponent")
+Config = SubResource("Resource_3143g")
+GroundOffset = 0.3
+TextureWorldLength = 1.0
+
+[node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=1176498163 node_paths=PackedStringArray("Blackboard")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.596, 0, 0.318)
+script = ExtResource("7_wjslo")
+Blackboard = NodePath("../../BlackboardComponent")
+Config = SubResource("Resource_ytxda")
+GroundOffset = 0.3
+
+[node name="VFX" type="Node3D" parent="Components" unique_id=635918107]
+
+[node name="LandingDustFL" type="GPUParticles3D" parent="Components/VFX" unique_id=1549941302]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.7655983, -0.75221705)
+emitting = false
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("9_35mua")
+draw_pass_1 = ExtResource("10_nfoim")
+
+[node name="LandingDustFR" type="GPUParticles3D" parent="Components/VFX" unique_id=1118250804]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, -0.8032799)
+emitting = false
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("9_35mua")
+draw_pass_1 = ExtResource("10_nfoim")
+
+[node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=560400667]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.78292966)
+emitting = false
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("9_35mua")
+draw_pass_1 = ExtResource("10_nfoim")
+
+[node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=1637819614]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.78962636)
+emitting = false
+one_shot = true
+explosiveness = 1.0
+process_material = ExtResource("9_35mua")
+draw_pass_1 = ExtResource("10_nfoim")
+
+[node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2036278860]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.7881315)
+emitting = false
+amount = 64
+lifetime = 2.0
+process_material = ExtResource("9_35mua")
+draw_pass_1 = ExtResource("10_nfoim")
+
+[node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=1315532079]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.850827)
+emitting = false
+amount = 64
+lifetime = 2.0
+process_material = ExtResource("9_35mua")
+draw_pass_1 = ExtResource("10_nfoim")
+
+[node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("13_ytxda")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.1777735, 0.73114014)
+size = Vector3(3, 13.014756, 3.0738525)
 
 [node name="EnemyWeaponManager" type="Node3D" parent="." unique_id=1756554751]
 script = ExtResource("7_lpg7k")
@@ -103,5 +202,5 @@ WeaponConfigs = Array[Object]([SubResource("Resource_3cehv")])
 metadata/_custom_type_script = "uid://b061b0ftes16v"
 
 [node name="Slot 1" type="Node3D" parent="EnemyWeaponManager" unique_id=1114023248]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9381467, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9381467, 0.64427996)
 script = ExtResource("14_cv0l5")

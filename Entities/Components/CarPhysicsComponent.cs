@@ -128,20 +128,28 @@ public partial class CarPhysicsComponent : Node
 		bool throttlingForward = blackboard.Input.MoveInput.Y > 0 || blackboard.State.IsBoosting;
 		bool throttlingBackwards = blackboard.Input.MoveInput.Y < 0;
 
-		if (throttlingForward)
+		float maxSpeed = MovementConfig.MaxSpeedForward * Mathf.Lerp(1.0f, MovementConfig.BoostSpeedMult, blackboard.Kinematics.BoostIntensity);
+
+		float speedLimitFactor = Mathf.Clamp(blackboard.Input.SpeedLimitFactor, 0f, 1f);
+		bool speedLimited = speedLimitFactor < 1f && !blackboard.State.IsBoosting;
+		float speedLimit = maxSpeed * speedLimitFactor;
+		bool overSpeedLimit = speedLimited && blackboard.Kinematics.Speed > speedLimit;
+
+		if (overSpeedLimit)
+			blackboard.Kinematics.Speed = Mathf.MoveToward(blackboard.Kinematics.Speed, speedLimit, MovementConfig.Acceleration * dt);
+		else if (throttlingForward)
 		{
 			float acceleration = MovementConfig.Acceleration * Mathf.Lerp(1.0f, MovementConfig.BoostAccelerationMult, blackboard.Kinematics.BoostIntensity);
 			blackboard.Kinematics.Speed += acceleration * dt;
+			if (speedLimited)
+				blackboard.Kinematics.Speed = Mathf.Min(blackboard.Kinematics.Speed, speedLimit);
 		}
 		else if (throttlingBackwards)
 			blackboard.Kinematics.Speed -= MovementConfig.Acceleration * dt;
 
 		bool movingForward = blackboard.Kinematics.Speed > 0;
 		if (movingForward)
-		{
-			float maxSpeed = MovementConfig.MaxSpeedForward * Mathf.Lerp(1.0f, MovementConfig.BoostSpeedMult, blackboard.Kinematics.BoostIntensity);
 			blackboard.Kinematics.Speed = Mathf.Clamp(blackboard.Kinematics.Speed, 0, maxSpeed);
-		}
 		else
 			blackboard.Kinematics.Speed = Mathf.Clamp(blackboard.Kinematics.Speed, -MovementConfig.MaxSpeedBackwards, 0);
 

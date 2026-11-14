@@ -39,6 +39,7 @@ public class BlackboardState
 public class BlackboardInput
 {
 	public Vector2 MoveInput = Vector2.Zero;
+	public float SpeedLimitFactor = 1.0f;
 	public float LastJumpInputTime = -1.0f;
 	public bool WantsJump = false;
 	public bool IsHoldingJump = false;

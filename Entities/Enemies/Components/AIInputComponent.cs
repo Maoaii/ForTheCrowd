@@ -1,5 +1,3 @@
-using System;
-using CarGame.Entities.Components.AimingSystem;
 using CarGame.Systems.Blackboards;
 using CarGame.Utils.Debug;
 using Godot;
@@ -16,62 +14,86 @@ public partial class AIInputComponent : Node
 	[Export(PropertyHint.Range, "0, 100, 1, suffix:m")] public float MinFollowRange;
 	[Export(PropertyHint.Range, "0, 100, 1, suffix:m")] public float MaxFollowRange;
 	[Export(PropertyHint.Range, "0, 50, 0.1, suffix:m")] public float SeekReachedSensitivity;
-
-	private bool reachedCurrentSeekTarget = false;
-	private Vector2 currentSeekOffset = Vector2.Zero;
+	[Export(PropertyHint.Range, "0, 100, 0.1, suffix:m")] public float SlowdownRadius = 10.0f;
+	[Export(PropertyHint.Range, "0, 20000, 1.0, suffix:ms")] public float SeekLingerTime;
+	[Export(PropertyHint.Range, "0, 20000, 1.0, suffix:ms")] public float SeekMaxLifetime;
 
 	private readonly record struct MovementInfo(Vector2 Direction, bool WantsJump, bool WantsBoost);
 
-	public Vector3 GetSeekPosition => Owner.Target.GlobalPosition + new Vector3(currentSeekOffset.X, 0, currentSeekOffset.Y);
+	private Vector2 currentSeekOffset = Vector2.Zero;
+	private ulong seekPickedAtMsec;
+	private ulong? seekReachedAtMsec;
 
-	public override void _Ready()
-	{
-		base._Ready();
-	}
+	public Vector3 SeekPosition => Owner.Target.GlobalPosition + new Vector3(currentSeekOffset.X, 0, currentSeekOffset.Y);
+
 	public override void _PhysicsProcess(double delta)
 	{
 		if (Engine.IsEditorHint()) return;
 		if (Blackboard == null) return;
+		if (Owner.Target == null) return;
 
+		UpdateSeekTarget();
 		CalculateMovementBehaviour(out MovementInfo movementInfo);
 
 		Blackboard.Input.MoveInput = movementInfo.Direction;
+		Blackboard.Input.SpeedLimitFactor = CalculateSpeedLimitFactor();
 		Blackboard.Input.WantsJump = movementInfo.WantsJump;
 		Blackboard.Input.WantsBoost = movementInfo.WantsBoost;
 
 		if (Input.IsActionJustPressed("jump"))
 			Blackboard.Input.LastJumpInputTime = Time.GetTicksMsec() / 1000.0f;
+
+		DebugDrawGizmos();
+	}
+
+	private void UpdateSeekTarget()
+	{
+		ulong now = Time.GetTicksMsec();
+
+		bool hasSeekTarget = currentSeekOffset != Vector2.Zero;
+		bool nearSeekTarget = hasSeekTarget && IsNearSeekTarget();
+		if (nearSeekTarget)
+			seekReachedAtMsec ??= now;
+
+		bool doneLingering = nearSeekTarget && now - seekReachedAtMsec.Value > SeekLingerTime;
+		bool expired = SeekMaxLifetime > 0 && now - seekPickedAtMsec >= SeekMaxLifetime;
+
+		if (!hasSeekTarget || doneLingering || expired)
+			PickNewSeekTarget();
+	}
+
+	private void PickNewSeekTarget()
+	{
+		float distance = (float)GD.RandRange(MinFollowRange, MaxFollowRange);
+		float angle = (float)GD.RandRange(0, Mathf.Tau);
+
+		currentSeekOffset = Vector2.Right.Rotated(angle) * distance;
+		seekPickedAtMsec = Time.GetTicksMsec();
+		seekReachedAtMsec = null;
+	}
+
+	private bool IsNearSeekTarget()
+	{
+		return Owner.GlobalPosition.DistanceTo(SeekPosition) < SeekReachedSensitivity;
 	}
 
 	private void CalculateMovementBehaviour(out MovementInfo movementInfo)
 	{
-		bool noSeekTarget = currentSeekOffset == Vector2.Zero;
-		if (noSeekTarget || HasReachedSeekTarget())
-			SetupNewSeekTarget();
-
 		movementInfo = new MovementInfo()
 		{
 			Direction = CalculateSeekDirection(),
 			WantsJump = false,
 			WantsBoost = false
 		};
-
-		DebugDrawGizmos();
 	}
 
 	private Vector2 CalculateSeekDirection()
 	{
-		Vector3 directionToTarget = Vector3.Zero;
-		if (Owner.Target != null)
-		{
-			directionToTarget = GetSeekPosition - Owner.GlobalPosition;
-			directionToTarget.Y = 0;
+		Vector3 directionToSeekPosition = FlatOffsetToSeekPosition();
+		if (directionToSeekPosition != Vector3.Zero)
+			directionToSeekPosition = directionToSeekPosition.Normalized();
 
-			if (directionToTarget != Vector3.Zero)
-				directionToTarget = directionToTarget.Normalized();
-		}
-
-		float xDir = Owner.Basis.X.Dot(directionToTarget);
+		float xDir = Owner.Basis.X.Dot(directionToSeekPosition);
 		if (xDir >= 0.99)
 			xDir = 0;
 
@@ -80,17 +102,24 @@ public partial class AIInputComponent : Node
 		return new Vector2(xDir, yDir);
 	}
 
-	private bool HasReachedSeekTarget()
+	private float CalculateSpeedLimitFactor()
 	{
-		return Owner.GlobalPosition.DistanceTo(GetSeekPosition) < SeekReachedSensitivity;
+		if (SlowdownRadius <= 0)
+			return 1f;
+
+		Vector3 toSeekPosition = FlatOffsetToSeekPosition();
+		if (toSeekPosition.Length() >= SlowdownRadius)
+			return 1f;
+
+		float distanceAhead = toSeekPosition.Dot(-Owner.Basis.Z);
+		return Mathf.Clamp(distanceAhead / SlowdownRadius, 0f, 1f);
 	}
 
-	private void SetupNewSeekTarget()
+	private Vector3 FlatOffsetToSeekPosition()
 	{
-		float distance = (float)GD.RandRange(MinFollowRange, MaxFollowRange);
-		float angle = (float)GD.RandRange(0, Mathf.Tau);
-
-		currentSeekOffset = Vector2.Right.Rotated(angle) * distance;
+		Vector3 offset = SeekPosition - Owner.GlobalPosition;
+		offset.Y = 0;
+		return offset;
 	}
 
 	private void DebugDrawGizmos()
@@ -98,6 +127,6 @@ public partial class AIInputComponent : Node
 		Vector3 targetPos = Owner.Target.GlobalPosition;
 		VectorRenderer.DrawBand(targetPos, MinFollowRange, MaxFollowRange, Colors.Green, dashed: true);
 
-		VectorRenderer.DrawDisc(GetSeekPosition, SeekReachedSensitivity, Colors.Red);
+		VectorRenderer.DrawDisc(SeekPosition, SeekReachedSensitivity, Colors.Red);
 	}
 }
