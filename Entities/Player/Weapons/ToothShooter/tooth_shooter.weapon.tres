@@ -9,4 +9,5 @@ script = ExtResource("2_gcydg")
 Cooldown = 0.2
 BulletConfig = ExtResource("1_b3o5n")
 WeaponScene = ExtResource("3_scene")
+RotationConeDegrees = 0.7853982
 metadata/_custom_type_script = "uid://cidioslow8fcp"

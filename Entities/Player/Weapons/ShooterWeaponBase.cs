@@ -15,7 +15,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	protected BlackboardComponent _blackboard;
 	protected Timer _cooldownTimer;
 
-	private float? _targetYaw;
+	private float _restYaw;
+	private float _targetYaw = 0.0f;
 
 
 	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled)
@@ -41,18 +42,18 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 		};
 
 		AddChild(_cooldownTimer);
+
+		_restYaw = Rotation.Y;
 	}
 
 	public override void _Process(double delta)
 	{
-		if (_targetYaw is not float targetYaw)
-			return;
-
 		float weight = 1.0f - Mathf.Exp(-ShootAnimationConfig.LookSmoothing * (float)delta);
-		GlobalRotation = new Vector3(
-			GlobalRotation.X,
-			Mathf.LerpAngle(GlobalRotation.Y, targetYaw, weight),
-			GlobalRotation.Z);
+
+		Rotation = new Vector3(
+			Rotation.X,
+			Mathf.LerpAngle(Rotation.Y, _targetYaw, weight),
+			Rotation.Z);
 	}
 
 	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
@@ -92,13 +93,15 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 
 	public abstract void ShootAnimation(FiringSolution solution, Action fire);
 
-	protected void SmoothLookAt(Vector3 targetPosition, bool useModelFront)
+	protected void SmoothLookAt(Vector3 shootingDirection, bool useModelFront)
 	{
-		Vector3 direction = targetPosition - GlobalPosition;
-		if (direction.LengthSquared() < 0.0001f)
+		Vector3 localShootingDirection = ToLocal(shootingDirection);
+
+		if (localShootingDirection.LengthSquared() < 0.0001f)
 			return;
 
-		_targetYaw = Basis.LookingAt(direction, Vector3.Up, useModelFront).GetEuler().Y;
+		_targetYaw = Rotation.Y + (useModelFront ? Vector3.Forward : Vector3.Back).SignedAngleTo(localShootingDirection, Vector3.Up);
+		_targetYaw = Mathf.Clamp(_targetYaw, -WeaponConfig.RotationConeDegrees, WeaponConfig.RotationConeDegrees);
 	}
 
 	private void SpawnBullet(FiringSolution solution)
