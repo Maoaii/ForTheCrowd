@@ -2,6 +2,7 @@ using System;
 using CarGame.Entities.Components.AimingSystem;
 using CarGame.Entities.Player.Weapons.Ballistics;
 using CarGame.Systems.Blackboards;
+using CarGame.Utils.Debug;
 using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
@@ -54,6 +55,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			Rotation.X,
 			Mathf.LerpAngle(Rotation.Y, _targetYaw, weight),
 			Rotation.Z);
+
+		DebugDrawGizmos();
 	}
 
 	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
@@ -111,5 +114,16 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 		AddChild(bullet);
 
 		bullet.Setup(WeaponConfig.BulletConfig, BulletSpawnPoint.GlobalPosition, solution);
+	}
+
+	private void DebugDrawGizmos()
+	{
+		if (Engine.IsEditorHint())
+			return;
+
+		Vector3 leftRotationLimit = Vector3.Forward.Rotated(Vector3.Up, GlobalRotation.Y - _targetYaw + _restYaw - WeaponConfig.RotationConeDegrees);
+		Vector3 rightRotationLimit = Vector3.Forward.Rotated(Vector3.Up, GlobalRotation.Y - _targetYaw + _restYaw + WeaponConfig.RotationConeDegrees);
+		VectorRenderer.DrawLine(GlobalPosition, GlobalPosition + (leftRotationLimit * 2), Colors.Green);
+		VectorRenderer.DrawLine(GlobalPosition, GlobalPosition + (rightRotationLimit * 2), Colors.Green);
 	}
 }

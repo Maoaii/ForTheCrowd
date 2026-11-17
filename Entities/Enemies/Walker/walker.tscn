@@ -144,3 +144,4 @@ metadata/_custom_type_script = "uid://b061b0ftes16v"
 [node name="Slot 1" type="Node3D" parent="EnemyWeaponManager2" unique_id=421832320]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5543345, -1.0585454)
 script = ExtResource("13_bk0l2")
+Enabled = false
