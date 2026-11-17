@@ -99,6 +99,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	protected void SmoothLookAt(Vector3 shootingDirection, bool useModelFront)
 	{
 		Vector3 localShootingDirection = ToLocal(shootingDirection);
+		localShootingDirection = localShootingDirection.Rotated(Vector3.Right, Rotation.X);
+		localShootingDirection.Y = 0f;
 
 		if (localShootingDirection.LengthSquared() < 0.0001f)
 			return;

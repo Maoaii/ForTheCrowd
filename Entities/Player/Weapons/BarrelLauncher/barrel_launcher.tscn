@@ -5,7 +5,6 @@
 
 [sub_resource type="Resource" id="Resource_rl7tv"]
 script = ExtResource("2_vbqvf")
-UseModelFront = false
 metadata/_custom_type_script = "uid://cesltu8x7fn8f"
 
 [sub_resource type="BoxMesh" id="BoxMesh_flswb"]
@@ -24,7 +23,6 @@ bottom_radius = 0.2524414
 height = 0.9736328
 
 [node name="BarrelLauncher" type="Node3D" unique_id=1393748732 node_paths=PackedStringArray("BulletDecoy", "BulletSpawnPoint")]
-transform = Transform3D(-1, 0, -8.742278e-08, 0, 1, 0, 8.742278e-08, 0, -1, 0, 0, 0)
 script = ExtResource("1_vbqvf")
 BulletDecoy = NodePath("MeshInstance3D/BulletDecoy")
 ShootAnimationConfig = SubResource("Resource_rl7tv")
