@@ -6,4 +6,3 @@
 script = ExtResource("1_anim")
 RecoilDistance = 0.2
 RecoilRotationAmount = 0.0
-UseModelFront = false
