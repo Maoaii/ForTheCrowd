@@ -8,7 +8,6 @@ public partial class BulletBase : Area3D, IDamageProvider
 	[Export] public float TurnSmoothing = 20.0f;
 
 	private BulletConfig _config;
-	private Vector3 _aimPoint;
 
 	private ProjectileState _state;
 	private bool _hasCollided = false;
@@ -27,7 +26,7 @@ public partial class BulletBase : Area3D, IDamageProvider
 		base._PhysicsProcess(delta);
 		_state.Age += (float)delta;
 
-		_config.FiringSolver.Step(ref _state, (float)delta);
+		_config.Ballistics.Step(ref _state, (float)delta);
 		GlobalPosition = _state.Position;
 		OrientTowardsDirection((float)delta);
 	}
@@ -37,7 +36,6 @@ public partial class BulletBase : Area3D, IDamageProvider
 		_config = config;
 
 		GlobalPosition = position;
-		_aimPoint = solution.AimPoint;
 
 		_state = new() { Position = position, Velocity = solution.LaunchVelocity, };
 

@@ -298,12 +298,13 @@ script = ExtResource("33_l3oqu")
 MaxHealth = 5
 metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
-[node name="HurtBox" type="Area3D" parent="Components" unique_id=335346406]
+[node name="HurtBox" type="Area3D" parent="Components" unique_id=335346406 node_paths=PackedStringArray("Owner")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.7369946)
 collision_layer = 2
-collision_mask = 20
+collision_mask = 52
 script = ExtResource("33_slvv8")
 InvincibleTimeMs = 200.0
+Owner = NodePath("../..")
 metadata/_custom_type_script = "uid://b7ebpohlpxfto"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Components/HurtBox" unique_id=151946756]

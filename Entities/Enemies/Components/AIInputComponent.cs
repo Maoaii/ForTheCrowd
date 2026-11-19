@@ -4,7 +4,6 @@ using Godot;
 
 namespace CarGame.Entities.Components;
 
-[Tool]
 [GlobalClass]
 public partial class AIInputComponent : Node
 {

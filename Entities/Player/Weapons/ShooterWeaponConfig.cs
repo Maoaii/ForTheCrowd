@@ -1,5 +1,7 @@
 using System;
+using CarGame.Entities.Components.AimingSystem;
 using Godot;
+using Godot.Collections;
 
 namespace CarGame.Entities.Player.Weapons;
 
@@ -9,4 +11,8 @@ public partial class ShooterWeaponConfig : WeaponConfig
 {
 	[Export] public float Cooldown = 1.0f;
 	[Export] public BulletConfig BulletConfig;
+
+	[ExportGroup("Aiming")]
+	[Export] public bool InheritOwnerVelocity = true;
+	[Export] public Array<AimModifier> AimModifiers = new();
 }

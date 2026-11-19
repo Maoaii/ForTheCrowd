@@ -18,8 +18,15 @@
 [ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="11_lqk86"]
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="12_wjslo"]
 [ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="13_3143g"]
+[ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="13_sdncr"]
 [ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="13_ytxda"]
+[ext_resource type="Script" uid="uid://d153dmc287hfj" path="res://Entities/Components/HitBox.cs" id="14_b7x63"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="14_cv0l5"]
+[ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="15_b7x63"]
+[ext_resource type="Script" uid="uid://ck8glm8vh3if1" path="res://Entities/Components/AimingSystem/AimModifier.cs" id="17_cr2la"]
+[ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="20_lead"]
+[ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="26_cr2la"]
+[ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="27_vw0sj"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aw0s5"]
 albedo_color = Color(0, 0.8, 0.2, 1)
@@ -52,11 +59,20 @@ script = ExtResource("8_wjslo")
 [sub_resource type="Resource" id="Resource_ytxda"]
 script = ExtResource("8_wjslo")
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_sdncr"]
+radius = 0.834
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_b7x63"]
+radius = 0.709
+
 [sub_resource type="Resource" id="Resource_rl7tv"]
 script = ExtResource("8_mx0v3")
 AimRange = 100.0
 TargetLayers = 2
 metadata/_custom_type_script = "uid://bnai5q2few736"
+
+[sub_resource type="Resource" id="Resource_lead"]
+script = ExtResource("20_lead")
 
 [sub_resource type="Resource" id="Resource_35mua"]
 script = ExtResource("10_cv0l5")
@@ -65,7 +81,7 @@ metadata/_custom_type_script = "uid://bpvv2e7pts1uc"
 [sub_resource type="Resource" id="Resource_nfoim"]
 script = ExtResource("11_lqk86")
 BulletPackedScene = ExtResource("9_k4icu")
-FiringSolver = SubResource("Resource_35mua")
+Ballistics = SubResource("Resource_35mua")
 CollisionLayer = 16
 CollisionMask = 2
 metadata/_custom_type_script = "uid://q8f12lil0xdo"
@@ -74,12 +90,29 @@ metadata/_custom_type_script = "uid://q8f12lil0xdo"
 script = ExtResource("13_3143g")
 Cooldown = 3.0
 BulletConfig = SubResource("Resource_nfoim")
+AimModifiers = Array[ExtResource("17_cr2la")]([SubResource("Resource_lead")])
 WeaponScene = ExtResource("12_wjslo")
 metadata/_custom_type_script = "uid://hflcgj2usade"
 
-[node name="Rider" type="CharacterBody3D" unique_id=1191236731]
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xv47w"]
+direction = Vector3(0, 1, 0)
+spread = 90.0
+initial_velocity_min = 5.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -19.6, 0)
+scale_min = 0.099999994
+scale_max = 0.59999996
+
+[sub_resource type="QuadMesh" id="QuadMesh_h82up"]
+material = ExtResource("27_vw0sj")
+
+[node name="Rider" type="CharacterBody3D" unique_id=1191236731 node_paths=PackedStringArray("HealthComponent", "HurtBox", "_bloodParticles", "_bloodDecal")]
 velocity = Vector3(0, -1719.2112, 0)
 script = ExtResource("1_fckf7")
+HealthComponent = NodePath("Components/HealthComponent")
+HurtBox = NodePath("Components/HurtBox")
+_bloodParticles = NodePath("BloodParticles")
+_bloodDecal = NodePath("BloodDecal")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=249269726]
 mesh = SubResource("BoxMesh_fckf7")
@@ -106,9 +139,8 @@ metadata/_custom_type_script = "uid://cg3g858qg662l"
 script = ExtResource("5_aw0s5")
 Blackboard = NodePath("../BlackboardComponent")
 Owner = NodePath("../..")
-MinFollowRange = 20.0
-MaxFollowRange = 30.0
-SeekReachedSensitivity = 10.0
+MaxFollowRange = 50.0
+SeekReachedSensitivity = 5.0
 SeekLingerTime = 5000.0
 SeekMaxLifetime = 20000.0
 metadata/_custom_type_script = "uid://dkp7k1fq2wpln"
@@ -122,6 +154,11 @@ LandDustRL = NodePath("../VFX/LandingDustRL")
 LandDustRR = NodePath("../VFX/LandingDustRR")
 DriftDustRL = NodePath("../VFX/DriftDustRL")
 DriftDustRR = NodePath("../VFX/DriftDustRR")
+
+[node name="HealthComponent" type="Node" parent="Components" unique_id=238653191]
+script = ExtResource("15_b7x63")
+MaxHealth = 2
+metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
 [node name="TireMarks" type="Node3D" parent="Components" unique_id=1303042881]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5912218, -0.9973613)
@@ -195,6 +232,28 @@ draw_pass_1 = ExtResource("10_nfoim")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.1777735, 0.73114014)
 size = Vector3(3, 13.014756, 3.0738525)
 
+[node name="HurtBox" type="Area3D" parent="Components" unique_id=1815235908 node_paths=PackedStringArray("Owner")]
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("13_sdncr")
+Owner = NodePath("../..")
+metadata/_custom_type_script = "uid://b7ebpohlpxfto"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Components/HurtBox" unique_id=1543523080]
+shape = SubResource("SphereShape3D_sdncr")
+debug_color = Color(0.99826473, 0, 0.11424192, 0.41960785)
+
+[node name="HitBox" type="Area3D" parent="Components" unique_id=417565248]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("14_b7x63")
+Damage = 1
+metadata/_custom_type_script = "uid://d153dmc287hfj"
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Components/HitBox" unique_id=1586139174]
+shape = SubResource("SphereShape3D_b7x63")
+debug_color = Color(5.7756904e-07, 0.6480701, 0.20179415, 0.41960785)
+
 [node name="EnemyWeaponManager" type="Node3D" parent="." unique_id=1756554751]
 script = ExtResource("7_lpg7k")
 AimingProvider = SubResource("Resource_rl7tv")
@@ -204,3 +263,17 @@ metadata/_custom_type_script = "uid://b061b0ftes16v"
 [node name="Slot 1" type="Node3D" parent="EnemyWeaponManager" unique_id=1114023248]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9381467, 0.64427996)
 script = ExtResource("14_cv0l5")
+
+[node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("26_cr2la")]
+size = Vector3(3, 5, 3)
+
+[node name="BloodParticles" type="GPUParticles3D" parent="." unique_id=231358428]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+layers = 2
+emitting = false
+amount = 16
+one_shot = true
+explosiveness = 1.0
+trail_enabled = true
+process_material = SubResource("ParticleProcessMaterial_xv47w")
+draw_pass_1 = SubResource("QuadMesh_h82up")

@@ -1,5 +1,3 @@
-using System;
-using CarGame.Entities.Components.AimingSystem;
 using Godot;
 
 namespace CarGame.Entities.Player.Weapons.Ballistics;
@@ -10,47 +8,53 @@ public partial class LinearBallistics : BallisticsBase
 {
 	[Export] public float Speed = 100.0f;
 	[Export] public float MaxFlightTime = 2.0f;
-	[Export(PropertyHint.Range, "1,8")] public int Iterations = 3;
 
 	public override void Step(ref ProjectileState state, float delta)
 	{
 		state.Position += state.Velocity * delta;
 	}
 
-	public override bool TrySolve(in ShooterState shooter, in TargetInfo target, out FiringSolution solution)
+	public override bool TrySolve(Vector3 from, Vector3 inheritedVelocity, Vector3 target, out Vector3 launchVelocity, out float flightTime)
 	{
-		solution = default;
+		launchVelocity = Vector3.Zero;
+		flightTime = 0f;
 		if (Speed <= 0f)
 			return false;
 
+		Vector3 toTarget = target - from;
+		float a = inheritedVelocity.LengthSquared() - (Speed * Speed);
+		float b = -2f * toTarget.Dot(inheritedVelocity);
+		float c = toTarget.LengthSquared();
 
-		Vector3 relativeVelocity = AimModifier.InheritOwnerVelocity
-			? target.Velocity - shooter.Velocity
-			: target.Velocity;
-
-		float t = shooter.MuzzlePosition.DistanceTo(target.Position) / Speed;
-
-		Vector3 relativeAimPoint = target.Position;
-
-		for (int i = 0; i < Iterations; i++)
-		{
-			relativeAimPoint = target.Position + (relativeVelocity * t);
-			t = shooter.MuzzlePosition.DistanceTo(relativeAimPoint) / Speed;
-		}
-		if (AimModifier.AimDirectionVariation && GD.Randf() < AimModifier.DirectionVariationRatio)
-			relativeAimPoint += new Vector3((float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters), (float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters), (float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters));
-
-		if (!float.IsFinite(t) || t > MaxFlightTime)
+		if (!TrySmallestPositiveRoot(a, b, c, out flightTime) || flightTime > MaxFlightTime)
 			return false;
 
-		Vector3 muzzleDirection = shooter.MuzzlePosition.DirectionTo(relativeAimPoint);
-		Vector3 launchVelocity = muzzleDirection * Speed;
-		if (AimModifier.InheritOwnerVelocity)
-			launchVelocity += shooter.Velocity;
-
-		Vector3 worldAimPoint = target.Position + (target.Velocity * t);
-
-		solution = new FiringSolution(launchVelocity, muzzleDirection, worldAimPoint, t);
+		launchVelocity = toTarget / flightTime;
 		return true;
+	}
+
+	private static bool TrySmallestPositiveRoot(float a, float b, float c, out float root)
+	{
+		root = 0f;
+		if (Mathf.Abs(a) < 0.0001f)
+		{
+			if (Mathf.Abs(b) < 0.0001f)
+				return false;
+			root = -c / b;
+			return root > 0f && float.IsFinite(root);
+		}
+
+		float discriminant = (b * b) - (4f * a * c);
+		if (discriminant < 0f)
+			return false;
+
+		float sqrt = Mathf.Sqrt(discriminant);
+		float first = (-b - sqrt) / (2f * a);
+		float second = (-b + sqrt) / (2f * a);
+		float smaller = Mathf.Min(first, second);
+		float larger = Mathf.Max(first, second);
+
+		root = smaller > 0f ? smaller : larger;
+		return root > 0f && float.IsFinite(root);
 	}
 }

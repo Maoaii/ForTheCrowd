@@ -1,4 +1,3 @@
-using CarGame.Entities.Components.AimingSystem;
 using Godot;
 
 namespace CarGame.Entities.Player.Weapons.Ballistics;
@@ -7,9 +6,7 @@ namespace CarGame.Entities.Player.Weapons.Ballistics;
 [GlobalClass]
 public abstract partial class BallisticsBase : Resource
 {
-	[Export] public AimingModifier AimModifier;
-
-	public abstract bool TrySolve(in ShooterState shooter, in TargetInfo target, out FiringSolution solution);
+	public abstract bool TrySolve(Vector3 from, Vector3 inheritedVelocity, Vector3 target, out Vector3 launchVelocity, out float flightTime);
 
 	public abstract void Step(ref ProjectileState state, float delta);
 }

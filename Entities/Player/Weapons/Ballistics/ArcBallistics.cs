@@ -1,4 +1,3 @@
-using CarGame.Entities.Components.AimingSystem;
 using CarGame.Entities.Player.Weapons.Ballistics;
 using Godot;
 
@@ -11,7 +10,6 @@ public partial class ArcBallistics : BallisticsBase
 	[Export] public float ArcHeightRatio = 0.35f;
 	[Export] public float MinArcHeight = 2.0f;
 	[Export] public float MaxArcHeight = 30.0f;
-	[Export(PropertyHint.Range, "1,8")] public int Iterations = 3;
 
 	public override void Step(ref ProjectileState state, float delta)
 	{
@@ -20,40 +18,15 @@ public partial class ArcBallistics : BallisticsBase
 		state.Velocity += Vector3.Down * Gravity * delta;
 	}
 
-	public override bool TrySolve(in ShooterState shooter, in TargetInfo target, out FiringSolution solution)
+	public override bool TrySolve(Vector3 from, Vector3 inheritedVelocity, Vector3 target, out Vector3 launchVelocity, out float flightTime)
 	{
-		solution = default;
+		launchVelocity = Vector3.Zero;
+		flightTime = 0f;
 		if (Gravity <= 0f)
 			return false;
 
-		Vector3 launchVelocity = Vector3.Zero;
-		float t = 0f;
-
-		Vector3 targetPosition = target.Position;
-		if (AimModifier.AimDirectionVariation && GD.Randf() < AimModifier.DirectionVariationRatio)
-			targetPosition += new Vector3((float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters), (float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters), (float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters));
-
-
-		for (int i = 0; i < Iterations; i++)
-		{
-			Vector3 aimPoint = targetPosition + target.Velocity * t;
-			float arcHeight = GetArcHeight(shooter.MuzzlePosition, aimPoint);
-
-			SolveArcBallistics(shooter.MuzzlePosition, aimPoint, Gravity, arcHeight, out launchVelocity, out t);
-		}
-
-		if (!float.IsFinite(t) || t <= 0f)
-			return false;
-
-		Vector3 muzzleVelocity = AimModifier.InheritOwnerVelocity ? launchVelocity - shooter.Velocity : launchVelocity;
-		if (muzzleVelocity.LengthSquared() < 0.0001f)
-			muzzleVelocity = launchVelocity;
-		Vector3 muzzleDirection = muzzleVelocity.Normalized();
-
-		Vector3 worldAimPoint = target.Position + (target.Velocity * t);
-
-		solution = new FiringSolution(launchVelocity, muzzleDirection, worldAimPoint, t);
-		return true;
+		SolveArcBallistics(from, target, Gravity, GetArcHeight(from, target), out launchVelocity, out flightTime);
+		return float.IsFinite(flightTime) && flightTime > 0f;
 	}
 
 	private float GetArcHeight(Vector3 from, Vector3 to)

@@ -1,11 +1,13 @@
 using System;
+using CarGame.Entities.Components;
 using Godot;
 
 [GlobalClass]
-public partial class HurtBox : Area3D
+public partial class HurtBox : Area3D, IVelocityHolder
 {
 	public event Action<DamageInfo> OnHit;
 	[Export] public float InvincibleTimeMs = 0.0f;
+	[Export] public CharacterBody3D Owner;
 
 	private float _lastHitTime = 0.0f;
 	public override void _Ready()
@@ -28,5 +30,10 @@ public partial class HurtBox : Area3D
 		_lastHitTime = currentTime;
 
 		OnHit?.Invoke(damageInfo);
+	}
+
+	public Vector3 GetVelocity()
+	{
+		return Owner.Velocity;
 	}
 }

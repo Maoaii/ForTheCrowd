@@ -8,7 +8,7 @@
 [resource]
 script = ExtResource("1_j02l5")
 BulletPackedScene = ExtResource("1_m45fb")
-FiringSolver = ExtResource("2_sctla")
+Ballistics = ExtResource("2_sctla")
 BulletLifetime = 50.0
 CollisionLayer = 8
 CollisionMask = 5

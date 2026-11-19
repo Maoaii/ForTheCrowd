@@ -9,7 +9,7 @@ namespace CarGame.Entities.Player.Weapons;
 public partial class BulletConfig : Resource
 {
 	[Export] public PackedScene BulletPackedScene;
-	[Export] public BallisticsBase FiringSolver;
+	[Export] public BallisticsBase Ballistics;
 	[Export] public int Damage = 1;
 	[Export] public float BulletLifetime = 5.0f;
 	[Export] public float TimeToFreeAfterCollision = 0.0f;

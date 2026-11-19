@@ -19,6 +19,9 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	private float _restYaw;
 	private float _targetYaw = 0.0f;
 
+	private readonly RandomNumberGenerator _random = new();
+	private ulong _shotSeed;
+
 
 	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled)
 	{
@@ -32,8 +35,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			GD.PushWarning("WeaponConfig is missing or not a ShooterWeaponConfig. Was Setup called?");
 		if (BulletSpawnPoint == null)
 			GD.PushWarning("BulletSpawnPoint is not assigned in the inspector.");
-		if (WeaponConfig?.BulletConfig?.FiringSolver == null)
-			GD.PushWarning("BulletConfig has no FiringSolver assigned.");
+		if (WeaponConfig?.BulletConfig?.Ballistics == null)
+			GD.PushWarning("BulletConfig has no Ballistics assigned.");
 
 		_cooldownTimer = new Timer()
 		{
@@ -45,6 +48,7 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 		AddChild(_cooldownTimer);
 
 		_restYaw = Rotation.Y;
+		_shotSeed = GD.Randi();
 	}
 
 	public override void _Process(double delta)
@@ -61,8 +65,7 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 
 	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
 	{
-		ShooterState shooter = new(BulletSpawnPoint.GlobalPosition, ownerVelocity);
-		if (!WeaponConfig.BulletConfig.FiringSolver.TrySolve(shooter, targetInfo, out FiringSolution solution))
+		if (!TryPlanShot(targetInfo, ownerVelocity, out FiringSolution solution))
 			return false;
 
 		SmoothLookAt(GlobalPosition + solution.MuzzleDirection, ShootAnimationConfig.UseModelFront);
@@ -81,11 +84,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			// the shoot animation may delay firing and move the muzzle, so re-solve from the actual spawn state
 			float elapsed = (Time.GetTicksMsec() - activatedAtMs) / 1000.0f;
 			TargetInfo predictedTarget = targetInfo with { Position = targetInfo.Position + targetInfo.Velocity * elapsed };
-			ShooterState spawnShooter = new(BulletSpawnPoint.GlobalPosition, ownerVelocity);
-			if (WeaponConfig.BulletConfig.FiringSolver.TrySolve(spawnShooter, predictedTarget, out FiringSolution spawnSolution))
-				SpawnBullet(spawnSolution);
-			else
-				SpawnBullet(solution);
+			SpawnBullet(TryPlanShot(predictedTarget, ownerVelocity, out FiringSolution spawnSolution) ? spawnSolution : solution);
+			_shotSeed = GD.Randi();
 		}
 
 		ShootAnimation(solution, Fire);
@@ -95,6 +95,35 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	}
 
 	public abstract void ShootAnimation(FiringSolution solution, Action fire);
+
+	private bool TryPlanShot(in TargetInfo target, Vector3 ownerVelocity, out FiringSolution solution)
+	{
+		solution = default;
+		BallisticsBase ballistics = WeaponConfig.BulletConfig.Ballistics;
+		Vector3 muzzlePosition = BulletSpawnPoint.GlobalPosition;
+		Vector3 inheritedVelocity = WeaponConfig.InheritOwnerVelocity ? ownerVelocity : Vector3.Zero;
+
+		_random.Seed = _shotSeed;
+		AimContext context = new(muzzlePosition, inheritedVelocity, target, ballistics, _random);
+
+		Vector3 aimPoint = target.Position;
+		foreach (AimModifier modifier in WeaponConfig.AimModifiers)
+		{
+			if (modifier == null)
+				continue;
+
+			aimPoint = modifier.Apply(context, aimPoint);
+		}
+
+		if (!ballistics.TrySolve(muzzlePosition, inheritedVelocity, aimPoint, out Vector3 launchVelocity, out float flightTime))
+			return false;
+
+		Vector3 muzzleVelocity = launchVelocity - inheritedVelocity;
+		Vector3 muzzleDirection = muzzleVelocity.LengthSquared() > 0.0001f ? muzzleVelocity.Normalized() : launchVelocity.Normalized();
+
+		solution = new FiringSolution(aimPoint, launchVelocity, muzzleDirection, flightTime);
+		return true;
+	}
 
 	protected void SmoothLookAt(Vector3 shootingDirection, bool useModelFront)
 	{
