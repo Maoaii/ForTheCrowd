@@ -1,3 +1,4 @@
+using System;
 using CarGame.Entities.Components.AimingSystem;
 using Godot;
 
@@ -23,11 +24,12 @@ public partial class LinearBallistics : BallisticsBase
 			return false;
 
 
-		Vector3 relativeVelocity = InheritOwnerVelocity
+		Vector3 relativeVelocity = AimModifier.InheritOwnerVelocity
 			? target.Velocity - shooter.Velocity
 			: target.Velocity;
 
 		float t = shooter.MuzzlePosition.DistanceTo(target.Position) / Speed;
+
 		Vector3 relativeAimPoint = target.Position;
 
 		for (int i = 0; i < Iterations; i++)
@@ -35,13 +37,15 @@ public partial class LinearBallistics : BallisticsBase
 			relativeAimPoint = target.Position + (relativeVelocity * t);
 			t = shooter.MuzzlePosition.DistanceTo(relativeAimPoint) / Speed;
 		}
+		if (AimModifier.AimDirectionVariation && GD.Randf() < AimModifier.DirectionVariationRatio)
+			relativeAimPoint += new Vector3((float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters), (float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters), (float)GD.Randfn(0.0f, AimModifier.DirectionVariationMeters));
 
 		if (!float.IsFinite(t) || t > MaxFlightTime)
 			return false;
 
 		Vector3 muzzleDirection = shooter.MuzzlePosition.DirectionTo(relativeAimPoint);
 		Vector3 launchVelocity = muzzleDirection * Speed;
-		if (InheritOwnerVelocity)
+		if (AimModifier.InheritOwnerVelocity)
 			launchVelocity += shooter.Velocity;
 
 		Vector3 worldAimPoint = target.Position + (target.Velocity * t);

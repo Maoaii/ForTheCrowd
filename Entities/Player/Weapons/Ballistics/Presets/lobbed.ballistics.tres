@@ -1,10 +1,18 @@
 [gd_resource type="Resource" script_class="ArcBallistics" format=3 uid="uid://us0g272dsjva"]
 
+[ext_resource type="Script" uid="uid://ebodwk7vh8ac" path="res://Entities/Components/AimingSystem/AimingModifier.cs" id="1_c6ara"]
 [ext_resource type="Script" uid="uid://dw071ceq1101m" path="res://Entities/Player/Weapons/Ballistics/ArcBallistics.cs" id="1_c6ces"]
+
+[sub_resource type="Resource" id="Resource_xk3gu"]
+script = ExtResource("1_c6ara")
+AimDirectionVariation = true
+DirectionVariationRatio = 1.0
+DirectionVariationMeters = 3.0
+metadata/_custom_type_script = "uid://ebodwk7vh8ac"
 
 [resource]
 script = ExtResource("1_c6ces")
 Gravity = 100.0
 MaxArcHeight = 10.0
-InheritOwnerVelocity = false
+AimModifier = SubResource("Resource_xk3gu")
 metadata/_custom_type_script = "uid://dw071ceq1101m"

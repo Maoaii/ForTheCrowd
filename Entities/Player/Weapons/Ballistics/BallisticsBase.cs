@@ -7,7 +7,7 @@ namespace CarGame.Entities.Player.Weapons.Ballistics;
 [GlobalClass]
 public abstract partial class BallisticsBase : Resource
 {
-	[Export] public bool InheritOwnerVelocity = true;
+	[Export] public AimingModifier AimModifier;
 
 	public abstract bool TrySolve(in ShooterState shooter, in TargetInfo target, out FiringSolution solution);
 

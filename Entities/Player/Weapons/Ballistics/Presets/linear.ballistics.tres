@@ -1,7 +1,16 @@
 [gd_resource type="Resource" script_class="LinearBallistics" format=3 uid="uid://dehikt4hxi6dr"]
 
 [ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="1_sr5mj"]
+[ext_resource type="Script" uid="uid://ebodwk7vh8ac" path="res://Entities/Components/AimingSystem/AimingModifier.cs" id="1_xk3gu"]
+
+[sub_resource type="Resource" id="Resource_53w1c"]
+script = ExtResource("1_xk3gu")
+AimDirectionVariation = true
+DirectionVariationRatio = 1.0
+DirectionVariationMeters = 1.0
+metadata/_custom_type_script = "uid://ebodwk7vh8ac"
 
 [resource]
 script = ExtResource("1_sr5mj")
+AimModifier = SubResource("Resource_53w1c")
 metadata/_custom_type_script = "uid://bpvv2e7pts1uc"
