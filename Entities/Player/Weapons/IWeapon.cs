@@ -4,5 +4,5 @@ namespace CarGame.Entities.Player.Weapons;
 
 public interface IWeapon
 {
-	void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled);
+	void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled, WeaponSlot weaponMount);
 }

@@ -15,4 +15,5 @@ public partial class ShooterWeaponConfig : WeaponConfig
 	[ExportGroup("Aiming")]
 	[Export] public bool InheritOwnerVelocity = true;
 	[Export] public Array<AimModifier> AimModifiers = new();
+	[Export] public Array<AimConstraint> AimConstraints = new();
 }

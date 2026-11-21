@@ -10,6 +10,7 @@
 [ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="8_6v5tk"]
 [ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="9_5xvs7"]
 [ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="9_bhqgr"]
+[ext_resource type="Script" uid="uid://b3k72v0qjn8qf" path="res://Entities/Components/AimingSystem/AimConstraint.cs" id="10_e56qi"]
 [ext_resource type="Script" uid="uid://ck8glm8vh3if1" path="res://Entities/Components/AimingSystem/AimModifier.cs" id="10_kscjw"]
 [ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="10_thdv8"]
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="11_bk0l2"]
@@ -91,7 +92,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_zmb")
 
 [node name="HealthComponent" type="Node" parent="." unique_id=30456630]
 script = ExtResource("2_6v5tk")
-MaxHealth = 2
+MaxHealth = 1000000
 metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
 [node name="HurtBox" type="Area3D" parent="." unique_id=1560796277 node_paths=PackedStringArray("Owner")]

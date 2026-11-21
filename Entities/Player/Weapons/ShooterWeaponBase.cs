@@ -2,7 +2,6 @@ using System;
 using CarGame.Entities.Components.AimingSystem;
 using CarGame.Entities.Player.Weapons.Ballistics;
 using CarGame.Systems.Blackboards;
-using CarGame.Utils.Debug;
 using Godot;
 
 namespace CarGame.Entities.Player.Weapons;
@@ -16,6 +15,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	protected BlackboardComponent _blackboard;
 	protected Timer _cooldownTimer;
 
+
+	private WeaponSlot _weaponMount;
 	private float _restYaw;
 	private float _targetYaw = 0.0f;
 
@@ -23,10 +24,12 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	private ulong _shotSeed;
 
 
-	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled)
+	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled, WeaponSlot weaponMount)
 	{
 		WeaponConfig = config as ShooterWeaponConfig;
 		_blackboard = blackboard;
+
+		_weaponMount = weaponMount;
 	}
 
 	public override void _Ready()
@@ -59,32 +62,31 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			Rotation.X,
 			Mathf.LerpAngle(Rotation.Y, _targetYaw, weight),
 			Rotation.Z);
-
-		DebugDrawGizmos();
 	}
 
 	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
 	{
-		if (!TryPlanShot(targetInfo, ownerVelocity, out FiringSolution solution))
-			return false;
-
-		SmoothLookAt(GlobalPosition + solution.MuzzleDirection, ShootAnimationConfig.UseModelFront);
-
 		if (!_cooldownTimer.IsStopped())
 			return false;
 
+		if (!TryPlanShot(targetInfo, ownerVelocity, out FiringSolution solution))
+		{
+			_targetYaw = _restYaw;
+			return false;
+		}
+
+		// TODO: extract this out of try activate so it is called every frame
+		SmoothLookAt(GlobalPosition + solution.MuzzleDirection, ShootAnimationConfig.UseModelFront);
+
 		bool fired = false;
-		ulong activatedAtMs = Time.GetTicksMsec();
+
 		void Fire()
 		{
 			if (fired)
 				return;
 			fired = true;
 
-			// the shoot animation may delay firing and move the muzzle, so re-solve from the actual spawn state
-			float elapsed = (Time.GetTicksMsec() - activatedAtMs) / 1000.0f;
-			TargetInfo predictedTarget = targetInfo with { Position = targetInfo.Position + targetInfo.Velocity * elapsed };
-			SpawnBullet(TryPlanShot(predictedTarget, ownerVelocity, out FiringSolution spawnSolution) ? spawnSolution : solution);
+			SpawnBullet(solution);
 			_shotSeed = GD.Randi();
 		}
 
@@ -99,13 +101,28 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	private bool TryPlanShot(in TargetInfo target, Vector3 ownerVelocity, out FiringSolution solution)
 	{
 		solution = default;
+		_random.Seed = _shotSeed;
+
 		BallisticsBase ballistics = WeaponConfig.BulletConfig.Ballistics;
 		Vector3 muzzlePosition = BulletSpawnPoint.GlobalPosition;
 		Vector3 inheritedVelocity = WeaponConfig.InheritOwnerVelocity ? ownerVelocity : Vector3.Zero;
 
-		_random.Seed = _shotSeed;
 		AimContext context = new(muzzlePosition, inheritedVelocity, target, ballistics, _random);
 
+		Vector3 aimPoint = ApplyAimModifiers(target, context);
+
+		if (!ballistics.TrySolve(muzzlePosition, inheritedVelocity, aimPoint, out Vector3 launchVelocity, out float flightTime))
+			return false;
+
+		Vector3 muzzleVelocity = (launchVelocity - inheritedVelocity).Normalized();
+
+		solution = new FiringSolution(aimPoint, launchVelocity, muzzleVelocity, flightTime);
+
+		return CanShootWithConstraints(solution, context);
+	}
+
+	private Vector3 ApplyAimModifiers(TargetInfo target, AimContext context)
+	{
 		Vector3 aimPoint = target.Position;
 		foreach (AimModifier modifier in WeaponConfig.AimModifiers)
 		{
@@ -115,13 +132,20 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			aimPoint = modifier.Apply(context, aimPoint);
 		}
 
-		if (!ballistics.TrySolve(muzzlePosition, inheritedVelocity, aimPoint, out Vector3 launchVelocity, out float flightTime))
-			return false;
+		return aimPoint;
+	}
 
-		Vector3 muzzleVelocity = launchVelocity - inheritedVelocity;
-		Vector3 muzzleDirection = muzzleVelocity.LengthSquared() > 0.0001f ? muzzleVelocity.Normalized() : launchVelocity.Normalized();
+	private bool CanShootWithConstraints(FiringSolution solution, AimContext context)
+	{
+		foreach (AimConstraint constraint in WeaponConfig.AimConstraints)
+		{
+			if (constraint == null)
+				continue;
 
-		solution = new FiringSolution(aimPoint, launchVelocity, muzzleDirection, flightTime);
+			if (!constraint.ApplyConstraint(solution, _weaponMount, _restYaw))
+				return false;
+		}
+
 		return true;
 	}
 
@@ -135,7 +159,6 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			return;
 
 		_targetYaw = Rotation.Y + (useModelFront ? Vector3.Forward : Vector3.Back).SignedAngleTo(localShootingDirection, Vector3.Up);
-		_targetYaw = Mathf.Clamp(_targetYaw, -WeaponConfig.RotationConeDegrees, WeaponConfig.RotationConeDegrees);
 	}
 
 	private void SpawnBullet(FiringSolution solution)
@@ -145,16 +168,5 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 		AddChild(bullet);
 
 		bullet.Setup(WeaponConfig.BulletConfig, BulletSpawnPoint.GlobalPosition, solution);
-	}
-
-	private void DebugDrawGizmos()
-	{
-		if (Engine.IsEditorHint())
-			return;
-
-		Vector3 leftRotationLimit = Vector3.Forward.Rotated(Vector3.Up, GlobalRotation.Y - _targetYaw + _restYaw - WeaponConfig.RotationConeDegrees);
-		Vector3 rightRotationLimit = Vector3.Forward.Rotated(Vector3.Up, GlobalRotation.Y - _targetYaw + _restYaw + WeaponConfig.RotationConeDegrees);
-		VectorRenderer.DrawLine(GlobalPosition, GlobalPosition + (leftRotationLimit * 2), Colors.Green);
-		VectorRenderer.DrawLine(GlobalPosition, GlobalPosition + (rightRotationLimit * 2), Colors.Green);
 	}
 }

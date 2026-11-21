@@ -7,7 +7,7 @@ public partial class Mower : Area3D, IDamageProvider, IWeapon
 	public BlackboardComponent Blackboard { get; private set; }
 	public MowerWeaponConfig WeaponConfig { get; private set; }
 	private bool _isEnabled = true;
-	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled)
+	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled, WeaponSlot weaponMount)
 	{
 		WeaponConfig = config as MowerWeaponConfig;
 		Blackboard = blackboard;

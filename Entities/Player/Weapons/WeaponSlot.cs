@@ -20,7 +20,7 @@ public partial class WeaponSlot : Node3D
 
 		_weapon = config.WeaponScene.Instantiate<Node3D>();
 		if (_weapon is IWeapon weapon)
-			weapon.Setup(config, blackboard, Enabled);
+			weapon.Setup(config, blackboard, Enabled, this);
 		else
 			GD.PushWarning($"{config.WeaponScene.ResourcePath} root does not implement IWeapon.");
 

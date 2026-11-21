@@ -1,11 +1,18 @@
 [gd_resource type="Resource" script_class="ShooterWeaponConfig" format=3 uid="uid://e6v5w7bhtq46"]
 
 [ext_resource type="Resource" uid="uid://bt777nxuyfjbl" path="res://Entities/Player/Weapons/ToothShooter/tooth.bullet.tres" id="1_b3o5n"]
+[ext_resource type="Script" uid="uid://b3k72v0qjn8qf" path="res://Entities/Components/AimingSystem/AimConstraint.cs" id="1_dyxxm"]
 [ext_resource type="Script" uid="uid://ck8glm8vh3if1" path="res://Entities/Components/AimingSystem/AimModifier.cs" id="1_oifwt"]
+[ext_resource type="Script" uid="uid://cl8p067iqbaee" path="res://Entities/Components/AimingSystem/Constraints/WeaponRotationConstraint.cs" id="2_6v5pi"]
 [ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="2_gcydg"]
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="3_scene"]
 [ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="4_lead"]
 [ext_resource type="Script" uid="uid://dudjch0r857uj" path="res://Entities/Components/AimingSystem/Modifiers/SpreadModifier.cs" id="5_spread"]
+
+[sub_resource type="Resource" id="Resource_rl7tv"]
+script = ExtResource("2_6v5pi")
+RotationConeDegrees = 0.5235988
+metadata/_custom_type_script = "uid://cl8p067iqbaee"
 
 [sub_resource type="Resource" id="Resource_l3oqu"]
 script = ExtResource("4_lead")
@@ -22,6 +29,6 @@ script = ExtResource("2_gcydg")
 Cooldown = 0.2
 BulletConfig = ExtResource("1_b3o5n")
 AimModifiers = Array[ExtResource("1_oifwt")]([SubResource("Resource_l3oqu"), SubResource("Resource_53w1c")])
+AimConstraints = Array[ExtResource("1_dyxxm")]([SubResource("Resource_rl7tv")])
 WeaponScene = ExtResource("3_scene")
-RotationConeDegrees = 0.7853982
 metadata/_custom_type_script = "uid://cidioslow8fcp"

@@ -38,6 +38,9 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_a8wow"]
 radius = 0.921
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_slvv8"]
+radius = 1.2153578
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ppdlg"]
 albedo_color = Color(1, 0.49803922, 0.3137255, 1)
 
@@ -71,9 +74,6 @@ AimRange = 100.0
 TargetLayers = 4
 metadata/_custom_type_script = "uid://bnai5q2few736"
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_slvv8"]
-radius = 1.2153578
-
 [node name="Player" type="CharacterBody3D" unique_id=1669282 node_paths=PackedStringArray("Blackboard", "HealthComponent", "HurtBox")]
 collision_layer = 2
 collision_mask = 5
@@ -85,50 +85,6 @@ HurtBox = NodePath("Components/HurtBox")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1337208391]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.18224621, 0.673257)
 shape = SubResource("SphereShape3D_a8wow")
-
-[node name="Visuals" type="Node3D" parent="." unique_id=388810045]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24476929, 0.7499237)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals" unique_id=1186658863]
-transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
-layers = 2
-mesh = SubResource("BoxMesh_symyc")
-skeleton = NodePath("../..")
-
-[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visuals" unique_id=2077094743]
-transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 1.2794896, 1.3213418)
-layers = 2
-mesh = SubResource("BoxMesh_l3oqu")
-skeleton = NodePath("../..")
-
-[node name="Sockets" type="Node3D" parent="Visuals" unique_id=731552019]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.24476929, -0.7499237)
-
-[node name="FuelProgressBar" parent="Visuals/Sockets" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
-transform = Transform3D(2.208307, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 1.0273352, 2.45)
-cast_shadow = 0
-mesh = SubResource("QuadMesh_siu7b")
-_blackboard = NodePath("../../../Components/BlackboardComponent")
-
-[node name="PlayerWeaponManager" type="Node3D" parent="Visuals/Sockets" unique_id=1125632965 node_paths=PackedStringArray("Blackboard")]
-script = ExtResource("9_53w1c")
-Blackboard = NodePath("../../../Components/BlackboardComponent")
-AimingProvider = SubResource("Resource_80ryp")
-WeaponConfigs = Array[Object]([ExtResource("5_slvv8"), ExtResource("4_w51ui"), ExtResource("6_slvv8")])
-metadata/_custom_type_script = "uid://bw08170e62bu5"
-
-[node name="Slot 1" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=316542048]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.516341, -0.909801)
-script = ExtResource("26_ui1ln")
-
-[node name="Slot 2" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=1488171962]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.025809, 2.157125)
-script = ExtResource("26_ui1ln")
-
-[node name="Slot 3" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=808033207]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25321823, -1.3368908)
-script = ExtResource("26_ui1ln")
-Enabled = false
 
 [node name="Components" type="Node3D" parent="." unique_id=252611481]
 
@@ -310,3 +266,47 @@ metadata/_custom_type_script = "uid://b7ebpohlpxfto"
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Components/HurtBox" unique_id=151946756]
 shape = SubResource("SphereShape3D_slvv8")
 debug_color = Color(0.99999994, 0, 0.10539623, 0.41960785)
+
+[node name="Visuals" type="Node3D" parent="." unique_id=388810045]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.24476929, 0.7499237)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Visuals" unique_id=1186658863]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 0, 0)
+layers = 2
+mesh = SubResource("BoxMesh_symyc")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Visuals" unique_id=2077094743]
+transform = Transform3D(1.7, 0, 0, 0, 1.7, 0, 0, 0, 1.7, 0, 1.2794896, 1.3213418)
+layers = 2
+mesh = SubResource("BoxMesh_l3oqu")
+skeleton = NodePath("../..")
+
+[node name="Sockets" type="Node3D" parent="Visuals" unique_id=731552019]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.24476929, -0.7499237)
+
+[node name="FuelProgressBar" parent="Visuals/Sockets" unique_id=695472194 node_paths=PackedStringArray("_blackboard") instance=ExtResource("24_dv6dp")]
+transform = Transform3D(2.208307, 0, 0, 0, 1.8419878, 0, 0, 0, 1, 0, 1.0273352, 2.45)
+cast_shadow = 0
+mesh = SubResource("QuadMesh_siu7b")
+_blackboard = NodePath("../../../Components/BlackboardComponent")
+
+[node name="PlayerWeaponManager" type="Node3D" parent="Visuals/Sockets" unique_id=1125632965 node_paths=PackedStringArray("Blackboard")]
+script = ExtResource("9_53w1c")
+Blackboard = NodePath("../../../Components/BlackboardComponent")
+AimingProvider = SubResource("Resource_80ryp")
+WeaponConfigs = Array[Object]([ExtResource("5_slvv8"), ExtResource("4_w51ui"), ExtResource("6_slvv8")])
+metadata/_custom_type_script = "uid://bw08170e62bu5"
+
+[node name="Slot 1" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=316542048]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.516341, -0.909801)
+script = ExtResource("26_ui1ln")
+
+[node name="Slot 2" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=1488171962]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.025809, 2.157125)
+script = ExtResource("26_ui1ln")
+
+[node name="Slot 3" type="Node3D" parent="Visuals/Sockets/PlayerWeaponManager" unique_id=808033207]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25321823, -1.3368908)
+script = ExtResource("26_ui1ln")
+Enabled = false
