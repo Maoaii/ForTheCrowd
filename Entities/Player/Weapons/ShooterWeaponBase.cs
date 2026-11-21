@@ -17,7 +17,6 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 
 
 	private WeaponSlot _weaponMount;
-	private float _restYaw;
 	private float _targetYaw = 0.0f;
 
 	private readonly RandomNumberGenerator _random = new();
@@ -50,7 +49,6 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 
 		AddChild(_cooldownTimer);
 
-		_restYaw = Rotation.Y;
 		_shotSeed = GD.Randi();
 	}
 
@@ -71,12 +69,12 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 
 		if (!TryPlanShot(targetInfo, ownerVelocity, out FiringSolution solution))
 		{
-			_targetYaw = _restYaw;
+			_targetYaw = 0.0f;
 			return false;
 		}
 
 		// TODO: extract this out of try activate so it is called every frame
-		SmoothLookAt(GlobalPosition + solution.MuzzleDirection, ShootAnimationConfig.UseModelFront);
+		SmoothLookAt(GlobalPosition + solution.MuzzleDirection);
 
 		bool fired = false;
 
@@ -142,14 +140,15 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			if (constraint == null)
 				continue;
 
-			if (!constraint.ApplyConstraint(solution, _weaponMount, _restYaw))
+			// TODO: make applyconstraint receive aim context with weapon mount basis
+			if (!constraint.ApplyConstraint(solution, _weaponMount))
 				return false;
 		}
 
 		return true;
 	}
 
-	protected void SmoothLookAt(Vector3 shootingDirection, bool useModelFront)
+	protected void SmoothLookAt(Vector3 shootingDirection)
 	{
 		Vector3 localShootingDirection = ToLocal(shootingDirection);
 		localShootingDirection = localShootingDirection.Rotated(Vector3.Right, Rotation.X);
@@ -158,7 +157,7 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 		if (localShootingDirection.LengthSquared() < 0.0001f)
 			return;
 
-		_targetYaw = Rotation.Y + (useModelFront ? Vector3.Forward : Vector3.Back).SignedAngleTo(localShootingDirection, Vector3.Up);
+		_targetYaw = Rotation.Y + Vector3.Forward.SignedAngleTo(localShootingDirection, Vector3.Up);
 	}
 
 	private void SpawnBullet(FiringSolution solution)

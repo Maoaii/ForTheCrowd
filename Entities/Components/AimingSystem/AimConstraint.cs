@@ -7,5 +7,5 @@ using Godot;
 [GlobalClass]
 public abstract partial class AimConstraint : Resource
 {
-	public abstract bool ApplyConstraint(FiringSolution solution, Node3D shooter, float restYaw);
+	public abstract bool ApplyConstraint(FiringSolution solution, Node3D shooter);
 }
