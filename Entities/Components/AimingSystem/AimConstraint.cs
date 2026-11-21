@@ -8,4 +8,6 @@ using Godot;
 public abstract partial class AimConstraint : Resource
 {
 	public abstract bool ApplyConstraint(FiringSolution solution, Node3D shooter);
+
+	public abstract void DebugDrawGizmos(Node3D weaponMount);
 }

@@ -60,6 +60,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 			Rotation.X,
 			Mathf.LerpAngle(Rotation.Y, _targetYaw, weight),
 			Rotation.Z);
+
+		DebugDrawConstraintGizmos();
 	}
 
 	public virtual bool TryActivate(TargetInfo targetInfo, Vector3 ownerVelocity)
@@ -167,5 +169,11 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 		AddChild(bullet);
 
 		bullet.Setup(WeaponConfig.BulletConfig, BulletSpawnPoint.GlobalPosition, solution);
+	}
+
+	private void DebugDrawConstraintGizmos()
+	{
+		foreach (AimConstraint constraint in WeaponConfig.AimConstraints)
+			constraint.DebugDrawGizmos(_weaponMount);
 	}
 }
