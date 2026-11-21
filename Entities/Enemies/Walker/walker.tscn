@@ -17,6 +17,7 @@
 [ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="11_thdv8"]
 [ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="12_kscjw"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="13_bk0l2"]
+[ext_resource type="Resource" uid="uid://cecny8mk5tpf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.shoot_anim.tres" id="16_k6x8v"]
 [ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="20_lead"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_zmb"]
@@ -70,6 +71,7 @@ Cooldown = 3.0
 BulletConfig = SubResource("Resource_kscjw")
 AimModifiers = Array[ExtResource("10_kscjw")]([SubResource("Resource_lead")])
 WeaponScene = ExtResource("11_bk0l2")
+ShootAnimationConfig = ExtResource("16_k6x8v")
 metadata/_custom_type_script = "uid://hflcgj2usade"
 
 [node name="Walker" type="CharacterBody3D" unique_id=454732716 node_paths=PackedStringArray("HealthComponent", "HurtBox", "GroundFrom", "GroundTo", "_bloodParticles", "_bloodDecal")]

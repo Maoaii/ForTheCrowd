@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="3_scene"]
 [ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="4_lead"]
 [ext_resource type="Script" uid="uid://dudjch0r857uj" path="res://Entities/Components/AimingSystem/Modifiers/SpreadModifier.cs" id="5_spread"]
+[ext_resource type="Resource" uid="uid://cecny8mk5tpf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.shoot_anim.tres" id="7_6v5pi"]
 
 [sub_resource type="Resource" id="Resource_rl7tv"]
 script = ExtResource("2_6v5pi")
@@ -31,4 +32,5 @@ BulletConfig = ExtResource("1_b3o5n")
 AimModifiers = Array[ExtResource("1_oifwt")]([SubResource("Resource_l3oqu"), SubResource("Resource_53w1c")])
 AimConstraints = Array[ExtResource("1_dyxxm")]([SubResource("Resource_rl7tv")])
 WeaponScene = ExtResource("3_scene")
+ShootAnimationConfig = ExtResource("7_6v5pi")
 metadata/_custom_type_script = "uid://cidioslow8fcp"

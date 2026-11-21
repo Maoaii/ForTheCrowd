@@ -8,4 +8,7 @@ namespace CarGame.Entities.Player.Weapons;
 public partial class WeaponConfig : Resource
 {
 	[Export] public PackedScene WeaponScene;
+
+	[Export]
+	public ShootAnimationConfig ShootAnimationConfig;
 }

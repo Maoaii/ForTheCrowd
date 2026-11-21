@@ -2,6 +2,7 @@ using System;
 using CarGame.Entities.Player.Weapons;
 using Godot;
 
+[Tool]
 [GlobalClass]
 public partial class ToothShooterAnimationConfig : ShootAnimationConfig
 {

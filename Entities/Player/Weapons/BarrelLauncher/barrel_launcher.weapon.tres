@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://cynej27r3h80u" path="res://Entities/Player/Weapons/BarrelLauncher/barrel_launcher.tscn" id="3_scene"]
 [ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="4_lead"]
 [ext_resource type="Script" uid="uid://dudjch0r857uj" path="res://Entities/Components/AimingSystem/Modifiers/SpreadModifier.cs" id="5_spread"]
+[ext_resource type="Script" uid="uid://1yotda4d43q" path="res://Entities/Player/Weapons/AnimationConfigs/ShootAnimationConfig.cs" id="7_d6350"]
 
 [sub_resource type="Resource" id="Resource_up2x3"]
 script = ExtResource("2_d6350")
@@ -23,6 +24,10 @@ script = ExtResource("5_spread")
 SpreadMeters = 3.0
 metadata/_custom_type_script = "uid://dudjch0r857uj"
 
+[sub_resource type="Resource" id="Resource_aw548"]
+script = ExtResource("7_d6350")
+metadata/_custom_type_script = "uid://1yotda4d43q"
+
 [resource]
 script = ExtResource("2_ua8ph")
 Cooldown = 2.0
@@ -30,4 +35,5 @@ BulletConfig = ExtResource("1_cion2")
 AimModifiers = Array[ExtResource("1_p81to")]([SubResource("Resource_oifwt"), SubResource("Resource_lkxie")])
 AimConstraints = Array[ExtResource("1_7hsyp")]([SubResource("Resource_up2x3")])
 WeaponScene = ExtResource("3_scene")
+ShootAnimationConfig = SubResource("Resource_aw548")
 metadata/_custom_type_script = "uid://cidioslow8fcp"

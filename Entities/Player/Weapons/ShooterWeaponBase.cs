@@ -8,10 +8,10 @@ namespace CarGame.Entities.Player.Weapons;
 
 public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 {
-	[Export] public ShootAnimationConfig ShootAnimationConfig;
 	[Export] public Marker3D BulletSpawnPoint;
 
 	public ShooterWeaponConfig WeaponConfig { get; private set; }
+	public ShootAnimationConfig ShootAnimationConfig { get; private set; }
 	protected BlackboardComponent _blackboard;
 	protected Timer _cooldownTimer;
 
@@ -26,8 +26,8 @@ public abstract partial class ShooterWeaponBase : Node3D, IWeapon
 	public void Setup(WeaponConfig config, BlackboardComponent blackboard, bool enabled, WeaponSlot weaponMount)
 	{
 		WeaponConfig = config as ShooterWeaponConfig;
+		ShootAnimationConfig = WeaponConfig.ShootAnimationConfig;
 		_blackboard = blackboard;
-
 		_weaponMount = weaponMount;
 	}
 
