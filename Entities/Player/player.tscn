@@ -251,7 +251,7 @@ size = Vector3(3, 13.014756, 3.0738525)
 
 [node name="HealthComponent" type="Node" parent="Components" unique_id=248601887]
 script = ExtResource("33_l3oqu")
-MaxHealth = 5
+MaxHealth = 392
 metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
 [node name="HurtBox" type="Area3D" parent="Components" unique_id=335346406 node_paths=PackedStringArray("Owner")]

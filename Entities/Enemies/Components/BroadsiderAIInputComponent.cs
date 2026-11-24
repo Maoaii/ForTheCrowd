@@ -1,6 +1,7 @@
 using CarGame.Systems.Blackboards;
 using CarGame.Utils.Debug;
 using Godot;
+using Godot.Collections;
 
 namespace CarGame.Entities.Components;
 
@@ -22,6 +23,7 @@ public partial class BroadsiderAIInputComponent : Node
 	private Vector2 currentSeekOffset = Vector2.Zero;
 	private ulong seekPickedAtMsec;
 	private ulong? seekReachedAtMsec;
+	private int _currentSeekSide = -1;
 
 	public Vector3 SeekPosition => Owner.Target.GlobalPosition + new Vector3(currentSeekOffset.X, 0, currentSeekOffset.Y);
 
@@ -57,16 +59,28 @@ public partial class BroadsiderAIInputComponent : Node
 		bool doneLingering = nearSeekTarget && now - seekReachedAtMsec.Value > SeekLingerTime;
 		bool expired = SeekMaxLifetime > 0 && now - seekPickedAtMsec >= SeekMaxLifetime;
 
+
+		UpdateSeekPosition();
 		if (!hasSeekTarget || doneLingering || expired)
 			PickNewSeekTarget();
 	}
 
+	private void UpdateSeekPosition()
+	{
+		Basis targetBasis = Owner.Target.GlobalBasis;
+
+		Vector3 newSeekPos = targetBasis.X * _currentSeekSide * currentSeekOffset.Length();
+		currentSeekOffset = new Vector2(newSeekPos.X, newSeekPos.Z);
+	}
+
 	private void PickNewSeekTarget()
 	{
-		float distance = (float)GD.RandRange(MinFollowRange, MaxFollowRange);
-		float angle = (float)GD.RandRange(0, Mathf.Tau);
+		_currentSeekSide = (int)new Array { -1, 1 }.PickRandom();
 
-		currentSeekOffset = Vector2.Right.Rotated(angle) * distance;
+		float distance = (float)GD.RandRange(MinFollowRange, MaxFollowRange);
+		Vector3 newSeekPos = Owner.Target.GlobalBasis.X * _currentSeekSide * distance;
+
+		currentSeekOffset = new Vector2(newSeekPos.X, newSeekPos.Z);
 		seekPickedAtMsec = Time.GetTicksMsec();
 		seekReachedAtMsec = null;
 	}
@@ -88,6 +102,7 @@ public partial class BroadsiderAIInputComponent : Node
 
 	private Vector2 CalculateSeekDirection()
 	{
+		// TODO: take into account target's velocity
 		Vector3 directionToSeekPosition = FlatOffsetToSeekPosition();
 		if (directionToSeekPosition != Vector3.Zero)
 			directionToSeekPosition = directionToSeekPosition.Normalized();
