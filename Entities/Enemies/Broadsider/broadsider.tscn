@@ -1,34 +1,34 @@
 [gd_scene format=3 uid="uid://jkys6gjecib5"]
 
-[ext_resource type="Script" uid="uid://bs1cg4mx781hg" path="res://Entities/Enemies/Rider/Rider.cs" id="1_fckf7"]
-[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Components/CarPhysicsComponent.cs" id="1_pa8es"]
-[ext_resource type="Script" uid="uid://vhwvkgdttlwx" path="res://Entities/Player/Config/MovementConfig.cs" id="2_3w8n4"]
-[ext_resource type="Script" uid="uid://drp44k1nt7fql" path="res://Entities/Player/Config/DriftConfig.cs" id="3_5ra5n"]
-[ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://Systems/Blackboard/BlackboardComponent.cs" id="4_5ra5n"]
-[ext_resource type="Script" uid="uid://dkp7k1fq2wpln" path="res://Entities/Enemies/Components/AIInputComponent.cs" id="5_aw0s5"]
-[ext_resource type="Script" uid="uid://k7hp4ufs8p3s" path="res://Entities/Player/Components/PlayerVFXComponent.cs" id="7_3cehv"]
-[ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="7_lpg7k"]
-[ext_resource type="Script" uid="uid://dg6cl2rbd23yw" path="res://Entities/Player/Components/TireMarks.cs" id="7_wjslo"]
-[ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="8_mx0v3"]
-[ext_resource type="Script" uid="uid://c3yk5plda65ol" path="res://Entities/Player/Config/TireMarkConfig.cs" id="8_wjslo"]
-[ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="9_35mua"]
-[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="9_k4icu"]
-[ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="10_cv0l5"]
-[ext_resource type="QuadMesh" uid="uid://bwyevkeub83kw" path="res://Entities/Assets/dust_material_quad.tres" id="10_nfoim"]
-[ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="11_lqk86"]
-[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="12_wjslo"]
-[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="13_3143g"]
-[ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="13_sdncr"]
-[ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="13_ytxda"]
-[ext_resource type="Script" uid="uid://d153dmc287hfj" path="res://Entities/Components/HitBox.cs" id="14_b7x63"]
-[ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="14_cv0l5"]
-[ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="15_b7x63"]
-[ext_resource type="Script" uid="uid://ck8glm8vh3if1" path="res://Entities/Components/AimingSystem/AimModifier.cs" id="17_cr2la"]
-[ext_resource type="Script" uid="uid://b3k72v0qjn8qf" path="res://Entities/Components/AimingSystem/AimConstraint.cs" id="18_h82up"]
-[ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="20_lead"]
-[ext_resource type="Resource" uid="uid://cecny8mk5tpf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.shoot_anim.tres" id="24_psvwi"]
-[ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="26_cr2la"]
-[ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="27_vw0sj"]
+[ext_resource type="Script" uid="uid://bs1cg4mx781hg" path="res://Entities/Enemies/Broadsider/Broadsider.cs" id="1_u71q5"]
+[ext_resource type="Script" uid="uid://bhgfrxlfb80md" path="res://Entities/Components/CarPhysicsComponent.cs" id="2_ng5e8"]
+[ext_resource type="Script" uid="uid://vhwvkgdttlwx" path="res://Entities/Player/Config/MovementConfig.cs" id="3_6dx7d"]
+[ext_resource type="Script" uid="uid://drp44k1nt7fql" path="res://Entities/Player/Config/DriftConfig.cs" id="4_cdqr2"]
+[ext_resource type="Script" uid="uid://cg3g858qg662l" path="res://Systems/Blackboard/BlackboardComponent.cs" id="5_54j2j"]
+[ext_resource type="Script" uid="uid://dkp7k1fq2wpln" path="res://Entities/Enemies/Components/BroadsiderAIInputComponent.cs" id="6_u71q5"]
+[ext_resource type="Script" uid="uid://k7hp4ufs8p3s" path="res://Entities/Player/Components/PlayerVFXComponent.cs" id="7_l4pla"]
+[ext_resource type="Script" uid="uid://dkqyr0dole0lp" path="res://Entities/Components/HealthComponent.cs" id="8_kr6t0"]
+[ext_resource type="Script" uid="uid://dg6cl2rbd23yw" path="res://Entities/Player/Components/TireMarks.cs" id="9_2n8tg"]
+[ext_resource type="Script" uid="uid://c3yk5plda65ol" path="res://Entities/Player/Config/TireMarkConfig.cs" id="10_b0xl0"]
+[ext_resource type="Material" uid="uid://5i3olf4x6yqd" path="res://Entities/Player/Assets/landing_dust_particles.tres" id="11_j378x"]
+[ext_resource type="QuadMesh" uid="uid://bwyevkeub83kw" path="res://Entities/Assets/dust_material_quad.tres" id="12_riwew"]
+[ext_resource type="PackedScene" uid="uid://cq6rrc1io56ec" path="res://Entities/Components/shadow_decal.tscn" id="13_urrh4"]
+[ext_resource type="Script" uid="uid://b7ebpohlpxfto" path="res://Entities/Components/HurtBox.cs" id="14_8wekq"]
+[ext_resource type="Script" uid="uid://d153dmc287hfj" path="res://Entities/Components/HitBox.cs" id="15_m68b5"]
+[ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="16_6p15b"]
+[ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="17_1vylf"]
+[ext_resource type="Script" uid="uid://b3k72v0qjn8qf" path="res://Entities/Components/AimingSystem/AimConstraint.cs" id="18_3s207"]
+[ext_resource type="Script" uid="uid://ck8glm8vh3if1" path="res://Entities/Components/AimingSystem/AimModifier.cs" id="19_kj5uo"]
+[ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="20_ntvuu"]
+[ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="21_jak64"]
+[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="22_d04sl"]
+[ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="23_p8nyw"]
+[ext_resource type="Resource" uid="uid://cecny8mk5tpf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.shoot_anim.tres" id="24_ksfip"]
+[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="25_kp7g3"]
+[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="26_mnqkt"]
+[ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="27_0qhr6"]
+[ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="28_expds"]
+[ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="29_qssi7"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aw0s5"]
 albedo_color = Color(0, 0.8, 0.2, 1)
@@ -41,7 +41,7 @@ size = Vector3(1.4160156, 1.2879639, 1.8822632)
 radius = 0.71647877
 
 [sub_resource type="Resource" id="Resource_aw0s5"]
-script = ExtResource("2_3w8n4")
+script = ExtResource("3_6dx7d")
 MaxSpeedForward = 65.0
 GravityForce = 49.05
 MaxSteerAngleDegrees = 70.0
@@ -50,16 +50,16 @@ BoostAccelerationMult = 6.0
 BoostGripMult = 0.7
 
 [sub_resource type="Resource" id="Resource_fckf7"]
-script = ExtResource("3_5ra5n")
+script = ExtResource("4_cdqr2")
 MinDriftSpeed = 45.0
 LowGripRate = 4.0
 MaxSlipAngleDegrees = 70.0
 
 [sub_resource type="Resource" id="Resource_3143g"]
-script = ExtResource("8_wjslo")
+script = ExtResource("10_b0xl0")
 
 [sub_resource type="Resource" id="Resource_ytxda"]
-script = ExtResource("8_wjslo")
+script = ExtResource("10_b0xl0")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_sdncr"]
 radius = 0.834
@@ -68,33 +68,33 @@ radius = 0.834
 radius = 0.709
 
 [sub_resource type="Resource" id="Resource_rl7tv"]
-script = ExtResource("8_mx0v3")
+script = ExtResource("17_1vylf")
 AimRange = 100.0
 TargetLayers = 2
 metadata/_custom_type_script = "uid://bnai5q2few736"
 
 [sub_resource type="Resource" id="Resource_lead"]
-script = ExtResource("20_lead")
+script = ExtResource("20_ntvuu")
 
 [sub_resource type="Resource" id="Resource_35mua"]
-script = ExtResource("10_cv0l5")
+script = ExtResource("21_jak64")
 metadata/_custom_type_script = "uid://bpvv2e7pts1uc"
 
 [sub_resource type="Resource" id="Resource_nfoim"]
-script = ExtResource("11_lqk86")
-BulletPackedScene = ExtResource("9_k4icu")
+script = ExtResource("23_p8nyw")
+BulletPackedScene = ExtResource("22_d04sl")
 Ballistics = SubResource("Resource_35mua")
 CollisionLayer = 16
 CollisionMask = 2
 metadata/_custom_type_script = "uid://q8f12lil0xdo"
 
 [sub_resource type="Resource" id="Resource_3cehv"]
-script = ExtResource("13_3143g")
+script = ExtResource("26_mnqkt")
 Cooldown = 3.0
 BulletConfig = SubResource("Resource_nfoim")
-AimModifiers = Array[ExtResource("17_cr2la")]([SubResource("Resource_lead")])
-WeaponScene = ExtResource("12_wjslo")
-ShootAnimationConfig = ExtResource("24_psvwi")
+AimModifiers = Array[ExtResource("19_kj5uo")]([SubResource("Resource_lead")])
+WeaponScene = ExtResource("25_kp7g3")
+ShootAnimationConfig = ExtResource("24_ksfip")
 metadata/_custom_type_script = "uid://hflcgj2usade"
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xv47w"]
@@ -107,11 +107,11 @@ scale_min = 0.099999994
 scale_max = 0.59999996
 
 [sub_resource type="QuadMesh" id="QuadMesh_h82up"]
-material = ExtResource("27_vw0sj")
+material = ExtResource("29_qssi7")
 
-[node name="Rider" type="CharacterBody3D" unique_id=1191236731 node_paths=PackedStringArray("HealthComponent", "HurtBox", "_bloodParticles", "_bloodDecal")]
+[node name="Broadsider" type="CharacterBody3D" unique_id=1191236731 node_paths=PackedStringArray("HealthComponent", "HurtBox", "_bloodParticles", "_bloodDecal")]
 velocity = Vector3(0, -1719.2112, 0)
-script = ExtResource("1_fckf7")
+script = ExtResource("1_u71q5")
 HealthComponent = NodePath("Components/HealthComponent")
 HurtBox = NodePath("Components/HurtBox")
 _bloodParticles = NodePath("BloodParticles")
@@ -126,7 +126,7 @@ shape = SubResource("SphereShape3D_aw0s5")
 [node name="Components" type="Node3D" parent="." unique_id=1643386563]
 
 [node name="CarPhysicsComponent" type="Node" parent="Components" unique_id=647750068 node_paths=PackedStringArray("Blackboard", "Body")]
-script = ExtResource("1_pa8es")
+script = ExtResource("2_ng5e8")
 Blackboard = NodePath("../BlackboardComponent")
 Body = NodePath("../..")
 MovementConfig = SubResource("Resource_aw0s5")
@@ -134,22 +134,22 @@ DriftConfig = SubResource("Resource_fckf7")
 metadata/_custom_type_script = "uid://bhgfrxlfb80md"
 
 [node name="BlackboardComponent" type="Node" parent="Components" unique_id=187747962 node_paths=PackedStringArray("Owner")]
-script = ExtResource("4_5ra5n")
+script = ExtResource("5_54j2j")
 Owner = NodePath("../..")
 metadata/_custom_type_script = "uid://cg3g858qg662l"
 
 [node name="AIInputComponent" type="Node" parent="Components" unique_id=362027234 node_paths=PackedStringArray("Blackboard", "Owner")]
-script = ExtResource("5_aw0s5")
-Blackboard = NodePath("../BlackboardComponent")
-Owner = NodePath("../..")
+script = ExtResource("6_u71q5")
 MaxFollowRange = 50.0
 SeekReachedSensitivity = 5.0
 SeekLingerTime = 5000.0
 SeekMaxLifetime = 20000.0
+Blackboard = NodePath("../BlackboardComponent")
+Owner = NodePath("../..")
 metadata/_custom_type_script = "uid://dkp7k1fq2wpln"
 
 [node name="PlayerVFXComponent" type="Node" parent="Components" unique_id=1085760340 node_paths=PackedStringArray("Blackboard", "LandDustFL", "LandDustFR", "LandDustRL", "LandDustRR", "DriftDustRL", "DriftDustRR")]
-script = ExtResource("7_3cehv")
+script = ExtResource("7_l4pla")
 Blackboard = NodePath("../BlackboardComponent")
 LandDustFL = NodePath("../VFX/LandingDustFL")
 LandDustFR = NodePath("../VFX/LandingDustFR")
@@ -159,7 +159,7 @@ DriftDustRL = NodePath("../VFX/DriftDustRL")
 DriftDustRR = NodePath("../VFX/DriftDustRR")
 
 [node name="HealthComponent" type="Node" parent="Components" unique_id=238653191]
-script = ExtResource("15_b7x63")
+script = ExtResource("8_kr6t0")
 MaxHealth = 2
 metadata/_custom_type_script = "uid://dkqyr0dole0lp"
 
@@ -168,7 +168,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5912218, -0.9973613)
 
 [node name="TireMarksL" type="Node3D" parent="Components/TireMarks" unique_id=1114829853 node_paths=PackedStringArray("Blackboard")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.7323301, 0, 0.3175652)
-script = ExtResource("7_wjslo")
+script = ExtResource("9_2n8tg")
 Blackboard = NodePath("../../BlackboardComponent")
 Config = SubResource("Resource_3143g")
 GroundOffset = 0.3
@@ -176,7 +176,7 @@ TextureWorldLength = 1.0
 
 [node name="TireMarksR" type="Node3D" parent="Components/TireMarks" unique_id=1176498163 node_paths=PackedStringArray("Blackboard")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.596, 0, 0.318)
-script = ExtResource("7_wjslo")
+script = ExtResource("9_2n8tg")
 Blackboard = NodePath("../../BlackboardComponent")
 Config = SubResource("Resource_ytxda")
 GroundOffset = 0.3
@@ -188,57 +188,57 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.7655983, -0.75221705)
 emitting = false
 one_shot = true
 explosiveness = 1.0
-process_material = ExtResource("9_35mua")
-draw_pass_1 = ExtResource("10_nfoim")
+process_material = ExtResource("11_j378x")
+draw_pass_1 = ExtResource("12_riwew")
 
 [node name="LandingDustFR" type="GPUParticles3D" parent="Components/VFX" unique_id=1118250804]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, -0.8032799)
 emitting = false
 one_shot = true
 explosiveness = 1.0
-process_material = ExtResource("9_35mua")
-draw_pass_1 = ExtResource("10_nfoim")
+process_material = ExtResource("11_j378x")
+draw_pass_1 = ExtResource("12_riwew")
 
 [node name="LandingDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=560400667]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.78292966)
 emitting = false
 one_shot = true
 explosiveness = 1.0
-process_material = ExtResource("9_35mua")
-draw_pass_1 = ExtResource("10_nfoim")
+process_material = ExtResource("11_j378x")
+draw_pass_1 = ExtResource("12_riwew")
 
 [node name="LandingDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=1637819614]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.78962636)
 emitting = false
 one_shot = true
 explosiveness = 1.0
-process_material = ExtResource("9_35mua")
-draw_pass_1 = ExtResource("10_nfoim")
+process_material = ExtResource("11_j378x")
+draw_pass_1 = ExtResource("12_riwew")
 
 [node name="DriftDustRL" type="GPUParticles3D" parent="Components/VFX" unique_id=2036278860]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.8, -0.766, 0.7881315)
 emitting = false
 amount = 64
 lifetime = 2.0
-process_material = ExtResource("9_35mua")
-draw_pass_1 = ExtResource("10_nfoim")
+process_material = ExtResource("11_j378x")
+draw_pass_1 = ExtResource("12_riwew")
 
 [node name="DriftDustRR" type="GPUParticles3D" parent="Components/VFX" unique_id=1315532079]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.8, -0.766, 0.850827)
 emitting = false
 amount = 64
 lifetime = 2.0
-process_material = ExtResource("9_35mua")
-draw_pass_1 = ExtResource("10_nfoim")
+process_material = ExtResource("11_j378x")
+draw_pass_1 = ExtResource("12_riwew")
 
-[node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("13_ytxda")]
+[node name="ShadowDecal" parent="Components" unique_id=721473518 instance=ExtResource("13_urrh4")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.1777735, 0.73114014)
 size = Vector3(3, 13.014756, 3.0738525)
 
 [node name="HurtBox" type="Area3D" parent="Components" unique_id=1815235908 node_paths=PackedStringArray("Owner")]
 collision_layer = 4
 collision_mask = 8
-script = ExtResource("13_sdncr")
+script = ExtResource("14_8wekq")
 Owner = NodePath("../..")
 metadata/_custom_type_script = "uid://b7ebpohlpxfto"
 
@@ -249,7 +249,7 @@ debug_color = Color(0.99826473, 0, 0.11424192, 0.41960785)
 [node name="HitBox" type="Area3D" parent="Components" unique_id=417565248]
 collision_layer = 32
 collision_mask = 2
-script = ExtResource("14_b7x63")
+script = ExtResource("15_m68b5")
 Damage = 1
 metadata/_custom_type_script = "uid://d153dmc287hfj"
 
@@ -258,16 +258,16 @@ shape = SubResource("SphereShape3D_b7x63")
 debug_color = Color(5.7756904e-07, 0.6480701, 0.20179415, 0.41960785)
 
 [node name="EnemyWeaponManager" type="Node3D" parent="." unique_id=1756554751]
-script = ExtResource("7_lpg7k")
+script = ExtResource("16_6p15b")
 AimingProvider = SubResource("Resource_rl7tv")
 WeaponConfigs = Array[Object]([SubResource("Resource_3cehv")])
 metadata/_custom_type_script = "uid://b061b0ftes16v"
 
 [node name="Slot 1" type="Node3D" parent="EnemyWeaponManager" unique_id=1114023248]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9381467, 0.64427996)
-script = ExtResource("14_cv0l5")
+script = ExtResource("27_0qhr6")
 
-[node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("26_cr2la")]
+[node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("28_expds")]
 size = Vector3(3, 5, 3)
 
 [node name="BloodParticles" type="GPUParticles3D" parent="." unique_id=231358428]

@@ -3,11 +3,8 @@ using CarGame.Entities.Components;
 using CarGame.Entities.Enemies.Swarm;
 using Godot;
 
-public partial class Rider : EnemyBase, ISwarmable, IVelocityHolder
+public partial class Broadsider : EnemyBase, ISwarmable, IVelocityHolder
 {
-	public event Action<Node3D> OnFreed;
-	public Vector3 GetVelocity() => Velocity;
-
 	[ExportGroup("Health")]
 	[Export] public HealthComponent HealthComponent;
 	[Export] public HurtBox HurtBox;
@@ -15,7 +12,6 @@ public partial class Rider : EnemyBase, ISwarmable, IVelocityHolder
 	[ExportGroup("Visuals")]
 	[Export] private GpuParticles3D _bloodParticles;
 	[Export] private Decal _bloodDecal;
-
 
 	public override void _Ready()
 	{

@@ -14,9 +14,4 @@ public partial class EnemyBase : CharacterBody3D, ISwarmable, IVelocityHolder
 	{
 		OnFreed?.Invoke(this);
 	}
-
-	public Vector3 GetVelocity()
-	{
-		throw new NotImplementedException();
-	}
 }

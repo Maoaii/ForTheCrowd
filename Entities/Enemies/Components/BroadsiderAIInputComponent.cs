@@ -5,7 +5,7 @@ using Godot;
 namespace CarGame.Entities.Components;
 
 [GlobalClass]
-public partial class AIInputComponent : Node
+public partial class BroadsiderAIInputComponent : Node
 {
 	[Export] public BlackboardComponent Blackboard;
 	[Export] public EnemyBase Owner;
