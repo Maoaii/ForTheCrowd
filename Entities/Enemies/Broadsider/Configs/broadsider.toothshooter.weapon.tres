@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="ShooterWeaponConfig" format=3 uid="uid://cl03174tmiycw"]
+
+[ext_resource type="Script" uid="uid://b3k72v0qjn8qf" path="res://Entities/Components/AimingSystem/AimConstraint.cs" id="1_k08sj"]
+[ext_resource type="Script" uid="uid://cl8p067iqbaee" path="res://Entities/Components/AimingSystem/Constraints/WeaponRotationConstraint.cs" id="2_n81co"]
+[ext_resource type="Script" uid="uid://ck8glm8vh3if1" path="res://Entities/Components/AimingSystem/AimModifier.cs" id="3_tpe8h"]
+[ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="4_wpsyy"]
+[ext_resource type="Script" uid="uid://dudjch0r857uj" path="res://Entities/Components/AimingSystem/Modifiers/SpreadModifier.cs" id="5_88pbp"]
+[ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="6_sw3k0"]
+[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="7_g6lj8"]
+[ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="8_l0chj"]
+[ext_resource type="Resource" uid="uid://cecny8mk5tpf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.shoot_anim.tres" id="9_m6wdw"]
+[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="10_3haql"]
+[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="11_bjhmx"]
+
+[sub_resource type="Resource" id="Resource_ng5e8"]
+script = ExtResource("2_n81co")
+RotationConeDegrees = 0.7853982
+metadata/_custom_type_script = "uid://cl8p067iqbaee"
+
+[sub_resource type="Resource" id="Resource_lead"]
+script = ExtResource("4_wpsyy")
+
+[sub_resource type="Resource" id="Resource_u71q5"]
+script = ExtResource("5_88pbp")
+metadata/_custom_type_script = "uid://dudjch0r857uj"
+
+[sub_resource type="Resource" id="Resource_35mua"]
+script = ExtResource("6_sw3k0")
+metadata/_custom_type_script = "uid://bpvv2e7pts1uc"
+
+[sub_resource type="Resource" id="Resource_nfoim"]
+script = ExtResource("8_l0chj")
+BulletPackedScene = ExtResource("7_g6lj8")
+Ballistics = SubResource("Resource_35mua")
+CollisionLayer = 16
+CollisionMask = 2
+metadata/_custom_type_script = "uid://q8f12lil0xdo"
+
+[resource]
+script = ExtResource("11_bjhmx")
+Cooldown = 0.2
+BulletConfig = SubResource("Resource_nfoim")
+AimModifiers = Array[ExtResource("3_tpe8h")]([SubResource("Resource_lead"), SubResource("Resource_u71q5")])
+AimConstraints = Array[ExtResource("1_k08sj")]([SubResource("Resource_ng5e8")])
+WeaponScene = ExtResource("10_3haql")
+ShootAnimationConfig = ExtResource("9_m6wdw")
+metadata/_custom_type_script = "uid://hflcgj2usade"

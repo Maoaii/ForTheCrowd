@@ -17,15 +17,7 @@
 [ext_resource type="Script" uid="uid://d153dmc287hfj" path="res://Entities/Components/HitBox.cs" id="15_m68b5"]
 [ext_resource type="Script" uid="uid://b061b0ftes16v" path="res://Entities/Enemies/EnemyWeaponManager.cs" id="16_6p15b"]
 [ext_resource type="Script" uid="uid://bnai5q2few736" path="res://Entities/Components/AimingSystem/ClosestTargetAutoAimer.cs" id="17_1vylf"]
-[ext_resource type="Script" uid="uid://b3k72v0qjn8qf" path="res://Entities/Components/AimingSystem/AimConstraint.cs" id="18_3s207"]
-[ext_resource type="Script" uid="uid://ck8glm8vh3if1" path="res://Entities/Components/AimingSystem/AimModifier.cs" id="19_kj5uo"]
-[ext_resource type="Script" uid="uid://u5qtyaqrn3dv" path="res://Entities/Components/AimingSystem/Modifiers/LeadTargetModifier.cs" id="20_ntvuu"]
-[ext_resource type="Script" uid="uid://bpvv2e7pts1uc" path="res://Entities/Player/Weapons/Ballistics/LinearBallistics.cs" id="21_jak64"]
-[ext_resource type="PackedScene" uid="uid://dsc75goyekxjs" path="res://Entities/Player/Weapons/ToothShooter/tooth_bullet.tscn" id="22_d04sl"]
-[ext_resource type="Script" uid="uid://q8f12lil0xdo" path="res://Entities/Player/Weapons/BulletConfig.cs" id="23_p8nyw"]
-[ext_resource type="Resource" uid="uid://cecny8mk5tpf0" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.shoot_anim.tres" id="24_ksfip"]
-[ext_resource type="PackedScene" uid="uid://drkrwjplhpn0h" path="res://Entities/Player/Weapons/ToothShooter/tooth_shooter.tscn" id="25_kp7g3"]
-[ext_resource type="Script" uid="uid://hflcgj2usade" path="res://Entities/Player/Weapons/ShooterWeaponConfig.cs" id="26_mnqkt"]
+[ext_resource type="Resource" uid="uid://cl03174tmiycw" path="res://Entities/Enemies/Broadsider/Configs/broadsider.toothshooter.weapon.tres" id="18_s6vmy"]
 [ext_resource type="Script" uid="uid://ckwf18sigu0br" path="res://Entities/Player/Weapons/WeaponSlot.cs" id="27_0qhr6"]
 [ext_resource type="PackedScene" uid="uid://p0li7py650uw" path="res://Entities/Components/blood_decal.tscn" id="28_expds"]
 [ext_resource type="Material" uid="uid://dhkhaa1a4hudu" path="res://Entities/Assets/blood_material.tres" id="29_qssi7"]
@@ -72,30 +64,6 @@ script = ExtResource("17_1vylf")
 AimRange = 100.0
 TargetLayers = 2
 metadata/_custom_type_script = "uid://bnai5q2few736"
-
-[sub_resource type="Resource" id="Resource_lead"]
-script = ExtResource("20_ntvuu")
-
-[sub_resource type="Resource" id="Resource_35mua"]
-script = ExtResource("21_jak64")
-metadata/_custom_type_script = "uid://bpvv2e7pts1uc"
-
-[sub_resource type="Resource" id="Resource_nfoim"]
-script = ExtResource("23_p8nyw")
-BulletPackedScene = ExtResource("22_d04sl")
-Ballistics = SubResource("Resource_35mua")
-CollisionLayer = 16
-CollisionMask = 2
-metadata/_custom_type_script = "uid://q8f12lil0xdo"
-
-[sub_resource type="Resource" id="Resource_3cehv"]
-script = ExtResource("26_mnqkt")
-Cooldown = 3.0
-BulletConfig = SubResource("Resource_nfoim")
-AimModifiers = Array[ExtResource("19_kj5uo")]([SubResource("Resource_lead")])
-WeaponScene = ExtResource("25_kp7g3")
-ShootAnimationConfig = ExtResource("24_ksfip")
-metadata/_custom_type_script = "uid://hflcgj2usade"
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_xv47w"]
 direction = Vector3(0, 1, 0)
@@ -263,11 +231,15 @@ debug_color = Color(5.7756904e-07, 0.6480701, 0.20179415, 0.41960785)
 [node name="EnemyWeaponManager" type="Node3D" parent="." unique_id=1756554751]
 script = ExtResource("16_6p15b")
 AimingProvider = SubResource("Resource_rl7tv")
-WeaponConfigs = Array[Object]([SubResource("Resource_3cehv")])
+WeaponConfigs = Array[Object]([ExtResource("18_s6vmy"), ExtResource("18_s6vmy")])
 metadata/_custom_type_script = "uid://b061b0ftes16v"
 
 [node name="Slot 1" type="Node3D" parent="EnemyWeaponManager" unique_id=1114023248]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9381467, 0.64427996)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -0.572, 0.938, 0)
+script = ExtResource("27_0qhr6")
+
+[node name="Slot 2" type="Node3D" parent="EnemyWeaponManager" unique_id=1478720645]
+transform = Transform3D(-4.371139e-08, 0, -1, 0, 1, 0, 1, 0, -4.371139e-08, 0.572, 0.938, 0)
 script = ExtResource("27_0qhr6")
 
 [node name="BloodDecal" parent="." unique_id=621376739 instance=ExtResource("28_expds")]
