@@ -11,12 +11,13 @@ public partial class BroadsiderAIInputComponent : Node
 	[Export] public BlackboardComponent Blackboard;
 	[Export] public EnemyBase Owner;
 
-	[Export(PropertyHint.Range, "0, 100, 1, suffix:m")] public float MinFollowRange;
-	[Export(PropertyHint.Range, "0, 100, 1, suffix:m")] public float MaxFollowRange;
-	[Export(PropertyHint.Range, "0, 50, 0.1, suffix:m")] public float SeekReachedSensitivity;
-	[Export(PropertyHint.Range, "0, 100, 0.1, suffix:m")] public float SlowdownRadius = 10.0f;
-	[Export(PropertyHint.Range, "0, 20000, 1.0, suffix:ms")] public float SeekLingerTime;
-	[Export(PropertyHint.Range, "0, 20000, 1.0, suffix:ms")] public float SeekMaxLifetime;
+	[Export(PropertyHint.Range, "0,100,1,suffix:m")] public float MinFollowRange;
+	[Export(PropertyHint.Range, "0,100,1,suffix:m")] public float MaxFollowRange;
+	[Export(PropertyHint.Range, "0,50,0.1,suffix:m")] public float SeekReachedSensitivity;
+	[Export(PropertyHint.Range, "0,100,0.1,suffix:m")] public float SlowdownRadius;
+	[Export(PropertyHint.Range, "0,1,0.01,suffix:%")] public float SpeedSlowdownMinRatio;
+	[Export(PropertyHint.Range, "0,20000,1.0,suffix:ms")] public float SeekLingerTime;
+	[Export(PropertyHint.Range, "0,20000,1.0,suffix:ms")] public float SeekMaxLifetime;
 
 	private readonly record struct MovementInfo(Vector2 Direction, bool WantsJump, bool WantsBoost);
 
@@ -102,18 +103,14 @@ public partial class BroadsiderAIInputComponent : Node
 
 	private Vector2 CalculateSeekDirection()
 	{
-		// TODO: take into account target's velocity
 		Vector3 directionToSeekPosition = FlatOffsetToSeekPosition();
-		if (directionToSeekPosition != Vector3.Zero)
-			directionToSeekPosition = directionToSeekPosition.Normalized();
 
-		float xDir = Owner.Basis.X.Dot(directionToSeekPosition);
-		if (xDir >= 0.99)
-			xDir = 0;
+		Vector2 seekDirection = new Vector2(
+			Owner.Basis.X.Dot(directionToSeekPosition),
+			1
+		);
 
-		float yDir = 1;
-
-		return new Vector2(xDir, yDir);
+		return seekDirection;
 	}
 
 	private float CalculateSpeedLimitFactor()
@@ -121,26 +118,30 @@ public partial class BroadsiderAIInputComponent : Node
 		if (SlowdownRadius <= 0)
 			return 1f;
 
-		Vector3 toSeekPosition = FlatOffsetToSeekPosition();
-		if (toSeekPosition.Length() >= SlowdownRadius)
+		float distanceAhead = Owner.GlobalPosition.DistanceTo(SeekPosition);
+		if (distanceAhead >= SlowdownRadius)
 			return 1f;
 
-		float distanceAhead = toSeekPosition.Dot(-Owner.Basis.Z);
-		return Mathf.Clamp(distanceAhead / SlowdownRadius, 0f, 1f);
+		return Mathf.Clamp(distanceAhead / SlowdownRadius, SpeedSlowdownMinRatio, 1f);
 	}
 
 	private Vector3 FlatOffsetToSeekPosition()
 	{
 		Vector3 offset = SeekPosition - Owner.GlobalPosition;
 		offset.Y = 0;
+
+		if (offset != Vector3.Zero)
+			offset = offset.Normalized();
+
 		return offset;
 	}
 
 	private void DebugDrawGizmos()
 	{
 		Vector3 targetPos = Owner.Target.GlobalPosition;
-		VectorRenderer.DrawBand(targetPos, MinFollowRange, MaxFollowRange, Colors.Green, dashed: true);
 
+		VectorRenderer.DrawBand(targetPos, MinFollowRange, MaxFollowRange, Colors.Green, dashed: true);
+		VectorRenderer.DrawDisc(SeekPosition, SlowdownRadius, Colors.OrangeRed);
 		VectorRenderer.DrawDisc(SeekPosition, SeekReachedSensitivity, Colors.Red);
 	}
 }
